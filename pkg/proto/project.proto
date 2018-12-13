@@ -54,16 +54,10 @@ message ProjectPaymentMethods {
     repeated ProjectPaymentMethod payment_methods = 1;
 }
 
-enum ProjectCallbackProtocol {
-    default = 0; // default callback protocol, just mark transaction as success without send request to project
-    cardpay = 1; // CardPay callback protocol
-    xsolla = 2; // XSolla callback protocol
-}
-
 message Project {
     string id = 1; // unique project identifier
     Currency callback_currency = 2; // full object of currency which described currency to send payment notification
-    ProjectCallbackProtocol callback_protocol = 3; // protocol identifier to send payment notification
+    string callback_protocol = 3; // protocol identifier to send payment notification. possible values: default, cardpay, xsolla
     repeated string create_invoice_allowed_urls = 4; // list of urls rom which you can send a request to create an order
     Merchant merchant = 5; // full object of merchant which describes project's owner
     bool is_allow_dynamic_notify_urls = 6; // is allow send dynamic notification urls in request to create an order
@@ -97,6 +91,6 @@ message ProjectOrder {
     bool send_notify_email = 7;
     string url_check_account = 8;
     string url_process_payment = 9;
-    ProjectCallbackProtocol callback_protocol = 10;
+    string callback_protocol = 10;
     Merchant merchant = 11;
 }
