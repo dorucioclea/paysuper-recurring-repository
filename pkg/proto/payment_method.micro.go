@@ -10,7 +10,7 @@ It is generated from these files:
 It has these top-level messages:
 	PaymentSystem
 	PaymentMethodParams
-	PaymentMethod
+	PaymentMethodOrder
 */
 package payment_method
 

@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+import "dictionary.proto";
+import "google/protobuf/timestamp.proto";
+
+enum AccountingPeriod {
+    day = 0; // every day
+    week = 1; // every week
+    two_week = 2; // every two week
+    month = 3; // every month
+    quarter = 4; // every quarter
+    half_year = 5; // every half-year
+    year = 6; // every year
+}
+
+message Merchant {
+    string id = 1; // unique merchant identifier
+    string external_id = 2; //// unique merchant identifier in auth system
+    string email = 3; // merchant email
+    string name = 4; // merchant company legal name
+    Country country = 5; // full object of country where merchant company registered
+    AccountingPeriod accounting_period = 6; // period payout of money to merchant bank account.
+    Currency currency = 7; // full object describes merchant's accounting currency
+    bool is_vat_enabled = 8; // vat calculation enabled
+    bool is_commission_to_user_enabled = 9; // enable to add commission payment method and commission PSP (P1) to payment amount
+    int32 status  = 10; // merchant status in system. Now available next statuses: 0 - created, 1 - verified, 2 - active, 3 - deleted
+    google.protobuf.Timestamp created_at = 11; // date of create merchant in system
+    google.protobuf.Timestamp updated_at = 12;
+}
+
+message FixedPackage {
+    string id = 1; // unique identifier of package
+    string name = 2; // package name
+    int32 currency_int = 3; // numeric ISO 4217 currency code to package price
+    double price = 4; // package price in chosen currency
+    bool is_active = 5; // is package active
+    google.protobuf.Timestamp created_at = 6; // date of create package
+    google.protobuf.Timestamp updated_at = 7;
+    Currency currency = 8; // full object of currency to package price
+}
+
+message FixedPackages {
+    repeated FixedPackage fixed_package = 1;
+}
+
+message ProjectPaymentMethod {
+    string id = 1;
+    google.protobuf.Timestamp added_aAt = 2;
+}
+
+message ProjectPaymentMethods {
+    repeated ProjectPaymentMethod payment_methods = 1;
+}
+
+message Project {
+	string id = 1; // unique project identifier
+	Currency callback_currency = 2; // full object of currency which described currency to send payment notification
+	string callback_protocol = 3; // protocol identifier to send payment notification. Now available: default
+    repeated string create_invoice_allowed_urls = 4; // list of urls rom which you can send a request to create an order
+	Merchant merchant = 5; // full object of merchant which describes project's owner
+    bool is_allow_dynamic_notify_urls = 6; // is allow send dynamic notification urls in request to create an order
+	bool is_allow_dynamic_redirect_urls = 7; // is allow send dynamic user's redirect urls in request to create an order
+    Currency limits_currency = 8; // full object of currency which describes currency for amount's limit
+    double MaxPaymentAmount = 9; // maximal amount allowed for create order
+	double MinPaymentAmount = 10; // minimal amount allowed for create order
+	string Name = 11; // project name
+	repeated string NotifyEmails = 12; // list of emails to send notifications about successfully completed payment operations
+	bool OnlyFixedAmounts = 13; // is allow create order only with amounts from fixed packages list
+	string SecretKey = 14; // secret key for create check hash for request about order statuses changes
+	bool SendNotifyEmail = 15; // is allow send notifications about successfully completed payment operations to user's emails
+	string URLCheckAccount = 16; // default url to send request for verification payment data to project
+	string URLProcessPayment = 17; // default url to send request for notification about successfully completed payment to project
+	string URLRedirectFail = 18; // default url to redirect user after failed payment
+	string URLRedirectSuccess = 19; // default url to redirect user after successfully completed payment
+    map<string, FixedPackages> fixed_package = 23; // list of project's fixed packages
+    map<string, ProjectPaymentMethods> payment_methods = 24; // list of payment methods allowed to project
+	bool IsActive = 20; // is project active
+    google.protobuf.Timestamp created_at = 21; // date of create project
+    google.protobuf.Timestamp updated_at = 22;
+}
+
+message ProjectOrder {
+	string id = 1;
+	string name = 2;
+	string url_success = 3;
+	string url_fail = 4;
+	repeated string notify_emails = 5;
+	string secret_key = 6;
+	bool send_notify_email = 7;
+	string url_check_account = 8;
+	string url_process_payment = 9;
+	Merchant merchant = 10;
+}

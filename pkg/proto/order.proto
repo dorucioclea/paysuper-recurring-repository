@@ -1,14 +1,77 @@
 syntax = "proto3";
 
 import "payment_method.proto";
+import "project.proto";
+import "dictionary.proto";
+import "google/protobuf/timestamp.proto";
+
+message PayerData {
+    string ip = 1; // payer ip from create order request
+    string country_code_a2 = 2; // payer country code by ISO 3166-1 from create order request
+    Name country_name = 3; // payer country names
+    Name city = 4; // payer city names, get from ip geo location
+    string subdivision = 5; // payer subdivision code by ISO-3166-2
+    string timezone = 6; // payer timezone name, get from ip geo location
+    string phone = 7; // payer phone from create order request
+    string email = 8; // payer email from create order request
+}
+
+message OrderFee {
+    double AmountPaymentMethodCurrency = 1; // amount of fee of payment system in payment currency
+    double AmountMerchantCurrency = 2; // amount of fee of payment system in accounting currency of merchant
+}
+
+message OrderFeePsp {
+    double AmountPaymentMethodCurrency = 1; // amount of fee of payment system in payment currency
+    double AmountMerchantCurrency = 2; // amount of fee of payment system in accounting currency of merchant
+    double AmountPspCurrency = 3; // amount of fee of PSP (P1) in PSP (P1) accounting currencies
+}
+
+// Contain information about payment system commission in other currencies
+message OrderFeePaymentSystem {
+    // amount of fee of payment system in payment currency
+    double AmountPaymentMethodCurrency = 1; // amount of fee of payment system in payment currency
+    double AmountMerchantCurrency = 2; // amount of fee of payment system in accounting currency of merchant
+    double AmountPaymentSystemCurrency = 3; // amount of fee of payment system in accounting currency of payment system
+}
 
 message Order {
-    string id = 1;
-    string order_id = 2;
-    double project_outcome_amount = 3;
-    string project_outcome_currency = 4;
-    map<string, string> project_params = 5;
-    PaymentMethod payment_method = 6;
-    string PaymentMethodPayerAccount = 7;
-    map<string, string> payment_Method_txn_params = 8;
+    string id = 1; // unique order identifier in Protocol One
+    ProjectOrder project = 2; // object described main entities of project in Protocol One payment solution
+    string project_order_id = 3; // unique order identifier in project. if was send in create order process
+    string project_account = 4; // user unique account in project
+    string description = 5; // order description
+    double project_income_amount = 6; // order amount received from project
+    Currency project_income_currency = 7; // order currency received from project
+    double project_outcome_amount = 8; // order amount send to project in notification request
+    Currency Project_outcome_currency = 9; // order currency send to project in notification request
+    google.protobuf.Timestamp project_last_requested_at = 10; // date of last notification request to project
+    map<string, string> project_params = 11; // any project params which received from project in request of create of order
+    PayerData payer_data = 12; // information about payer, for example: ip, email,phone and etc
+    PaymentMethodOrder payment_method = 13; // payment method unique identifier
+    string payment_method_terminal_id = 14; // identifier of terminal for process payment in payment system side
+    string payment_method_orderId = 15; // unique order id in payment system
+    double payment_method_outcome_amount = 16; // order amount send to payment system
+    Currency payment_method_outcome_currency = 17; // order currency send to payment system
+    double payment_method_income_amount = 18; // order amount received from payment system in notification request
+    Currency payment_method_income_currency = 19; // order currency received from payment system in notification request
+    string payment_method_income_currency_a3 = 20;
+    google.protobuf.Timestamp payment_method_order_closed_at = 21; // date of ended payment operation in payment system
+    int32 status = 22; // order status
+    google.protobuf.Timestamp created_at = 23; // date of create order
+    google.protobuf.Timestamp updated_at = 24; // date of last update order data
+    bool is_json_request = 25; // is order create by json request
+    double amount_in_psp_accounting_currency = 26; // operation amount in accounting currency of PSP
+    double amount_in_merchant_accounting_currency = 27; // received from project operation amount in project owner (merchant) accounting currency
+    double amount_out_merchant_accounting_currency = 28; // received from payment system operation amount in project owner (merchant) accounting currency
+    double amount_in_payment_system_accounting_currency = 29; // operation amount in payment system accounting currency
+    string payment_method_payer_account = 30; // account of payer in payment system
+    map<string, string> payment_method_txn_params = 31; // any params received in request of payment system about payment
+    FixedPackage fixed_package = 32; // fixed package which buy payer
+    map<string, string> payment_requisites = 33;
+    OrderFeePsp psp_fee_amount = 34; // PSP (P1) fee amount
+    OrderFee project_fee_amount  = 35; // fee is charged with the project for the operation
+    OrderFee to_payer_fee_amount = 36; // value of fee which added to payer amount
+    double vat_amount = 37; // vat amount
+    OrderFeePaymentSystem payment_system_fee_amount = 38; // payment system fee for payment operation
 }
