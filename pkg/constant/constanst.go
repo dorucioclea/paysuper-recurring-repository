@@ -1,4 +1,4 @@
-package pkg
+package constant
 
 const (
 	PayOneMicroserviceVersion = "latest"
