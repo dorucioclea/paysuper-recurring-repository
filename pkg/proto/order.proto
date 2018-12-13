@@ -1,5 +1,14 @@
 syntax = "proto3";
 
+import "payment_method.proto";
+
 message Order {
     string id = 1;
+    string order_id = 2;
+    double project_outcome_amount = 3;
+    string project_outcome_currency = 4;
+    map<string, string> project_params = 5;
+    PaymentMethod payment_method = 6;
+    string PaymentMethodPayerAccount = 7;
+    map<string, string> payment_Method_txn_params = 8;
 }
