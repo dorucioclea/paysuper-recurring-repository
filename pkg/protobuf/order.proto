@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package proto;
+package protobuf;
 
 import "payment_method.proto";
 import "project.proto";
