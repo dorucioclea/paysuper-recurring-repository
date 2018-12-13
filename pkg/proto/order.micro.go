@@ -2,7 +2,7 @@
 // source: order.proto
 
 /*
-Package order is a generated protocol buffer package.
+Package processing is a generated protocol buffer package.
 
 It is generated from these files:
 	order.proto
@@ -14,7 +14,7 @@ It has these top-level messages:
 	OrderFeePaymentSystem
 	Order
 */
-package order
+package processing
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"

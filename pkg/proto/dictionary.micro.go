@@ -2,7 +2,7 @@
 // source: dictionary.proto
 
 /*
-Package dictionary is a generated protocol buffer package.
+Package processing is a generated protocol buffer package.
 
 It is generated from these files:
 	dictionary.proto
@@ -12,7 +12,7 @@ It has these top-level messages:
 	Country
 	Currency
 */
-package dictionary
+package processing
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"

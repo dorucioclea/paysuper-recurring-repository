@@ -2,7 +2,7 @@
 // source: payment_method.proto
 
 /*
-Package payment_method is a generated protocol buffer package.
+Package processing is a generated protocol buffer package.
 
 It is generated from these files:
 	payment_method.proto
@@ -12,7 +12,7 @@ It has these top-level messages:
 	PaymentMethodParams
 	PaymentMethodOrder
 */
-package payment_method
+package processing
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"

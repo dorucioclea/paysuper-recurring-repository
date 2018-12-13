@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package processing;
+
 import "payment_method.proto";
 import "project.proto";
 import "dictionary.proto";

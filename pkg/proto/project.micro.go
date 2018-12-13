@@ -2,7 +2,7 @@
 // source: project.proto
 
 /*
-Package project is a generated protocol buffer package.
+Package processing is a generated protocol buffer package.
 
 It is generated from these files:
 	project.proto
@@ -16,7 +16,7 @@ It has these top-level messages:
 	Project
 	ProjectOrder
 */
-package project
+package processing
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
