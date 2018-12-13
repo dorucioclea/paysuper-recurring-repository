@@ -2,7 +2,7 @@
 // source: order.proto
 
 /*
-Package proto is a generated protocol buffer package.
+Package processing is a generated protocol buffer package.
 
 It is generated from these files:
 	order.proto
@@ -14,9 +14,9 @@ It has these top-level messages:
 	OrderFeePaymentSystem
 	Order
 */
-package proto
+package processing
 
-import proto1 "github.com/golang/protobuf/proto"
+import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 import _ "."
@@ -25,7 +25,7 @@ import _ "."
 import _ "github.com/golang/protobuf/ptypes/timestamp"
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ = proto1.Marshal
+var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
@@ -33,4 +33,4 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto1.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
