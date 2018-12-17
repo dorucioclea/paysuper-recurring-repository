@@ -55,5 +55,6 @@ func (app *Application) initService() {
 	)
 	app.service.Init()
 
-	proto.RegisterRepositoryHandler(app.service.Server(), new(repository.Repository))
+	rep := &repository.Repository{Database: app.database}
+	proto.RegisterRepositoryHandler(app.service.Server(), rep)
 }

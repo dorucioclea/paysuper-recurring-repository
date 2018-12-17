@@ -7,11 +7,12 @@ import "billing/billing.proto";
 package repository;
 
 service Repository {
-    rpc UpdateOrder(billing.Order) returns (Response) {}
+    rpc UpdateOrder(billing.Order) returns (Result) {}
 }
 
-message Response {
-    string msg = 1;
+message Result {
+    bool has_error = 1;
+    string comment = 2;
 }
 
 

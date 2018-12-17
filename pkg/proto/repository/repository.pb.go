@@ -24,46 +24,54 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-type Response struct {
-	Msg                  string   `protobuf:"bytes,1,opt,name=msg,proto3" json:"msg,omitempty"`
+type Result struct {
+	HasError             bool     `protobuf:"varint,1,opt,name=has_error,json=hasError,proto3" json:"has_error,omitempty"`
+	Comment              string   `protobuf:"bytes,2,opt,name=comment,proto3" json:"comment,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Response) Reset()         { *m = Response{} }
-func (m *Response) String() string { return proto.CompactTextString(m) }
-func (*Response) ProtoMessage()    {}
-func (*Response) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_7914d84a8e3b909e, []int{0}
+func (m *Result) Reset()         { *m = Result{} }
+func (m *Result) String() string { return proto.CompactTextString(m) }
+func (*Result) ProtoMessage()    {}
+func (*Result) Descriptor() ([]byte, []int) {
+	return fileDescriptor_repository_4acfe33b7fb0ddc6, []int{0}
 }
-func (m *Response) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Response.Unmarshal(m, b)
+func (m *Result) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Result.Unmarshal(m, b)
 }
-func (m *Response) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Response.Marshal(b, m, deterministic)
+func (m *Result) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Result.Marshal(b, m, deterministic)
 }
-func (dst *Response) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Response.Merge(dst, src)
+func (dst *Result) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Result.Merge(dst, src)
 }
-func (m *Response) XXX_Size() int {
-	return xxx_messageInfo_Response.Size(m)
+func (m *Result) XXX_Size() int {
+	return xxx_messageInfo_Result.Size(m)
 }
-func (m *Response) XXX_DiscardUnknown() {
-	xxx_messageInfo_Response.DiscardUnknown(m)
+func (m *Result) XXX_DiscardUnknown() {
+	xxx_messageInfo_Result.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Response proto.InternalMessageInfo
+var xxx_messageInfo_Result proto.InternalMessageInfo
 
-func (m *Response) GetMsg() string {
+func (m *Result) GetHasError() bool {
 	if m != nil {
-		return m.Msg
+		return m.HasError
+	}
+	return false
+}
+
+func (m *Result) GetComment() string {
+	if m != nil {
+		return m.Comment
 	}
 	return ""
 }
 
 func init() {
-	proto.RegisterType((*Response)(nil), "repository.Response")
+	proto.RegisterType((*Result)(nil), "repository.Result")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -78,7 +86,7 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type RepositoryClient interface {
-	UpdateOrder(ctx context.Context, in *billing.Order, opts ...grpc.CallOption) (*Response, error)
+	UpdateOrder(ctx context.Context, in *billing.Order, opts ...grpc.CallOption) (*Result, error)
 }
 
 type repositoryClient struct {
@@ -89,8 +97,8 @@ func NewRepositoryClient(cc *grpc.ClientConn) RepositoryClient {
 	return &repositoryClient{cc}
 }
 
-func (c *repositoryClient) UpdateOrder(ctx context.Context, in *billing.Order, opts ...grpc.CallOption) (*Response, error) {
-	out := new(Response)
+func (c *repositoryClient) UpdateOrder(ctx context.Context, in *billing.Order, opts ...grpc.CallOption) (*Result, error) {
+	out := new(Result)
 	err := c.cc.Invoke(ctx, "/repository.Repository/UpdateOrder", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -100,7 +108,7 @@ func (c *repositoryClient) UpdateOrder(ctx context.Context, in *billing.Order, o
 
 // RepositoryServer is the server API for Repository service.
 type RepositoryServer interface {
-	UpdateOrder(context.Context, *billing.Order) (*Response, error)
+	UpdateOrder(context.Context, *billing.Order) (*Result, error)
 }
 
 func RegisterRepositoryServer(s *grpc.Server, srv RepositoryServer) {
@@ -139,21 +147,22 @@ var _Repository_serviceDesc = grpc.ServiceDesc{
 }
 
 func init() {
-	proto.RegisterFile("repository/repository.proto", fileDescriptor_repository_7914d84a8e3b909e)
+	proto.RegisterFile("repository/repository.proto", fileDescriptor_repository_4acfe33b7fb0ddc6)
 }
 
-var fileDescriptor_repository_7914d84a8e3b909e = []byte{
-	// 177 bytes of a gzipped FileDescriptorProto
+var fileDescriptor_repository_4acfe33b7fb0ddc6 = []byte{
+	// 205 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x2e, 0x4a, 0x2d, 0xc8,
 	0x2f, 0xce, 0x2c, 0xc9, 0x2f, 0xaa, 0xd4, 0x47, 0x30, 0xf5, 0x0a, 0x8a, 0xf2, 0x4b, 0xf2, 0x85,
 	0xb8, 0x10, 0x22, 0x52, 0xa2, 0x49, 0x99, 0x39, 0x39, 0x99, 0x79, 0xe9, 0xfa, 0x50, 0x1a, 0xa2,
-	0x44, 0x49, 0x86, 0x8b, 0x23, 0x28, 0xb5, 0xb8, 0x20, 0x3f, 0xaf, 0x38, 0x55, 0x48, 0x80, 0x8b,
-	0x39, 0xb7, 0x38, 0x5d, 0x82, 0x51, 0x81, 0x51, 0x83, 0x33, 0x08, 0xc4, 0x34, 0x72, 0xe6, 0xe2,
-	0x0a, 0x82, 0x1b, 0x21, 0x64, 0xca, 0xc5, 0x1d, 0x5a, 0x90, 0x92, 0x58, 0x92, 0xea, 0x5f, 0x94,
-	0x92, 0x5a, 0x24, 0xc4, 0xa7, 0x07, 0x33, 0x0a, 0xcc, 0x97, 0x12, 0xd1, 0x43, 0x72, 0x00, 0xcc,
-	0x50, 0x25, 0x06, 0x27, 0xfb, 0x28, 0xdb, 0xf4, 0xcc, 0x92, 0x8c, 0xd2, 0x24, 0xbd, 0xe4, 0xfc,
-	0x5c, 0xfd, 0x00, 0x90, 0xb5, 0xc9, 0xf9, 0x39, 0xfe, 0x7e, 0xae, 0xfa, 0x05, 0x89, 0x95, 0xf9,
-	0x79, 0xa9, 0xba, 0x48, 0x5e, 0x28, 0xc8, 0x4e, 0xd7, 0x07, 0x3b, 0x0c, 0xc9, 0x33, 0x49, 0x6c,
-	0x60, 0x11, 0x63, 0x40, 0x00, 0x00, 0x00, 0xff, 0xff, 0x46, 0x6e, 0x1f, 0xa0, 0xec, 0x00, 0x00,
-	0x00,
+	0x44, 0xc9, 0x9e, 0x8b, 0x2d, 0x28, 0xb5, 0xb8, 0x34, 0xa7, 0x44, 0x48, 0x9a, 0x8b, 0x33, 0x23,
+	0xb1, 0x38, 0x3e, 0xb5, 0xa8, 0x28, 0xbf, 0x48, 0x82, 0x51, 0x81, 0x51, 0x83, 0x23, 0x88, 0x23,
+	0x23, 0xb1, 0xd8, 0x15, 0xc4, 0x17, 0x92, 0xe0, 0x62, 0x4f, 0xce, 0xcf, 0xcd, 0x4d, 0xcd, 0x2b,
+	0x91, 0x60, 0x52, 0x60, 0xd4, 0xe0, 0x0c, 0x82, 0x71, 0x8d, 0x1c, 0xb9, 0xb8, 0x82, 0xe0, 0xb6,
+	0x08, 0x19, 0x73, 0x71, 0x87, 0x16, 0xa4, 0x24, 0x96, 0xa4, 0xfa, 0x17, 0xa5, 0xa4, 0x16, 0x09,
+	0xf1, 0xe9, 0xc1, 0x6c, 0x03, 0xf3, 0xa5, 0x84, 0xf4, 0x90, 0xdc, 0x08, 0xb1, 0x57, 0x89, 0xc1,
+	0xc9, 0x3e, 0xca, 0x36, 0x3d, 0xb3, 0x24, 0xa3, 0x34, 0x49, 0x2f, 0x39, 0x3f, 0x57, 0x3f, 0x00,
+	0xe4, 0xae, 0xe4, 0xfc, 0x1c, 0x7f, 0x3f, 0x57, 0xfd, 0x82, 0xc4, 0xca, 0xfc, 0xbc, 0x54, 0x5d,
+	0x24, 0x3f, 0x16, 0x64, 0xa7, 0xeb, 0x83, 0x5d, 0x8e, 0xe4, 0xdb, 0x24, 0x36, 0xb0, 0x88, 0x31,
+	0x20, 0x00, 0x00, 0xff, 0xff, 0x75, 0x60, 0x8e, 0xed, 0x0d, 0x01, 0x00, 0x00,
 }

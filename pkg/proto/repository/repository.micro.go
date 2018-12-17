@@ -8,7 +8,7 @@ It is generated from these files:
 	repository/repository.proto
 
 It has these top-level messages:
-	Response
+	Result
 */
 package repository
 
@@ -43,7 +43,7 @@ var _ server.Option
 // Client API for Repository service
 
 type RepositoryService interface {
-	UpdateOrder(ctx context.Context, in *billing.Order, opts ...client.CallOption) (*Response, error)
+	UpdateOrder(ctx context.Context, in *billing.Order, opts ...client.CallOption) (*Result, error)
 }
 
 type repositoryService struct {
@@ -64,9 +64,9 @@ func NewRepositoryService(name string, c client.Client) RepositoryService {
 	}
 }
 
-func (c *repositoryService) UpdateOrder(ctx context.Context, in *billing.Order, opts ...client.CallOption) (*Response, error) {
+func (c *repositoryService) UpdateOrder(ctx context.Context, in *billing.Order, opts ...client.CallOption) (*Result, error) {
 	req := c.c.NewRequest(c.name, "Repository.UpdateOrder", in)
-	out := new(Response)
+	out := new(Result)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -77,12 +77,12 @@ func (c *repositoryService) UpdateOrder(ctx context.Context, in *billing.Order, 
 // Server API for Repository service
 
 type RepositoryHandler interface {
-	UpdateOrder(context.Context, *billing.Order, *Response) error
+	UpdateOrder(context.Context, *billing.Order, *Result) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
 	type repository interface {
-		UpdateOrder(ctx context.Context, in *billing.Order, out *Response) error
+		UpdateOrder(ctx context.Context, in *billing.Order, out *Result) error
 	}
 	type Repository struct {
 		repository
@@ -95,6 +95,6 @@ type repositoryHandler struct {
 	RepositoryHandler
 }
 
-func (h *repositoryHandler) UpdateOrder(ctx context.Context, in *billing.Order, out *Response) error {
+func (h *repositoryHandler) UpdateOrder(ctx context.Context, in *billing.Order, out *Result) error {
 	return h.RepositoryHandler.UpdateOrder(ctx, in, out)
 }

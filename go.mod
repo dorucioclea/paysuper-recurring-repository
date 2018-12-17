@@ -29,7 +29,7 @@ require (
 	github.com/micro/grpc-go v0.0.0-20180913204047-2c703400301b // indirect
 	github.com/micro/h2c v1.0.0 // indirect
 	github.com/micro/mdns v0.0.0-20181201230301-9c3770d4057a // indirect
-	github.com/micro/protobuf v0.0.0-20180321161605-ebd3be6d4fdb // indirect
+	github.com/micro/protobuf v0.0.0-20180321161605-ebd3be6d4fdb
 	github.com/micro/util v0.0.0-20181115195001-2d4f591dc538 // indirect
 	github.com/miekg/dns v1.1.1 // indirect
 	github.com/mitchellh/hashstructure v1.0.0 // indirect
