@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package="github.com/ProtocolONE/payone-repository/pkg/proto/repository";
+
+import "billing/billing.proto";
+
+package repository;
+
+service Repository {
+    rpc UpdateOrder(billing.Order) returns (Response) {}
+}
+
+message Response {
+    string msg = 1;
+}
+
+
+

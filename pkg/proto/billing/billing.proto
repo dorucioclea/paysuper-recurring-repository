@@ -1,5 +1,9 @@
 syntax = "proto3";
 
+option go_package="github.com/ProtocolONE/payone-repository/pkg/proto/billing";
+
+package billing;
+
 import "google/protobuf/timestamp.proto";
 
 message Name {
