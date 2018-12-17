@@ -111,10 +111,8 @@ func (r *Repository) UpdateOrder(ctx context.Context, req *billing.Order, rsp *r
 	err := r.Database.Collection(CollectionOrder).UpdateId(ByteToObjectId(req.Id), bson.M{"$set": changes})
 
 	if err != nil {
-		rsp.HasError = true
-		rsp.Comment = err.Error()
-
 		log.Printf(QueryErrorMask, CollectionOrder, err.Error())
+		return err
 	}
 
 	return nil

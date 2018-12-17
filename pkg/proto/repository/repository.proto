@@ -10,10 +10,7 @@ service Repository {
     rpc UpdateOrder(billing.Order) returns (Result) {}
 }
 
-message Result {
-    bool has_error = 1;
-    string comment = 2;
-}
+message Result {}
 
 
 
