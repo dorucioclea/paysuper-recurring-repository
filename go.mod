@@ -2,6 +2,7 @@ module github.com/ProtocolONE/payone-repository
 
 require (
 	github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da // indirect
+	github.com/favadi/protoc-go-inject-tag v0.0.0-20181008023834-c2c1884c833d // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-log/log v0.1.0 // indirect
 	github.com/golang/protobuf v1.2.1-0.20181128192352-1d3f30b51784
