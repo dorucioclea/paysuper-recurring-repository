@@ -4,6 +4,7 @@ require (
 	github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da // indirect
 	github.com/favadi/protoc-go-inject-tag v0.0.0-20181008023834-c2c1884c833d // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
+	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
 	github.com/go-log/log v0.1.0 // indirect
 	github.com/golang/protobuf v1.2.1-0.20181128192352-1d3f30b51784
 	github.com/google/uuid v1.1.0 // indirect
@@ -18,8 +19,9 @@ require (
 	github.com/hashicorp/memberlist v0.1.0 // indirect
 	github.com/hashicorp/serf v0.8.1 // indirect
 	github.com/json-iterator/go v1.1.5 // indirect
+	github.com/kelseyhightower/envconfig v1.3.0
 	github.com/micro/cli v0.0.0-20180830071301-8b9d33ec2f19 // indirect
-	github.com/micro/go-grpc v0.6.0 // indirect
+	github.com/micro/go-grpc v0.6.0
 	github.com/micro/go-log v0.0.0-20170512141327-cbfa9447f9b6 // indirect
 	github.com/micro/go-micro v0.15.0
 	github.com/micro/go-plugins v0.17.0 // indirect
@@ -36,6 +38,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/pkg/errors v0.8.0 // indirect
 	github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529 // indirect
+	github.com/streadway/amqp v0.0.0-20181205114330-a314942b2fd9 // indirect
 	golang.org/x/crypto v0.0.0-20181203042331-505ab145d0a9 // indirect
 	golang.org/x/net v0.0.0-20181106065722-10aee1819953
 	google.golang.org/genproto v0.0.0-20181202183823-bd91e49a0898 // indirect
