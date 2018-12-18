@@ -9,4 +9,10 @@ const (
 	PayOneTopicNotifyPaymentName = "payone.topic.notify-payment"
 
 	PaymentSystemCardPayDateFormat = "2006-01-02T15:04:05Z"
+	PaymentSystemGroupAliasBankCard = "BANKCARD"
+	PaymentSystemGroupAliasWebMoney = "WEBMONEY"
+	PaymentSystemGroupAliasQiwi     = "QIWI"
+	PaymentSystemGroupAliasNeteller = "NETELLER"
+	PaymentSystemGroupAliasAlipay   = "ALIPAY"
+	PaymentSystemGroupAliasBitcoin  = "BITCOIN"
 )
