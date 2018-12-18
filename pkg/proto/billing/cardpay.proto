@@ -44,7 +44,8 @@ message CallbackCardPayCryptoCurrencyAccount {
 message CardPayCustomer {
     string email = 1;
     string ip = 2;
-    string account = 3;
+    string id = 3;
+    string locale = 4;
 }
 
 message CardPayEWalletAccount {
