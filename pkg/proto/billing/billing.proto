@@ -24,7 +24,9 @@ message Country {
     Name name = 4;
     // @inject_tag: bson:"is_active"
     bool is_active = 5;
+    // @inject_tag: bson:"created_at,timestamp"
     google.protobuf.Timestamp created_at = 6;
+    // @inject_tag: bson:"updated_at,timestamp"
     google.protobuf.Timestamp updated_at = 7;
 }
 
@@ -37,22 +39,14 @@ message Currency {
     Name name = 4;
     // @inject_tag: bson:"is_active"
     bool is_active = 5;
+    // @inject_tag: bson:"created_at,timestamp"
     google.protobuf.Timestamp created_at = 6;
+    // @inject_tag: bson:"updated_at,timestamp"
     google.protobuf.Timestamp updated_at = 7;
 }
 
-enum AccountingPeriod {
-    day = 0; // every day
-    week = 1; // every week
-    two_week = 2; // every two week
-    month = 3; // every month
-    quarter = 4; // every quarter
-    half_year = 5; // every half-year
-    year = 6; // every year
-}
-
 message Merchant {
-    // @inject_tag: bson:"_id"
+    // @inject_tag: bson:"_id,bsonobjectid"
     bytes id = 1; // unique merchant identifier
     // @inject_tag: bson:"external_id"
     string external_id = 2; //// unique merchant identifier in auth system
@@ -63,7 +57,7 @@ message Merchant {
     // @inject_tag: bson:"country"
     Country country = 5; // full object of country where merchant company registered
     // @inject_tag: bson:"accounting_period"
-    AccountingPeriod accounting_period = 6; // period payout of money to merchant bank account.
+    string accounting_period = 6; // period payout of money to merchant bank account.
     // @inject_tag: bson:"currency"
     Currency currency = 7; // full object describes merchant's accounting currency
     // @inject_tag: bson:"is_vat_enabled"
@@ -72,7 +66,9 @@ message Merchant {
     bool is_commission_to_user_enabled = 9; // enable to add commission payment method and commission PSP (P1) to payment amount
     // @inject_tag: bson:"status"
     int32 status = 10; // merchant status in system. Now available next statuses: 0 - created, 1 - verified, 2 - active, 3 - deleted
+    // @inject_tag: bson:"created_at,timestamp"
     google.protobuf.Timestamp created_at = 11; // date of create merchant in system
+    // @inject_tag: bson:"updated_at,timestamp"
     google.protobuf.Timestamp updated_at = 12;
 }
 
@@ -87,7 +83,9 @@ message FixedPackage {
     double price = 4; // package price in chosen currency
     // @inject_tag: bson:"is_active"
     bool is_active = 5; // is package active
+    // @inject_tag: bson:"created_at,timestamp"
     google.protobuf.Timestamp created_at = 6; // date of create package
+    // @inject_tag: bson:"updated_at,timestamp"
     google.protobuf.Timestamp updated_at = 7;
     Currency currency = 8; // full object of currency to package price
 }
@@ -98,7 +96,7 @@ message FixedPackages {
 
 message ProjectPaymentMethod {
     string id = 1;
-    google.protobuf.Timestamp added_aAt = 2;
+    google.protobuf.Timestamp added_at = 2;
 }
 
 message ProjectPaymentMethods {
@@ -128,12 +126,14 @@ message Project {
     map<string, FixedPackages> fixed_package = 23; // list of project's fixed packages
     map<string, ProjectPaymentMethods> payment_methods = 24; // list of payment methods allowed to project
     bool IsActive = 20; // is project active
+    // @inject_tag: bson:"created_at,timestamp"
     google.protobuf.Timestamp created_at = 21; // date of create project
+    // @inject_tag: bson:"updated_at,timestamp"
     google.protobuf.Timestamp updated_at = 22;
 }
 
 message ProjectOrder {
-    // @inject_tag: bson:"id"
+    // @inject_tag: bson:"id,bsonobjectid"
     bytes id = 1;
     // @inject_tag: bson:"name"
     string name = 2;
@@ -158,7 +158,7 @@ message ProjectOrder {
 }
 
 message PaymentSystem {
-    // @inject_tag: bson:"_id"
+    // @inject_tag: bson:"_id,bsonobjectid"
     bytes id = 1;
     // @inject_tag: bson:"name"
     string name = 2;
@@ -170,7 +170,9 @@ message PaymentSystem {
     string accounting_period = 5;
     // @inject_tag: bson:"is_active"
     bool is_active = 6;
+    // @inject_tag: bson:"created_at,timestamp"
     google.protobuf.Timestamp created_at = 7;
+    // @inject_tag: bson:"updated_at,timestamp"
     google.protobuf.Timestamp updated_at = 8;
 }
 
@@ -186,7 +188,7 @@ message PaymentMethodParams {
 }
 
 message PaymentMethodOrder {
-    // @inject_tag: bson:"id"
+    // @inject_tag: bson:"id,bsonobjectid"
     bytes id = 1;
     // @inject_tag: bson:"name"
     string name = 2;
@@ -244,7 +246,7 @@ message OrderFeePaymentSystem {
 }
 
 message Order {
-    // @inject_tag: bson:"_id"
+    // @inject_tag: bson:"_id,bsonobjectid"
     bytes id = 1; // unique order identifier in Protocol One
     // @inject_tag: bson:"project"
     ProjectOrder project = 2; // object described main entities of project in Protocol One payment solution
@@ -262,9 +264,8 @@ message Order {
     double project_outcome_amount = 8; // order amount send to project in notification request
     // @inject_tag: bson:"project_outcome_currency"
     Currency project_outcome_currency = 9; // order currency send to project in notification request
-
+    // @inject_tag: bson:"project_last_requested_at,timestamp"
     google.protobuf.Timestamp project_last_requested_at = 10; // date of last notification request to project
-
     // @inject_tag: bson:"project_params"
     map<string, string> project_params = 11; // any project params which received from project in request of create of order
     // @inject_tag: bson:"payer_data"
@@ -285,15 +286,14 @@ message Order {
     Currency payment_method_income_currency = 19; // order currency received from payment system in notification request
     // @inject_tag: bson:"-" json:"-"
     string payment_method_income_currency_a3 = 20;
-
+    // @inject_tag: bson:"pm_order_close_date,timestamp"
     google.protobuf.Timestamp payment_method_order_closed_at = 21; // date of ended payment operation in payment system
-
     // @inject_tag: bson:"status"
     int32 status = 22; // order status
-
+    // @inject_tag: bson:"created_at,timestamp"
     google.protobuf.Timestamp created_at = 23; // date of create order
+    // @inject_tag: bson:"updated_at,timestamp"
     google.protobuf.Timestamp updated_at = 24; // date of last update order data
-
     // @inject_tag: bson:"created_by_json"
     bool is_json_request = 25; // is order create by json request
     // @inject_tag: bson:"amount_psp_ac"
