@@ -215,6 +215,9 @@ func (s *Structure) nested(val reflect.Value) interface{} {
 		}
 
 		finalVal = slices
+	case reflect.Float32, reflect.Float64:
+		finalVal = s.dbHelper.FormatAmount(val.Interface().(float64))
+		break
 	default:
 		finalVal = val.Interface()
 	}

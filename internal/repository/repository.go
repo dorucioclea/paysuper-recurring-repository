@@ -7,14 +7,6 @@ import (
 
 const (
 	FieldNameUnderscoreId = "_id"
-	FieldNameId           = "id"
-	FieldNameName         = "name"
-	FieldNameEmail        = "email"
-	FieldNameCountry      = "country"
-	FieldNameCurrency     = "currency"
-	FieldNameCreatedAt    = "created_at"
-	FieldNameUpdatedAt    = "updated_at"
-	FieldNameStatus       = "status"
 
 	QueryErrorMask = "Query from table \"%s\" ended with error: %s"
 
