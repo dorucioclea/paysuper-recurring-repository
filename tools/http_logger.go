@@ -24,9 +24,10 @@ type contextKey struct {
 	name string
 }
 
-func NewLoggedHttpClient() *http.Client {
+func NewLoggedHttpClient(logger *zap.SugaredLogger) *http.Client {
 	return &http.Client{
 		Transport: &Transport{
+			Logger:            logger,
 			ResponseBodyLimit: defaultResponseBodyLimit,
 		},
 		Timeout: time.Duration(defaultHttpClientTimeout * time.Second),

@@ -12,23 +12,11 @@ import (
 
 type Application struct {
 	service  micro.Service
-	database *database.Source
+	Database *database.Source
 }
 
-func (app *Application) Init() {
-	conf, err := NewConfig()
-
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	app.database, err = app.initDatabase(conf)
-
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	app.initService()
+func NewApplication() *Application {
+	return &Application{}
 }
 
 func (app *Application) Run() {
@@ -37,7 +25,9 @@ func (app *Application) Run() {
 	}
 }
 
-func (app *Application) initDatabase(conf *Config) (*database.Source, error) {
+func (app *Application) InitDatabase(conf *Config) {
+	var err error
+
 	settings := database.Connection{
 		Host:     conf.Host,
 		Database: conf.Database,
@@ -45,16 +35,18 @@ func (app *Application) initDatabase(conf *Config) (*database.Source, error) {
 		Password: conf.Password,
 	}
 
-	return database.GetDatabase(settings)
+	if app.Database, err = database.GetDatabase(settings); err != nil {
+		log.Fatalln(err)
+	}
 }
 
-func (app *Application) initService() {
+func (app *Application) InitService() {
 	app.service = grpc.NewService(
 		micro.Name(constant.PayOneRepositoryServiceName),
 		micro.Version(constant.PayOneMicroserviceVersion),
 	)
 	app.service.Init()
 
-	rep := &repository.Repository{Database: app.database}
+	rep := &repository.Repository{Database: app.Database}
 	proto.RegisterRepositoryHandler(app.service.Server(), rep)
 }
