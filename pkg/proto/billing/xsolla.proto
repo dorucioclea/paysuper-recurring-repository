@@ -4,7 +4,7 @@ option go_package = "github.com/ProtocolONE/payone-repository/pkg/proto/billing"
 
 package billing;
 
-message User {
+message XSollaUser {
     string id = 1;
     string ip = 2;
     string phone = 3;
@@ -13,7 +13,7 @@ message User {
     string country = 6;
 }
 
-message VirtualCurrency {
+message XSollaVirtualCurrency {
     string name = 1;
     string sku = 2;
     int32 quantity = 3;
@@ -21,40 +21,40 @@ message VirtualCurrency {
     double amount = 5;
 }
 
-message Purchase {
-    VirtualCurrency virtual_currency = 1;
-    Checkout checkout = 2;
-    VirtualItems virtual_items = 3;
-    Total total = 4;
+message XSollaPurchase {
+    XSollaVirtualCurrency virtual_currency = 1;
+    XSollaCheckout checkout = 2;
+    XSollaVirtualItems virtual_items = 3;
+    XSollaTotal total = 4;
 }
 
-message Checkout {
+message XSollaCheckout {
     string currency = 1;
     double amount = 2;
 }
 
-message Item {
+message XSollaItem {
     string sku = 1;
     double amount = 2;
 }
 
-message VirtualItems {
-    repeated Item items = 1;
+message XSollaVirtualItems {
+    repeated XSollaItem items = 1;
     string currency = 2;
     double amount = 3;
 }
 
-message Total {
+message XSollaTotal {
     string currency = 1;
     double amount = 2;
 }
 
-message CheckNotification {
+message XSollaCheckNotification {
     string notification_type = 1;
-    User user = 2;
+    XSollaUser user = 2;
 }
 
-message Transaction {
+message XSollaTransaction {
     string id = 1;
     string external_id = 2;
     string payment_date = 3;
@@ -62,51 +62,51 @@ message Transaction {
     int32 dry_run = 5;
 }
 
-message Payment {
+message XSollaPayment {
     string currency = 1;
     double amount = 2;
 }
 
-message Vat {
+message XSollaVat {
     string currency = 1;
     double amount = 2;
 }
 
-message Payout {
+message XSollaPayout {
     string currency = 1;
     double amount = 2;
 }
 
-message XsollaFee {
+message XSollaXsollaFee {
     string currency = 1;
     double amount = 2;
 }
 
-message PaymentMethodFee {
+message XSollaPaymentMethodFee {
     string currency = 1;
     double amount = 2;
 }
 
-message RepatriationCommission {
+message XSollaRepatriationCommission {
     string currency = 1;
     double amount = 2;
 }
 
-message PaymentDetails {
-    Payment payment = 1;
-    Vat vat = 2;
+message XSollaPaymentDetails {
+    XSollaPayment payment = 1;
+    XSollaVat vat = 2;
     double payout_currency_rate = 3;
-    Payout payout = 4;
-    XsollaFee xsolla_fee = 5;
-    PaymentMethodFee payment_method_fee = 6;
-    RepatriationCommission repatriation_commission = 7;
+    XSollaPayout payout = 4;
+    XSollaXsollaFee xsolla_fee = 5;
+    XSollaPaymentMethodFee payment_method_fee = 6;
+    XSollaRepatriationCommission repatriation_commission = 7;
 }
 
 message PaymentNotification {
     string notification_type = 1;
-    Purchase purchase = 2;
-    User user = 3;
-    Transaction transaction = 4;
-    PaymentDetails payment_details = 5;
+    XSollaPurchase purchase = 2;
+    XSollaUser user = 3;
+    XSollaTransaction transaction = 4;
+    XSollaPaymentDetails payment_details = 5;
     map<string, string> custom_parameters = 6;
 }

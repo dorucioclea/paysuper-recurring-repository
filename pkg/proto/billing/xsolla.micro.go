@@ -8,22 +8,22 @@ It is generated from these files:
 	billing/xsolla.proto
 
 It has these top-level messages:
-	User
-	VirtualCurrency
-	Purchase
-	Checkout
-	Item
-	VirtualItems
-	Total
-	CheckNotification
-	Transaction
-	Payment
-	Vat
-	Payout
-	XsollaFee
-	PaymentMethodFee
-	RepatriationCommission
-	PaymentDetails
+	XSollaUser
+	XSollaVirtualCurrency
+	XSollaPurchase
+	XSollaCheckout
+	XSollaItem
+	XSollaVirtualItems
+	XSollaTotal
+	XSollaCheckNotification
+	XSollaTransaction
+	XSollaPayment
+	XSollaVat
+	XSollaPayout
+	XSollaXsollaFee
+	XSollaPaymentMethodFee
+	XSollaRepatriationCommission
+	XSollaPaymentDetails
 	PaymentNotification
 */
 package billing
