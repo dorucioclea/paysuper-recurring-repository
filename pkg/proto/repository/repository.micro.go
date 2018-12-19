@@ -47,6 +47,7 @@ var _ server.Option
 type RepositoryService interface {
 	UpdateOrder(ctx context.Context, in *billing.Order, opts ...client.CallOption) (*Result, error)
 	ConvertAmount(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error)
+	GetConvertRate(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error)
 }
 
 type repositoryService struct {
@@ -87,17 +88,29 @@ func (c *repositoryService) ConvertAmount(ctx context.Context, in *ConvertReques
 	return out, nil
 }
 
+func (c *repositoryService) GetConvertRate(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error) {
+	req := c.c.NewRequest(c.name, "Repository.GetConvertRate", in)
+	out := new(ConvertResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Repository service
 
 type RepositoryHandler interface {
 	UpdateOrder(context.Context, *billing.Order, *Result) error
 	ConvertAmount(context.Context, *ConvertRequest, *ConvertResponse) error
+	GetConvertRate(context.Context, *ConvertRequest, *ConvertResponse) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
 	type repository interface {
 		UpdateOrder(ctx context.Context, in *billing.Order, out *Result) error
 		ConvertAmount(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error
+		GetConvertRate(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error
 	}
 	type Repository struct {
 		repository
@@ -116,4 +129,8 @@ func (h *repositoryHandler) UpdateOrder(ctx context.Context, in *billing.Order, 
 
 func (h *repositoryHandler) ConvertAmount(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error {
 	return h.RepositoryHandler.ConvertAmount(ctx, in, out)
+}
+
+func (h *repositoryHandler) GetConvertRate(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error {
+	return h.RepositoryHandler.GetConvertRate(ctx, in, out)
 }

@@ -9,6 +9,7 @@ package repository;
 service Repository {
     rpc UpdateOrder(billing.Order) returns (Result) {}
     rpc ConvertAmount(ConvertRequest) returns (ConvertResponse) {}
+    rpc GetConvertRate(ConvertRequest) returns (ConvertResponse) {}
 }
 
 message Result {}
