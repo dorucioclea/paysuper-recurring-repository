@@ -102,7 +102,7 @@ message XSollaPaymentDetails {
     XSollaRepatriationCommission repatriation_commission = 7;
 }
 
-message PaymentNotification {
+message XSollaPaymentNotification {
     string notification_type = 1;
     XSollaPurchase purchase = 2;
     XSollaUser user = 3;

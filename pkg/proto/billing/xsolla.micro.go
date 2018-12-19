@@ -24,7 +24,7 @@ It has these top-level messages:
 	XSollaPaymentMethodFee
 	XSollaRepatriationCommission
 	XSollaPaymentDetails
-	PaymentNotification
+	XSollaPaymentNotification
 */
 package billing
 
