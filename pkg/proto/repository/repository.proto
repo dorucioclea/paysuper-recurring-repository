@@ -8,9 +8,20 @@ package repository;
 
 service Repository {
     rpc UpdateOrder(billing.Order) returns (Result) {}
+    rpc ConvertAmount(ConvertRequest) returns (ConvertResponse) {}
 }
 
 message Result {}
+
+message ConvertRequest {
+    int32 currency_from = 1;
+    int32 currency_to = 2;
+    double amount = 3;
+}
+
+message ConvertResponse {
+    double amount = 1;
+}
 
 
 

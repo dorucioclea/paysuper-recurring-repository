@@ -323,3 +323,18 @@ message Order {
     // @inject_tag: bson:"ps_fee_amount"
     OrderFeePaymentSystem payment_system_fee_amount = 38; // payment system fee for payment operation
 }
+
+message CurrencyRate {
+    // @inject_tag: bson:"_id"
+    bytes id = 1;
+    // @inject_tag: bson:"currency_from"
+    int32 currency_from = 2;
+    // @inject_tag: bson:"currency_to"
+    int32 currency_to = 3;
+    // @inject_tag: bson:"rate"
+    double rate = 4;
+    // @inject_tag: bson:"date"
+    google.protobuf.Timestamp date = 5;
+    // @inject_tag: bson:"created_at"
+    google.protobuf.Timestamp created_at = 6;
+}

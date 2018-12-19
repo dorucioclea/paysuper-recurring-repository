@@ -10,7 +10,8 @@ const (
 
 	QueryErrorMask = "Query from table \"%s\" ended with error: %s"
 
-	CollectionOrder = "order"
+	CollectionOrder        = "order"
+	CollectionCurrencyRate = "currency_rate"
 )
 
 type Repository struct {

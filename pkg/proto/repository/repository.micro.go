@@ -9,6 +9,8 @@ It is generated from these files:
 
 It has these top-level messages:
 	Result
+	ConvertRequest
+	ConvertResponse
 */
 package repository
 
@@ -44,6 +46,7 @@ var _ server.Option
 
 type RepositoryService interface {
 	UpdateOrder(ctx context.Context, in *billing.Order, opts ...client.CallOption) (*Result, error)
+	ConvertAmount(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error)
 }
 
 type repositoryService struct {
@@ -74,15 +77,27 @@ func (c *repositoryService) UpdateOrder(ctx context.Context, in *billing.Order, 
 	return out, nil
 }
 
+func (c *repositoryService) ConvertAmount(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error) {
+	req := c.c.NewRequest(c.name, "Repository.ConvertAmount", in)
+	out := new(ConvertResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Repository service
 
 type RepositoryHandler interface {
 	UpdateOrder(context.Context, *billing.Order, *Result) error
+	ConvertAmount(context.Context, *ConvertRequest, *ConvertResponse) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
 	type repository interface {
 		UpdateOrder(ctx context.Context, in *billing.Order, out *Result) error
+		ConvertAmount(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error
 	}
 	type Repository struct {
 		repository
@@ -97,4 +112,8 @@ type repositoryHandler struct {
 
 func (h *repositoryHandler) UpdateOrder(ctx context.Context, in *billing.Order, out *Result) error {
 	return h.RepositoryHandler.UpdateOrder(ctx, in, out)
+}
+
+func (h *repositoryHandler) ConvertAmount(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error {
+	return h.RepositoryHandler.ConvertAmount(ctx, in, out)
 }
