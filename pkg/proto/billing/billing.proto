@@ -70,6 +70,8 @@ message Merchant {
     google.protobuf.Timestamp created_at = 11; // date of create merchant in system
     // @inject_tag: bson:"updated_at,timestamp"
     google.protobuf.Timestamp updated_at = 12;
+    // @inject_tag: bson:"first_payment_at,timestamp"
+    google.protobuf.Timestamp first_payment_at = 13; // date of first payment to merchant
 }
 
 message FixedPackage {
