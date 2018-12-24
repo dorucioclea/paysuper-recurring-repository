@@ -11,6 +11,7 @@ const (
 	QueryErrorMask = "Query from table \"%s\" ended with error: %s"
 
 	CollectionOrder        = "order"
+	CollectionMerchant     = "merchant"
 	CollectionCurrencyRate = "currency_rate"
 )
 

@@ -29,7 +29,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-var _ = billing.Order{}
+var _ = billing.Merchant{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -48,6 +48,7 @@ type RepositoryService interface {
 	UpdateOrder(ctx context.Context, in *billing.Order, opts ...client.CallOption) (*Result, error)
 	ConvertAmount(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error)
 	GetConvertRate(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error)
+	UpdateMerchant(ctx context.Context, in *billing.Merchant, opts ...client.CallOption) (*Result, error)
 }
 
 type repositoryService struct {
@@ -98,12 +99,23 @@ func (c *repositoryService) GetConvertRate(ctx context.Context, in *ConvertReque
 	return out, nil
 }
 
+func (c *repositoryService) UpdateMerchant(ctx context.Context, in *billing.Merchant, opts ...client.CallOption) (*Result, error) {
+	req := c.c.NewRequest(c.name, "Repository.UpdateMerchant", in)
+	out := new(Result)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Repository service
 
 type RepositoryHandler interface {
 	UpdateOrder(context.Context, *billing.Order, *Result) error
 	ConvertAmount(context.Context, *ConvertRequest, *ConvertResponse) error
 	GetConvertRate(context.Context, *ConvertRequest, *ConvertResponse) error
+	UpdateMerchant(context.Context, *billing.Merchant, *Result) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
@@ -111,6 +123,7 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		UpdateOrder(ctx context.Context, in *billing.Order, out *Result) error
 		ConvertAmount(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error
 		GetConvertRate(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error
+		UpdateMerchant(ctx context.Context, in *billing.Merchant, out *Result) error
 	}
 	type Repository struct {
 		repository
@@ -133,4 +146,8 @@ func (h *repositoryHandler) ConvertAmount(ctx context.Context, in *ConvertReques
 
 func (h *repositoryHandler) GetConvertRate(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error {
 	return h.RepositoryHandler.GetConvertRate(ctx, in, out)
+}
+
+func (h *repositoryHandler) UpdateMerchant(ctx context.Context, in *billing.Merchant, out *Result) error {
+	return h.RepositoryHandler.UpdateMerchant(ctx, in, out)
 }
