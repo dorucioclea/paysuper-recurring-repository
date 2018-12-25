@@ -1,0 +1,21 @@
+env:
+  global:
+  - REPO=p1hub/payone-repository
+  - secure: 2a5gubZAFseKqNw/vcFZSP1qL6cF4674cglZ+A9TwvwQBK6XtdeSPP6wzfvxM2qDe2IUgRRu4yIu9Ior15XPdUa67/5Ae9YpBVd7o+9MpvUGoOJL2dVu4qGQCVZ4/I/D/dZkt7leIXnPfeHotHAdbYUqyI47XJSXWdriaqwvW3SCuUKwmNr0U+zQVaWLGvvk4p2yEjqY4+Wt/t8hu+KmuHDx3EAd93rGdVISw20umyk+n681YOoVnzsj6+qdVmBZpxaIXD9bNYTpqPD9258VteZI8ZUk3+vv133LFRAbK+R2ZL3fLUtPddwvvC1aWqIMgHf09DYYxoZKfucOrrcWBVs4BrO4vUhx8YBZJ7NlxZEVMFJ40mVkcNWftmMV9vQqDS1JPD/F0nGAyDqT+uv4JgHFAhEJ6TywxSI9kRxdm4qXqFxNBospmRZZ82wxOSQ31a9ouUV76+tPwSxGrCG2ZfU00NFirztOyGEVDKZtbsP08hmOcee6T2zmNlezTaD9V5WMVkjt4D9tIyh6Gisbg9+qvxuf3mpF1txzt0Qg5IB+6K2OJ9A7lVDVQuaqmeUMmljon0LESQprjHeXlPRjSFL0WUsq1g7OzOzZBLUA/8gUMeLK7by0n8/IrH28D0ntSdBW1golkgQPkKx4zL1lR+wtrPAS5L5x+BAfI8wMW+k=
+  - secure: c1l+hb260ze/BT8fe3N0kS+HsMi7qEDoDqa85FqrMiMXLiVPBw2ZsBjkJf8jFJ1KOQv0sLcR/Rg9nQY8Ub/S9Ve+B4txvfb1yTCMiUdlQDLWaM4ujpnS73pwezxP7zIqS6xYKNlzIsEw7MMi/hZ9oChucbyWVdbOZH9EC0WQgUMcC2Ellp4pXcl8G16E1IMfT/uG4BVIYAQvFeoqm3bPWK+Rbv4m95mri9qrOLr6r4rRDL4ORA2vOxWzi7qDquYfCpJKAbhfAjl3js7OBQxl9QWsH6QsVVFrZO7YxQ+wboTyECV/k53e284p4UMgZdeC2UT89Z889k7rMqArdehzg5xb37CGmzbie8A8iX2CH/j8T7H8aRk1ub2hyr9dVnF5cHNdLDiSo3hm9xrcOyjbE65LhWU+mQhLFOyfekZrYtWxvSdEQKjRbYXj954Vb9wPgcLcCC5SMekLj7mlhAg+TS64IyhGEfopbmHLP+EidymShw3PiUyI6REpgZUvgveR5j0ud42vTbaNAN3hq9eMDFI9h91mUiCPWOZiihp+p7HhqdV1m/7QdjPKE9BxGOBj8kRVkyk3BB+IwRynrRAEBTW/ceZYTx0qB2obwCVMTx1KCWpK18b4WfjhErHDvqFnEivBQjH/dPV1WodfgwQIsA+VMldkWMjrfpKtvKIMfWA=
+sudo: true
+services:
+- docker
+jobs:
+  include:
+  - stage: Building images for payone-repository
+    script:
+    - export TAG=`if [[ $TRAVIS_BRANCH == "master" ]]; then echo "latest"; else echo
+      $TRAVIS_TAG; fi`
+    - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+    - docker build -t "$REPO:$TAG" -t "$REPO:0.0.$TRAVIS_BUILD_NUMBER" .
+    - docker push $REPO
+notifications:
+  email: false
+  slack:
+    secure: bWWsv0Shc4FBIwuSZU+ia/juCFYDe3z72JbodEJI/Yt+UHZNGkajpILCHNPHSxFht3l9uIDhKAm+yc82FpENtr0fTTW5IcqSnwkO+S8Gd0wuNB3VlmK1EfX0st044cu8PvnGYu5jOjsw1fj32yAEo+WOnTgIJX3/+yVPWZgRe+TprIL5hS+UMYPo90+zMr+fw1hZ6Bfr18nshSQUsKEZkv27xHq8NDB6l+1TLb+YZ1fENwn8OoUGIkrIdwdoo8mqNIM6LhcCNhW6kzHdJR7de1oEiYccEhyL9uf2qGysuv2XktKVEC1LMABD3Qofm4B9EbpU6x2z1GmJSjU9Cw73OjIjs35R4xCygU8OPhkPtYESkFqZy640ULkRQhW+dcY1TRXW8r/0DjC50RU/xz2/dqQ5E7bhAB9Ty1ZPAmONfxcs8+fdNDMMcYgIpt+FdfnDISCZw+PamV7QPI9BGm1yVsYcI1m9ifqhGUTZ+h7AZUe+6gSxWwDVB4mbce/6WBftyTBhYdyhhh3SA9C/MfoQ9pCNxc+yYMNbJrvHL8FNJIUN6Q4MfVdz1pvSh3STlAv9ybCYZc9xDj3mmhRf4JS+Vd0stAH2O0mVDDffQ3D+lbtt9m1Z7KHq5hqoafI+fut9dCJTRlAZIAZkAoqC2hibKKcdkGgu0ks7Pg11c4MjTkY=
