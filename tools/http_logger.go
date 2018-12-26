@@ -78,6 +78,7 @@ func (t *Transport) log(reqUrl string, reqHeader http.Header, reqBody []byte, re
 	data := []interface{}{
 		"request_headers", t.httpHeadersToString(reqHeader),
 		"request_body", string(reqBody),
+		"response_status", resp.StatusCode,
 		"response_headers", t.httpHeadersToString(resp.Header),
 		"response_body", t.cutResponseBody(resBody),
 	}
