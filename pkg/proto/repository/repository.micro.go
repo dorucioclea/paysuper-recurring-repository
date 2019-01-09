@@ -11,6 +11,7 @@ It has these top-level messages:
 	Result
 	ConvertRequest
 	ConvertResponse
+	FindByItem
 	FindByRequest
 	FindOrderByProjectOrderIdRequest
 	Projects
@@ -21,7 +22,6 @@ import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 import billing "github.com/ProtocolONE/payone-repository/pkg/proto/billing"
-import _ "github.com/golang/protobuf/ptypes/any"
 
 import (
 	context "context"

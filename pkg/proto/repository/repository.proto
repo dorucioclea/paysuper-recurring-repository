@@ -3,7 +3,6 @@ syntax = "proto3";
 option go_package="github.com/ProtocolONE/payone-repository/pkg/proto/repository";
 
 import "billing/billing.proto";
-import "google/protobuf/any.proto";
 
 package repository;
 
@@ -29,8 +28,13 @@ message ConvertResponse {
     double amount = 1;
 }
 
+message FindByItem {
+    string type = 1;
+    string value = 2;
+}
+
 message FindByRequest {
-    map<string, google.protobuf.Any> query = 1;
+    map<string, FindByItem> query = 1;
     int32 limit = 2;
     int32 offset = 3;
 }
