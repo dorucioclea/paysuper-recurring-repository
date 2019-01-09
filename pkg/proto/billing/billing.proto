@@ -155,8 +155,10 @@ message ProjectOrder {
     string url_process_payment = 9;
     // @inject_tag: bson:"callback_protocol"
     string callback_protocol = 10;
+    // @inject_tag: bson:"is_active"
+    bool is_active = 11;
     // @inject_tag: bson:"merchant"
-    Merchant merchant = 11;
+    Merchant merchant = 12;
 }
 
 message PaymentSystem {
