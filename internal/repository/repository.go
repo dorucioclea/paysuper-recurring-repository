@@ -13,6 +13,7 @@ const (
 	CollectionOrder        = "order"
 	CollectionMerchant     = "merchant"
 	CollectionCurrencyRate = "currency_rate"
+	CollectionProject      = "project"
 )
 
 type Repository struct {

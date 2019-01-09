@@ -3,14 +3,18 @@ syntax = "proto3";
 option go_package="github.com/ProtocolONE/payone-repository/pkg/proto/repository";
 
 import "billing/billing.proto";
+import "google/protobuf/any.proto";
 
 package repository;
 
 service Repository {
+    rpc InsertOrder(billing.Order) returns (Result) {}
     rpc UpdateOrder(billing.Order) returns (Result) {}
+    rpc FindOrderBy(FindByRequest) returns (billing.Order) {}
     rpc ConvertAmount(ConvertRequest) returns (ConvertResponse) {}
     rpc GetConvertRate(ConvertRequest) returns (ConvertResponse) {}
     rpc UpdateMerchant(billing.Merchant) returns (Result) {}
+    rpc FindProjectBy(FindByRequest) returns (Projects) {}
 }
 
 message Result {}
@@ -23,6 +27,23 @@ message ConvertRequest {
 
 message ConvertResponse {
     double amount = 1;
+}
+
+message FindByRequest {
+    map<string, google.protobuf.Any> query = 1;
+    int32 limit = 2;
+    int32 offset = 3;
+}
+
+message FindOrderByProjectOrderIdRequest {
+    // @inject_tag: bson:"project_order_id"
+    string order_id = 1;
+    // @inject_tag: bson:"project.id,bsonobjectid"
+    bytes project_id = 2;
+}
+
+message Projects {
+    repeated billing.Project projects = 1;
 }
 
 
