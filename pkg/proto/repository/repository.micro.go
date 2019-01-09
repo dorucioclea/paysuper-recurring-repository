@@ -11,8 +11,7 @@ It has these top-level messages:
 	Result
 	ConvertRequest
 	ConvertResponse
-	FindByItem
-	FindByRequest
+	FindByUnderscoreId
 	FindOrderByProjectOrderIdRequest
 	Projects
 */
@@ -51,11 +50,11 @@ var _ server.Option
 type RepositoryService interface {
 	InsertOrder(ctx context.Context, in *billing.Order, opts ...client.CallOption) (*Result, error)
 	UpdateOrder(ctx context.Context, in *billing.Order, opts ...client.CallOption) (*Result, error)
-	FindOrderBy(ctx context.Context, in *FindByRequest, opts ...client.CallOption) (*billing.Order, error)
+	FindOrderById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*billing.Order, error)
 	ConvertAmount(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error)
 	GetConvertRate(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error)
 	UpdateMerchant(ctx context.Context, in *billing.Merchant, opts ...client.CallOption) (*Result, error)
-	FindProjectBy(ctx context.Context, in *FindByRequest, opts ...client.CallOption) (*Projects, error)
+	FindProjectById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*Projects, error)
 }
 
 type repositoryService struct {
@@ -96,8 +95,8 @@ func (c *repositoryService) UpdateOrder(ctx context.Context, in *billing.Order, 
 	return out, nil
 }
 
-func (c *repositoryService) FindOrderBy(ctx context.Context, in *FindByRequest, opts ...client.CallOption) (*billing.Order, error) {
-	req := c.c.NewRequest(c.name, "Repository.FindOrderBy", in)
+func (c *repositoryService) FindOrderById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*billing.Order, error) {
+	req := c.c.NewRequest(c.name, "Repository.FindOrderById", in)
 	out := new(billing.Order)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -136,8 +135,8 @@ func (c *repositoryService) UpdateMerchant(ctx context.Context, in *billing.Merc
 	return out, nil
 }
 
-func (c *repositoryService) FindProjectBy(ctx context.Context, in *FindByRequest, opts ...client.CallOption) (*Projects, error) {
-	req := c.c.NewRequest(c.name, "Repository.FindProjectBy", in)
+func (c *repositoryService) FindProjectById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*Projects, error) {
+	req := c.c.NewRequest(c.name, "Repository.FindProjectById", in)
 	out := new(Projects)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -151,22 +150,22 @@ func (c *repositoryService) FindProjectBy(ctx context.Context, in *FindByRequest
 type RepositoryHandler interface {
 	InsertOrder(context.Context, *billing.Order, *Result) error
 	UpdateOrder(context.Context, *billing.Order, *Result) error
-	FindOrderBy(context.Context, *FindByRequest, *billing.Order) error
+	FindOrderById(context.Context, *FindByUnderscoreId, *billing.Order) error
 	ConvertAmount(context.Context, *ConvertRequest, *ConvertResponse) error
 	GetConvertRate(context.Context, *ConvertRequest, *ConvertResponse) error
 	UpdateMerchant(context.Context, *billing.Merchant, *Result) error
-	FindProjectBy(context.Context, *FindByRequest, *Projects) error
+	FindProjectById(context.Context, *FindByUnderscoreId, *Projects) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
 	type repository interface {
 		InsertOrder(ctx context.Context, in *billing.Order, out *Result) error
 		UpdateOrder(ctx context.Context, in *billing.Order, out *Result) error
-		FindOrderBy(ctx context.Context, in *FindByRequest, out *billing.Order) error
+		FindOrderById(ctx context.Context, in *FindByUnderscoreId, out *billing.Order) error
 		ConvertAmount(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error
 		GetConvertRate(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error
 		UpdateMerchant(ctx context.Context, in *billing.Merchant, out *Result) error
-		FindProjectBy(ctx context.Context, in *FindByRequest, out *Projects) error
+		FindProjectById(ctx context.Context, in *FindByUnderscoreId, out *Projects) error
 	}
 	type Repository struct {
 		repository
@@ -187,8 +186,8 @@ func (h *repositoryHandler) UpdateOrder(ctx context.Context, in *billing.Order, 
 	return h.RepositoryHandler.UpdateOrder(ctx, in, out)
 }
 
-func (h *repositoryHandler) FindOrderBy(ctx context.Context, in *FindByRequest, out *billing.Order) error {
-	return h.RepositoryHandler.FindOrderBy(ctx, in, out)
+func (h *repositoryHandler) FindOrderById(ctx context.Context, in *FindByUnderscoreId, out *billing.Order) error {
+	return h.RepositoryHandler.FindOrderById(ctx, in, out)
 }
 
 func (h *repositoryHandler) ConvertAmount(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error {
@@ -203,6 +202,6 @@ func (h *repositoryHandler) UpdateMerchant(ctx context.Context, in *billing.Merc
 	return h.RepositoryHandler.UpdateMerchant(ctx, in, out)
 }
 
-func (h *repositoryHandler) FindProjectBy(ctx context.Context, in *FindByRequest, out *Projects) error {
-	return h.RepositoryHandler.FindProjectBy(ctx, in, out)
+func (h *repositoryHandler) FindProjectById(ctx context.Context, in *FindByUnderscoreId, out *Projects) error {
+	return h.RepositoryHandler.FindProjectById(ctx, in, out)
 }

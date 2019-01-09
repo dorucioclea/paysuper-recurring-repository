@@ -9,11 +9,11 @@ package repository;
 service Repository {
     rpc InsertOrder(billing.Order) returns (Result) {}
     rpc UpdateOrder(billing.Order) returns (Result) {}
-    rpc FindOrderBy(FindByRequest) returns (billing.Order) {}
+    rpc FindOrderById(FindByUnderscoreId) returns (billing.Order) {}
     rpc ConvertAmount(ConvertRequest) returns (ConvertResponse) {}
     rpc GetConvertRate(ConvertRequest) returns (ConvertResponse) {}
     rpc UpdateMerchant(billing.Merchant) returns (Result) {}
-    rpc FindProjectBy(FindByRequest) returns (Projects) {}
+    rpc FindProjectById(FindByUnderscoreId) returns (Projects) {}
 }
 
 message Result {}
@@ -28,15 +28,9 @@ message ConvertResponse {
     double amount = 1;
 }
 
-message FindByItem {
-    string type = 1;
-    string value = 2;
-}
-
-message FindByRequest {
-    map<string, FindByItem> query = 1;
-    int32 limit = 2;
-    int32 offset = 3;
+message FindByUnderscoreId {
+    // @inject_tag: bson:"_id,bsonobjectid"
+    bytes id = 1;
 }
 
 message FindOrderByProjectOrderIdRequest {
