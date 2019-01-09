@@ -13,7 +13,7 @@ service Repository {
     rpc ConvertAmount(ConvertRequest) returns (ConvertResponse) {}
     rpc GetConvertRate(ConvertRequest) returns (ConvertResponse) {}
     rpc UpdateMerchant(billing.Merchant) returns (Result) {}
-    rpc FindProjectById(FindByUnderscoreId) returns (Projects) {}
+    rpc FindProjectById(FindByUnderscoreId) returns (billing.Project) {}
 }
 
 message Result {}

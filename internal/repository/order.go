@@ -35,7 +35,7 @@ func (r *Repository) InsertOrder(ctx context.Context, req *billing.Order, rsp *r
 	return nil
 }
 
-func (r *Repository) FindOrderBy(ctx context.Context, req *repository.FindByUnderscoreId, rsp *billing.Order) error {
+func (r *Repository) FindOrderById(ctx context.Context, req *repository.FindByUnderscoreId, rsp *billing.Order) error {
 	err := r.Database.Collection(CollectionOrder).Find(req).All(&rsp)
 
 	if err != nil {
