@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-func (r *Repository) FindProjectById(ctx context.Context, req *repository.FindByUnderscoreId, rsp *billing.Project) error {
+func (r *Repository) FindProjectOrderById(ctx context.Context, req *repository.FindByUnderscoreId, rsp *billing.ProjectOrder) error {
 	err := r.Database.Collection(CollectionProject).Find(r.toMap(req)).One(&rsp)
 
 	if err != nil {

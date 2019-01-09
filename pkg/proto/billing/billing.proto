@@ -135,13 +135,13 @@ message Project {
 }
 
 message ProjectOrder {
-    // @inject_tag: bson:"id,bsonobjectid"
+    // @inject_tag: bson:"_id,bsonobjectid"
     bytes id = 1;
     // @inject_tag: bson:"name"
     string name = 2;
-    // @inject_tag: bson:"url_success"
+    // @inject_tag: bson:"url_redirect_success"
     string url_success = 3;
-    // @inject_tag: bson:"url_fail"
+    // @inject_tag: bson:"url_redirect_fail"
     string url_fail = 4;
     // @inject_tag: bson:"notify_emails"
     repeated string notify_emails = 5;
