@@ -57,7 +57,8 @@ type RepositoryService interface {
 	ConvertAmount(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error)
 	GetConvertRate(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error)
 	UpdateMerchant(ctx context.Context, in *billing.Merchant, opts ...client.CallOption) (*Result, error)
-	FindProjectOrderById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*billing.ProjectOrder, error)
+	FindProjectById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*billing.Project, error)
+	ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*billing.ProjectOrder, error)
 	FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*PaymentMethods, error)
 	FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.Currency, error)
 }
@@ -140,8 +141,18 @@ func (c *repositoryService) UpdateMerchant(ctx context.Context, in *billing.Merc
 	return out, nil
 }
 
-func (c *repositoryService) FindProjectOrderById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*billing.ProjectOrder, error) {
-	req := c.c.NewRequest(c.name, "Repository.FindProjectOrderById", in)
+func (c *repositoryService) FindProjectById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*billing.Project, error) {
+	req := c.c.NewRequest(c.name, "Repository.FindProjectById", in)
+	out := new(billing.Project)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *repositoryService) ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*billing.ProjectOrder, error) {
+	req := c.c.NewRequest(c.name, "Repository.ConvertProjectToProjectOrder", in)
 	out := new(billing.ProjectOrder)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -179,7 +190,8 @@ type RepositoryHandler interface {
 	ConvertAmount(context.Context, *ConvertRequest, *ConvertResponse) error
 	GetConvertRate(context.Context, *ConvertRequest, *ConvertResponse) error
 	UpdateMerchant(context.Context, *billing.Merchant, *Result) error
-	FindProjectOrderById(context.Context, *FindByUnderscoreId, *billing.ProjectOrder) error
+	FindProjectById(context.Context, *FindByUnderscoreId, *billing.Project) error
+	ConvertProjectToProjectOrder(context.Context, *billing.Project, *billing.ProjectOrder) error
 	FindPaymentMethodsByGroupAndCurrency(context.Context, *FindByGroupCurrencyRequest, *PaymentMethods) error
 	FindCurrencyByCodeA3(context.Context, *FindByStringValue, *billing.Currency) error
 }
@@ -192,7 +204,8 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		ConvertAmount(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error
 		GetConvertRate(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error
 		UpdateMerchant(ctx context.Context, in *billing.Merchant, out *Result) error
-		FindProjectOrderById(ctx context.Context, in *FindByUnderscoreId, out *billing.ProjectOrder) error
+		FindProjectById(ctx context.Context, in *FindByUnderscoreId, out *billing.Project) error
+		ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, out *billing.ProjectOrder) error
 		FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *PaymentMethods) error
 		FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, out *billing.Currency) error
 	}
@@ -231,8 +244,12 @@ func (h *repositoryHandler) UpdateMerchant(ctx context.Context, in *billing.Merc
 	return h.RepositoryHandler.UpdateMerchant(ctx, in, out)
 }
 
-func (h *repositoryHandler) FindProjectOrderById(ctx context.Context, in *FindByUnderscoreId, out *billing.ProjectOrder) error {
-	return h.RepositoryHandler.FindProjectOrderById(ctx, in, out)
+func (h *repositoryHandler) FindProjectById(ctx context.Context, in *FindByUnderscoreId, out *billing.Project) error {
+	return h.RepositoryHandler.FindProjectById(ctx, in, out)
+}
+
+func (h *repositoryHandler) ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, out *billing.ProjectOrder) error {
+	return h.RepositoryHandler.ConvertProjectToProjectOrder(ctx, in, out)
 }
 
 func (h *repositoryHandler) FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *PaymentMethods) error {

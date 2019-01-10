@@ -106,27 +106,49 @@ message ProjectPaymentMethods {
 }
 
 message Project {
-    bytes id = 1; // unique project identifier
+    // @inject_tag: bson:"_id,bsonobjectid"
+    string id = 1; // unique project identifier
+    // @inject_tag: bson:"callback_currency"
     Currency callback_currency = 2; // full object of currency which described currency to send payment notification
+    // @inject_tag: bson:"callback_protocol"
     string callback_protocol = 3; // protocol identifier to send payment notification. possible values: default, cardpay, xsolla
+    // @inject_tag: bson:"create_invoice_allowed_urls"
     repeated string create_invoice_allowed_urls = 4; // list of urls rom which you can send a request to create an order
+    // @inject_tag: bson:"merchant" json:"-"
     Merchant merchant = 5; // full object of merchant which describes project's owner
+    // @inject_tag: bson:"is_allow_dynamic_notify_urls"
     bool is_allow_dynamic_notify_urls = 6; // is allow send dynamic notification urls in request to create an order
+    // @inject_tag: bson:"is_allow_dynamic_redirect_urls"
     bool is_allow_dynamic_redirect_urls = 7; // is allow send dynamic user's redirect urls in request to create an order
+    // @inject_tag: bson:"limits_currency"
     Currency limits_currency = 8; // full object of currency which describes currency for amount's limit
+    // @inject_tag: bson:"max_payment_amount"
     double max_payment_amount = 9; // maximal amount allowed for create order
+    // @inject_tag: bson:"min_payment_amount"
     double min_payment_amount = 10; // minimal amount allowed for create order
+    // @inject_tag: bson:"name"
     string name = 11; // project name
+    // @inject_tag: bson:"notify_emails"
     repeated string notify_emails = 12; // list of emails to send notifications about successfully completed payment operations
+    // @inject_tag: bson:"only_fixed_amounts"
     bool only_fixed_amounts = 13; // is allow create order only with amounts from fixed packages list
+    // @inject_tag: bson:"secret_key"
     string secret_key = 14; // secret key for create check hash for request about order statuses changes
+    // @inject_tag: bson:"send_notify_email"
     bool send_notify_email = 15; // is allow send notifications about successfully completed payment operations to user's emails
+    // @inject_tag: bson:"url_check_account"
     string url_check_account = 16; // default url to send request for verification payment data to project
+    // @inject_tag: bson:"url_process_payment"
     string url_process_payment = 17; // default url to send request for notification about successfully completed payment to project
+    // @inject_tag: bson:"url_redirect_fail"
     string url_redirect_fail = 18; // default url to redirect user after failed payment
+    // @inject_tag: bson:"url_redirect_success"
     string url_redirect_success = 19; // default url to redirect user after successfully completed payment
+    // @inject_tag: bson:"fixed_package"
     map<string, FixedPackages> fixed_package = 23; // list of project's fixed packages
+    // @inject_tag: bson:"payment_methods"
     map<string, ProjectPaymentMethods> payment_methods = 24; // list of payment methods allowed to project
+    // @inject_tag: bson:"is_active"
     bool IsActive = 20; // is project active
     // @inject_tag: bson:"created_at,timestamp"
     google.protobuf.Timestamp created_at = 21; // date of create project
@@ -155,8 +177,6 @@ message ProjectOrder {
     string url_process_payment = 9;
     // @inject_tag: bson:"callback_protocol"
     string callback_protocol = 10;
-    // @inject_tag: bson:"is_active"
-    bool is_active = 11;
     // @inject_tag: bson:"merchant"
     Merchant merchant = 12;
 }
