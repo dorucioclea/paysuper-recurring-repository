@@ -35,7 +35,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-var _ = billing.ProjectOrder{}
+var _ = billing.Currency{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -59,6 +59,7 @@ type RepositoryService interface {
 	UpdateMerchant(ctx context.Context, in *billing.Merchant, opts ...client.CallOption) (*Result, error)
 	FindProjectOrderById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*billing.ProjectOrder, error)
 	FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*PaymentMethods, error)
+	FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.Currency, error)
 }
 
 type repositoryService struct {
@@ -159,6 +160,16 @@ func (c *repositoryService) FindPaymentMethodsByGroupAndCurrency(ctx context.Con
 	return out, nil
 }
 
+func (c *repositoryService) FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.Currency, error) {
+	req := c.c.NewRequest(c.name, "Repository.FindCurrencyByCodeA3", in)
+	out := new(billing.Currency)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Repository service
 
 type RepositoryHandler interface {
@@ -170,6 +181,7 @@ type RepositoryHandler interface {
 	UpdateMerchant(context.Context, *billing.Merchant, *Result) error
 	FindProjectOrderById(context.Context, *FindByUnderscoreId, *billing.ProjectOrder) error
 	FindPaymentMethodsByGroupAndCurrency(context.Context, *FindByGroupCurrencyRequest, *PaymentMethods) error
+	FindCurrencyByCodeA3(context.Context, *FindByStringValue, *billing.Currency) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
@@ -182,6 +194,7 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		UpdateMerchant(ctx context.Context, in *billing.Merchant, out *Result) error
 		FindProjectOrderById(ctx context.Context, in *FindByUnderscoreId, out *billing.ProjectOrder) error
 		FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *PaymentMethods) error
+		FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, out *billing.Currency) error
 	}
 	type Repository struct {
 		repository
@@ -224,4 +237,8 @@ func (h *repositoryHandler) FindProjectOrderById(ctx context.Context, in *FindBy
 
 func (h *repositoryHandler) FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *PaymentMethods) error {
 	return h.RepositoryHandler.FindPaymentMethodsByGroupAndCurrency(ctx, in, out)
+}
+
+func (h *repositoryHandler) FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, out *billing.Currency) error {
+	return h.RepositoryHandler.FindCurrencyByCodeA3(ctx, in, out)
 }

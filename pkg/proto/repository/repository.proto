@@ -14,7 +14,8 @@ service Repository {
     rpc GetConvertRate (ConvertRequest) returns (ConvertResponse) {}
     rpc UpdateMerchant (billing.Merchant) returns (Result) {}
     rpc FindProjectOrderById (FindByUnderscoreId) returns (billing.ProjectOrder) {}
-    rpc FindPaymentMethodsByGroupAndCurrency(FindByGroupCurrencyRequest) returns (PaymentMethods){}
+    rpc FindPaymentMethodsByGroupAndCurrency(FindByGroupCurrencyRequest) returns (PaymentMethods) {}
+    rpc FindCurrencyByCodeA3(FindByStringValue) returns (billing.Currency) {}
 }
 
 message Result {}
