@@ -1,19 +1,20 @@
 syntax = "proto3";
 
-option go_package="github.com/ProtocolONE/payone-repository/pkg/proto/repository";
+option go_package = "github.com/ProtocolONE/payone-repository/pkg/proto/repository";
 
 import "billing/billing.proto";
 
 package repository;
 
 service Repository {
-    rpc InsertOrder(billing.Order) returns (Result) {}
-    rpc UpdateOrder(billing.Order) returns (Result) {}
-    rpc FindOrderById(FindByUnderscoreId) returns (billing.Order) {}
-    rpc ConvertAmount(ConvertRequest) returns (ConvertResponse) {}
-    rpc GetConvertRate(ConvertRequest) returns (ConvertResponse) {}
-    rpc UpdateMerchant(billing.Merchant) returns (Result) {}
-    rpc FindProjectOrderById(FindByUnderscoreId) returns (billing.ProjectOrder) {}
+    rpc InsertOrder (billing.Order) returns (Result) {}
+    rpc UpdateOrder (billing.Order) returns (Result) {}
+    rpc FindOrderById (FindByUnderscoreId) returns (billing.Order) {}
+    rpc ConvertAmount (ConvertRequest) returns (ConvertResponse) {}
+    rpc GetConvertRate (ConvertRequest) returns (ConvertResponse) {}
+    rpc UpdateMerchant (billing.Merchant) returns (Result) {}
+    rpc FindProjectOrderById (FindByUnderscoreId) returns (billing.ProjectOrder) {}
+    rpc FindPaymentMethodsByGroupAndCurrency(FindByGroupCurrencyRequest) returns (PaymentMethods){}
 }
 
 message Result {}
@@ -33,6 +34,17 @@ message FindByUnderscoreId {
     bytes id = 1;
 }
 
+message FindByStringValue {
+    string value = 1;
+}
+
+message FindByGroupCurrencyRequest {
+    // @inject_tag: bson:"group"
+    string group = 1;
+    // @inject_tag: bson:"currency"
+    int32 currency = 2;
+}
+
 message FindOrderByProjectOrderIdRequest {
     // @inject_tag: bson:"project_order_id"
     string order_id = 1;
@@ -44,5 +56,6 @@ message Projects {
     repeated billing.Project projects = 1;
 }
 
-
-
+message PaymentMethods {
+    repeated billing.PaymentMethod payment_methods = 1;
+}

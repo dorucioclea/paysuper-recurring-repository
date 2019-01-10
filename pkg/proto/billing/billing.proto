@@ -114,17 +114,17 @@ message Project {
     bool is_allow_dynamic_notify_urls = 6; // is allow send dynamic notification urls in request to create an order
     bool is_allow_dynamic_redirect_urls = 7; // is allow send dynamic user's redirect urls in request to create an order
     Currency limits_currency = 8; // full object of currency which describes currency for amount's limit
-    double MaxPaymentAmount = 9; // maximal amount allowed for create order
-    double MinPaymentAmount = 10; // minimal amount allowed for create order
-    string Name = 11; // project name
-    repeated string NotifyEmails = 12; // list of emails to send notifications about successfully completed payment operations
-    bool OnlyFixedAmounts = 13; // is allow create order only with amounts from fixed packages list
-    string SecretKey = 14; // secret key for create check hash for request about order statuses changes
-    bool SendNotifyEmail = 15; // is allow send notifications about successfully completed payment operations to user's emails
-    string URLCheckAccount = 16; // default url to send request for verification payment data to project
-    string URLProcessPayment = 17; // default url to send request for notification about successfully completed payment to project
-    string URLRedirectFail = 18; // default url to redirect user after failed payment
-    string URLRedirectSuccess = 19; // default url to redirect user after successfully completed payment
+    double max_payment_amount = 9; // maximal amount allowed for create order
+    double min_payment_amount = 10; // minimal amount allowed for create order
+    string name = 11; // project name
+    repeated string notify_emails = 12; // list of emails to send notifications about successfully completed payment operations
+    bool only_fixed_amounts = 13; // is allow create order only with amounts from fixed packages list
+    string secret_key = 14; // secret key for create check hash for request about order statuses changes
+    bool send_notify_email = 15; // is allow send notifications about successfully completed payment operations to user's emails
+    string url_check_account = 16; // default url to send request for verification payment data to project
+    string url_process_payment = 17; // default url to send request for notification about successfully completed payment to project
+    string url_redirect_fail = 18; // default url to redirect user after failed payment
+    string url_redirect_success = 19; // default url to redirect user after successfully completed payment
     map<string, FixedPackages> fixed_package = 23; // list of project's fixed packages
     map<string, ProjectPaymentMethods> payment_methods = 24; // list of payment methods allowed to project
     bool IsActive = 20; // is project active
@@ -191,8 +191,39 @@ message PaymentMethodParams {
     map<string, string> other = 4;
 }
 
+message PaymentMethod {
+    // @inject_tag: bson:"_id,bsonobjectid"
+    bytes id = 1;
+    // @inject_tag: bson:"name"
+    string name = 2;
+    // @inject_tag: bson:"group"
+    string group = 3;
+    // @inject_tag: bson:"currencies"
+    repeated int32 currencies = 5; // list of currencies allowed for payments through the payment method
+    // @inject_tag: bson:"min_payment_amount"
+    double min_payment_amount = 6;
+    // @inject_tag: bson:"max_payment_amount"
+    double max_payment_amount = 7;
+    // @inject_tag: bson:"params"
+    PaymentMethodParams params = 8;
+    // @inject_tag: bson:"icon"
+    string Icon = 9;
+    // @inject_tag: bson:"payment_system"
+    PaymentSystem payment_system = 10;
+    // @inject_tag: bson:"type"
+    string type = 11; // type of payment method. allowed at current time: bank_card, ewallet, crypto
+    // @inject_tag: bson:"account_regexp"
+    string account_regexp = 12; // regexp mask for check main requisite of payment method
+    // @inject_tag: bson:"is_active"
+    bool is_active = 13;
+    // @inject_tag: bson:"created_at,timestamp"
+    google.protobuf.Timestamp created_at = 14;
+    // @inject_tag: bson:"updated_at,timestamp"
+    google.protobuf.Timestamp updated_at = 15;
+}
+
 message PaymentMethodOrder {
-    // @inject_tag: bson:"id,bsonobjectid"
+    // @inject_tag: bson:"_id,bsonobjectid"
     bytes id = 1;
     // @inject_tag: bson:"name"
     string name = 2;

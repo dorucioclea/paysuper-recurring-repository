@@ -20,6 +20,7 @@ It has these top-level messages:
 	ProjectOrder
 	PaymentSystem
 	PaymentMethodParams
+	PaymentMethod
 	PaymentMethodOrder
 	PayerData
 	OrderFee

@@ -12,8 +12,11 @@ It has these top-level messages:
 	ConvertRequest
 	ConvertResponse
 	FindByUnderscoreId
+	FindByStringValue
+	FindByGroupCurrencyRequest
 	FindOrderByProjectOrderIdRequest
 	Projects
+	PaymentMethods
 */
 package repository
 
@@ -55,6 +58,7 @@ type RepositoryService interface {
 	GetConvertRate(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error)
 	UpdateMerchant(ctx context.Context, in *billing.Merchant, opts ...client.CallOption) (*Result, error)
 	FindProjectOrderById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*billing.ProjectOrder, error)
+	FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*PaymentMethods, error)
 }
 
 type repositoryService struct {
@@ -145,6 +149,16 @@ func (c *repositoryService) FindProjectOrderById(ctx context.Context, in *FindBy
 	return out, nil
 }
 
+func (c *repositoryService) FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*PaymentMethods, error) {
+	req := c.c.NewRequest(c.name, "Repository.FindPaymentMethodsByGroupAndCurrency", in)
+	out := new(PaymentMethods)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Repository service
 
 type RepositoryHandler interface {
@@ -155,6 +169,7 @@ type RepositoryHandler interface {
 	GetConvertRate(context.Context, *ConvertRequest, *ConvertResponse) error
 	UpdateMerchant(context.Context, *billing.Merchant, *Result) error
 	FindProjectOrderById(context.Context, *FindByUnderscoreId, *billing.ProjectOrder) error
+	FindPaymentMethodsByGroupAndCurrency(context.Context, *FindByGroupCurrencyRequest, *PaymentMethods) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
@@ -166,6 +181,7 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		GetConvertRate(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error
 		UpdateMerchant(ctx context.Context, in *billing.Merchant, out *Result) error
 		FindProjectOrderById(ctx context.Context, in *FindByUnderscoreId, out *billing.ProjectOrder) error
+		FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *PaymentMethods) error
 	}
 	type Repository struct {
 		repository
@@ -204,4 +220,8 @@ func (h *repositoryHandler) UpdateMerchant(ctx context.Context, in *billing.Merc
 
 func (h *repositoryHandler) FindProjectOrderById(ctx context.Context, in *FindByUnderscoreId, out *billing.ProjectOrder) error {
 	return h.RepositoryHandler.FindProjectOrderById(ctx, in, out)
+}
+
+func (h *repositoryHandler) FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *PaymentMethods) error {
+	return h.RepositoryHandler.FindPaymentMethodsByGroupAndCurrency(ctx, in, out)
 }
