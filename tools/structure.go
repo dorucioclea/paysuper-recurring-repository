@@ -2,6 +2,7 @@ package tools
 
 import (
 	"fmt"
+	"github.com/globalsign/mgo/bson"
 	"github.com/golang/protobuf/ptypes"
 	"github.com/golang/protobuf/ptypes/timestamp"
 	"reflect"
@@ -116,7 +117,7 @@ func (s *Structure) FillMap(out map[string]interface{}) {
 		}
 
 		if tagOpts.Has(optionBsonObjectId) && val.Type().Kind() == reflect.Slice {
-			finalVal = s.dbHelper.ByteToObjectId(val.Interface().([]byte))
+			finalVal = bson.ObjectIdHex(val.Interface().(string))
 		}
 
 		if isSubStructure && (tagOpts.Has(optionFlatten)) {

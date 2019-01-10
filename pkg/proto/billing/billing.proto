@@ -47,7 +47,7 @@ message Currency {
 
 message Merchant {
     // @inject_tag: bson:"_id,bsonobjectid"
-    bytes id = 1; // unique merchant identifier
+    string id = 1; // unique merchant identifier
     // @inject_tag: bson:"external_id"
     string external_id = 2; //// unique merchant identifier in auth system
     // @inject_tag: bson:"email"
@@ -136,7 +136,7 @@ message Project {
 
 message ProjectOrder {
     // @inject_tag: bson:"_id,bsonobjectid"
-    bytes id = 1;
+    string id = 1;
     // @inject_tag: bson:"name"
     string name = 2;
     // @inject_tag: bson:"url_redirect_success"
@@ -163,7 +163,7 @@ message ProjectOrder {
 
 message PaymentSystem {
     // @inject_tag: bson:"_id,bsonobjectid"
-    bytes id = 1;
+    string id = 1;
     // @inject_tag: bson:"name"
     string name = 2;
     // @inject_tag: bson:"country"
@@ -193,7 +193,7 @@ message PaymentMethodParams {
 
 message PaymentMethod {
     // @inject_tag: bson:"_id,bsonobjectid"
-    bytes id = 1;
+    string id = 1;
     // @inject_tag: bson:"name"
     string name = 2;
     // @inject_tag: bson:"group"
@@ -224,7 +224,7 @@ message PaymentMethod {
 
 message PaymentMethodOrder {
     // @inject_tag: bson:"_id,bsonobjectid"
-    bytes id = 1;
+    string id = 1;
     // @inject_tag: bson:"name"
     string name = 2;
     // @inject_tag: bson:"params"
@@ -282,7 +282,7 @@ message OrderFeePaymentSystem {
 
 message Order {
     // @inject_tag: bson:"_id,bsonobjectid"
-    bytes id = 1; // unique order identifier in Protocol One
+    string id = 1; // unique order identifier in Protocol One
     // @inject_tag: bson:"project"
     ProjectOrder project = 2; // object described main entities of project in Protocol One payment solution
     // @inject_tag: bson:"project_order_id"
