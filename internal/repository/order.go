@@ -76,4 +76,6 @@ func (r *Repository) FindOrderByProjectAndOrderId(ctx context.Context, req *repo
 		log.Printf(QueryErrorMask, CollectionOrder, err.Error())
 		return err
 	}
+
+	return nil
 }
