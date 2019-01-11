@@ -36,6 +36,8 @@ require (
 	github.com/mitchellh/mapstructure v1.1.2 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
+	github.com/oschwald/geoip2-golang v1.2.1
+	github.com/oschwald/maxminddb-golang v1.3.0 // indirect
 	github.com/pkg/errors v0.8.0 // indirect
 	github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529 // indirect
 	github.com/streadway/amqp v0.0.0-20181205114330-a314942b2fd9 // indirect

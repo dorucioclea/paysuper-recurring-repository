@@ -7,9 +7,9 @@ package billing;
 import "google/protobuf/timestamp.proto";
 
 message Name {
-    // @inject_tag: bson:"EN"
+    // @inject_tag: bson:"EN" json:"EN"
     string en = 1;
-    // @inject_tag: bson:"RU"
+    // @inject_tag: bson:"RU" json:"RU"
     string ru = 2;
 }
 

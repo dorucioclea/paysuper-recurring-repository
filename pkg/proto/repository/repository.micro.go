@@ -35,7 +35,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-var _ = billing.Currency{}
+var _ = billing.PayerData{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -61,6 +61,7 @@ type RepositoryService interface {
 	ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*billing.ProjectOrder, error)
 	FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*PaymentMethods, error)
 	FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.Currency, error)
+	GetUserGeoDataByIp(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.PayerData, error)
 }
 
 type repositoryService struct {
@@ -181,6 +182,16 @@ func (c *repositoryService) FindCurrencyByCodeA3(ctx context.Context, in *FindBy
 	return out, nil
 }
 
+func (c *repositoryService) GetUserGeoDataByIp(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.PayerData, error) {
+	req := c.c.NewRequest(c.name, "Repository.GetUserGeoDataByIp", in)
+	out := new(billing.PayerData)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Repository service
 
 type RepositoryHandler interface {
@@ -194,6 +205,7 @@ type RepositoryHandler interface {
 	ConvertProjectToProjectOrder(context.Context, *billing.Project, *billing.ProjectOrder) error
 	FindPaymentMethodsByGroupAndCurrency(context.Context, *FindByGroupCurrencyRequest, *PaymentMethods) error
 	FindCurrencyByCodeA3(context.Context, *FindByStringValue, *billing.Currency) error
+	GetUserGeoDataByIp(context.Context, *FindByStringValue, *billing.PayerData) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
@@ -208,6 +220,7 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, out *billing.ProjectOrder) error
 		FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *PaymentMethods) error
 		FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, out *billing.Currency) error
+		GetUserGeoDataByIp(ctx context.Context, in *FindByStringValue, out *billing.PayerData) error
 	}
 	type Repository struct {
 		repository
@@ -258,4 +271,8 @@ func (h *repositoryHandler) FindPaymentMethodsByGroupAndCurrency(ctx context.Con
 
 func (h *repositoryHandler) FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, out *billing.Currency) error {
 	return h.RepositoryHandler.FindCurrencyByCodeA3(ctx, in, out)
+}
+
+func (h *repositoryHandler) GetUserGeoDataByIp(ctx context.Context, in *FindByStringValue, out *billing.PayerData) error {
+	return h.RepositoryHandler.GetUserGeoDataByIp(ctx, in, out)
 }

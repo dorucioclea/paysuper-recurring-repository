@@ -10,6 +10,7 @@ ENV MONGO_HOST=""
 ENV MONGO_DB=""
 ENV MONGO_USER=""
 ENV MONGO_PASSWORD=""
+ENV MAXMIND_GEOIP_DB_PATH="/application/assets/maxmind/GeoLite2-City.mmdb"
 
 COPY go.mod go.sum ./
 RUN go mod download
