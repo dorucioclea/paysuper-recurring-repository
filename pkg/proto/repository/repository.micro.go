@@ -16,7 +16,6 @@ It has these top-level messages:
 	FindByGroupCurrencyRequest
 	FindByProjectOrderId
 	Projects
-	PaymentMethods
 */
 package repository
 
@@ -59,7 +58,7 @@ type RepositoryService interface {
 	UpdateMerchant(ctx context.Context, in *billing.Merchant, opts ...client.CallOption) (*Result, error)
 	FindProjectById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*billing.Project, error)
 	ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*billing.ProjectOrder, error)
-	FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*PaymentMethods, error)
+	FindPaymentMethodByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*billing.PaymentMethod, error)
 	FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.Currency, error)
 	GetUserGeoDataByIp(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.PayerData, error)
 	FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, opts ...client.CallOption) (*billing.Order, error)
@@ -163,9 +162,9 @@ func (c *repositoryService) ConvertProjectToProjectOrder(ctx context.Context, in
 	return out, nil
 }
 
-func (c *repositoryService) FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*PaymentMethods, error) {
-	req := c.c.NewRequest(c.name, "Repository.FindPaymentMethodsByGroupAndCurrency", in)
-	out := new(PaymentMethods)
+func (c *repositoryService) FindPaymentMethodByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*billing.PaymentMethod, error) {
+	req := c.c.NewRequest(c.name, "Repository.FindPaymentMethodByGroupAndCurrency", in)
+	out := new(billing.PaymentMethod)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -214,7 +213,7 @@ type RepositoryHandler interface {
 	UpdateMerchant(context.Context, *billing.Merchant, *Result) error
 	FindProjectById(context.Context, *FindByUnderscoreId, *billing.Project) error
 	ConvertProjectToProjectOrder(context.Context, *billing.Project, *billing.ProjectOrder) error
-	FindPaymentMethodsByGroupAndCurrency(context.Context, *FindByGroupCurrencyRequest, *PaymentMethods) error
+	FindPaymentMethodByGroupAndCurrency(context.Context, *FindByGroupCurrencyRequest, *billing.PaymentMethod) error
 	FindCurrencyByCodeA3(context.Context, *FindByStringValue, *billing.Currency) error
 	GetUserGeoDataByIp(context.Context, *FindByStringValue, *billing.PayerData) error
 	FindOrderByProjectAndOrderId(context.Context, *FindByProjectOrderId, *billing.Order) error
@@ -230,7 +229,7 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		UpdateMerchant(ctx context.Context, in *billing.Merchant, out *Result) error
 		FindProjectById(ctx context.Context, in *FindByUnderscoreId, out *billing.Project) error
 		ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, out *billing.ProjectOrder) error
-		FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *PaymentMethods) error
+		FindPaymentMethodByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *billing.PaymentMethod) error
 		FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, out *billing.Currency) error
 		GetUserGeoDataByIp(ctx context.Context, in *FindByStringValue, out *billing.PayerData) error
 		FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, out *billing.Order) error
@@ -278,8 +277,8 @@ func (h *repositoryHandler) ConvertProjectToProjectOrder(ctx context.Context, in
 	return h.RepositoryHandler.ConvertProjectToProjectOrder(ctx, in, out)
 }
 
-func (h *repositoryHandler) FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *PaymentMethods) error {
-	return h.RepositoryHandler.FindPaymentMethodsByGroupAndCurrency(ctx, in, out)
+func (h *repositoryHandler) FindPaymentMethodByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *billing.PaymentMethod) error {
+	return h.RepositoryHandler.FindPaymentMethodByGroupAndCurrency(ctx, in, out)
 }
 
 func (h *repositoryHandler) FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, out *billing.Currency) error {
