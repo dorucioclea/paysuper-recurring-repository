@@ -68,3 +68,12 @@ func (r *Repository) GetUserGeoDataByIp(ctx context.Context, req *repository.Fin
 
 	return nil
 }
+
+func (r *Repository) FindOrderByProjectAndOrderId(ctx context.Context, req *repository.FindByProjectOrderId, rsp *billing.Order) error {
+	err := r.Database.Collection(CollectionOrder).Find(r.toMap(req)).One(&rsp)
+
+	if err != nil {
+		log.Printf(QueryErrorMask, CollectionOrder, err.Error())
+		return err
+	}
+}

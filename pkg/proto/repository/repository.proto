@@ -18,6 +18,7 @@ service Repository {
     rpc FindPaymentMethodsByGroupAndCurrency(FindByGroupCurrencyRequest) returns (PaymentMethods) {}
     rpc FindCurrencyByCodeA3(FindByStringValue) returns (billing.Currency) {}
     rpc GetUserGeoDataByIp(FindByStringValue) returns (billing.PayerData) {}
+    rpc FindOrderByProjectAndOrderId(FindByProjectOrderId) returns (billing.Order) {}
 }
 
 message Result {}
@@ -34,7 +35,7 @@ message ConvertResponse {
 
 message FindByUnderscoreId {
     // @inject_tag: bson:"_id,bsonobjectid"
-    bytes id = 1;
+    string id = 1;
 }
 
 message FindByStringValue {
@@ -48,11 +49,11 @@ message FindByGroupCurrencyRequest {
     int32 currency = 2;
 }
 
-message FindOrderByProjectOrderIdRequest {
-    // @inject_tag: bson:"project_order_id"
-    string order_id = 1;
+message FindByProjectOrderId {
     // @inject_tag: bson:"project.id,bsonobjectid"
-    bytes project_id = 2;
+    string project_id = 1;
+    // @inject_tag: bson:"project_order_id"
+    string order_id = 2;
 }
 
 message Projects {

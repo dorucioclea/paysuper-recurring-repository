@@ -14,7 +14,7 @@ It has these top-level messages:
 	FindByUnderscoreId
 	FindByStringValue
 	FindByGroupCurrencyRequest
-	FindOrderByProjectOrderIdRequest
+	FindByProjectOrderId
 	Projects
 	PaymentMethods
 */
@@ -35,7 +35,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-var _ = billing.PayerData{}
+var _ = billing.Order{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -62,6 +62,7 @@ type RepositoryService interface {
 	FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*PaymentMethods, error)
 	FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.Currency, error)
 	GetUserGeoDataByIp(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.PayerData, error)
+	FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, opts ...client.CallOption) (*billing.Order, error)
 }
 
 type repositoryService struct {
@@ -192,6 +193,16 @@ func (c *repositoryService) GetUserGeoDataByIp(ctx context.Context, in *FindBySt
 	return out, nil
 }
 
+func (c *repositoryService) FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, opts ...client.CallOption) (*billing.Order, error) {
+	req := c.c.NewRequest(c.name, "Repository.FindOrderByProjectAndOrderId", in)
+	out := new(billing.Order)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Repository service
 
 type RepositoryHandler interface {
@@ -206,6 +217,7 @@ type RepositoryHandler interface {
 	FindPaymentMethodsByGroupAndCurrency(context.Context, *FindByGroupCurrencyRequest, *PaymentMethods) error
 	FindCurrencyByCodeA3(context.Context, *FindByStringValue, *billing.Currency) error
 	GetUserGeoDataByIp(context.Context, *FindByStringValue, *billing.PayerData) error
+	FindOrderByProjectAndOrderId(context.Context, *FindByProjectOrderId, *billing.Order) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
@@ -221,6 +233,7 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *PaymentMethods) error
 		FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, out *billing.Currency) error
 		GetUserGeoDataByIp(ctx context.Context, in *FindByStringValue, out *billing.PayerData) error
+		FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, out *billing.Order) error
 	}
 	type Repository struct {
 		repository
@@ -275,4 +288,8 @@ func (h *repositoryHandler) FindCurrencyByCodeA3(ctx context.Context, in *FindBy
 
 func (h *repositoryHandler) GetUserGeoDataByIp(ctx context.Context, in *FindByStringValue, out *billing.PayerData) error {
 	return h.RepositoryHandler.GetUserGeoDataByIp(ctx, in, out)
+}
+
+func (h *repositoryHandler) FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, out *billing.Order) error {
+	return h.RepositoryHandler.FindOrderByProjectAndOrderId(ctx, in, out)
 }
