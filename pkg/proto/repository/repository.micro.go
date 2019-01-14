@@ -13,6 +13,7 @@ It has these top-level messages:
 	ConvertResponse
 	FindByUnderscoreId
 	FindByStringValue
+	FindByIntValue
 	FindByGroupCurrencyRequest
 	FindByProjectOrderId
 	Projects
@@ -60,7 +61,7 @@ type RepositoryService interface {
 	FindProjectById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*billing.Project, error)
 	ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*billing.ProjectOrder, error)
 	FindPaymentMethodByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*billing.PaymentMethod, error)
-	FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*PaymentMethods, error)
+	FindPaymentMethodsByCurrency(ctx context.Context, in *FindByIntValue, opts ...client.CallOption) (*PaymentMethods, error)
 	FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.Currency, error)
 	FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, opts ...client.CallOption) (*billing.Order, error)
 }
@@ -173,8 +174,8 @@ func (c *repositoryService) FindPaymentMethodByGroupAndCurrency(ctx context.Cont
 	return out, nil
 }
 
-func (c *repositoryService) FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*PaymentMethods, error) {
-	req := c.c.NewRequest(c.name, "Repository.FindPaymentMethodsByGroupAndCurrency", in)
+func (c *repositoryService) FindPaymentMethodsByCurrency(ctx context.Context, in *FindByIntValue, opts ...client.CallOption) (*PaymentMethods, error) {
+	req := c.c.NewRequest(c.name, "Repository.FindPaymentMethodsByCurrency", in)
 	out := new(PaymentMethods)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -215,7 +216,7 @@ type RepositoryHandler interface {
 	FindProjectById(context.Context, *FindByUnderscoreId, *billing.Project) error
 	ConvertProjectToProjectOrder(context.Context, *billing.Project, *billing.ProjectOrder) error
 	FindPaymentMethodByGroupAndCurrency(context.Context, *FindByGroupCurrencyRequest, *billing.PaymentMethod) error
-	FindPaymentMethodsByGroupAndCurrency(context.Context, *FindByGroupCurrencyRequest, *PaymentMethods) error
+	FindPaymentMethodsByCurrency(context.Context, *FindByIntValue, *PaymentMethods) error
 	FindCurrencyByCodeA3(context.Context, *FindByStringValue, *billing.Currency) error
 	FindOrderByProjectAndOrderId(context.Context, *FindByProjectOrderId, *billing.Order) error
 }
@@ -231,7 +232,7 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		FindProjectById(ctx context.Context, in *FindByUnderscoreId, out *billing.Project) error
 		ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, out *billing.ProjectOrder) error
 		FindPaymentMethodByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *billing.PaymentMethod) error
-		FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *PaymentMethods) error
+		FindPaymentMethodsByCurrency(ctx context.Context, in *FindByIntValue, out *PaymentMethods) error
 		FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, out *billing.Currency) error
 		FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, out *billing.Order) error
 	}
@@ -282,8 +283,8 @@ func (h *repositoryHandler) FindPaymentMethodByGroupAndCurrency(ctx context.Cont
 	return h.RepositoryHandler.FindPaymentMethodByGroupAndCurrency(ctx, in, out)
 }
 
-func (h *repositoryHandler) FindPaymentMethodsByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *PaymentMethods) error {
-	return h.RepositoryHandler.FindPaymentMethodsByGroupAndCurrency(ctx, in, out)
+func (h *repositoryHandler) FindPaymentMethodsByCurrency(ctx context.Context, in *FindByIntValue, out *PaymentMethods) error {
+	return h.RepositoryHandler.FindPaymentMethodsByCurrency(ctx, in, out)
 }
 
 func (h *repositoryHandler) FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, out *billing.Currency) error {

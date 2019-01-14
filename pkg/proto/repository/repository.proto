@@ -16,7 +16,7 @@ service Repository {
     rpc FindProjectById (FindByUnderscoreId) returns (billing.Project) {}
     rpc ConvertProjectToProjectOrder (billing.Project) returns (billing.ProjectOrder) {}
     rpc FindPaymentMethodByGroupAndCurrency(FindByGroupCurrencyRequest) returns (billing.PaymentMethod) {}
-    rpc FindPaymentMethodsByGroupAndCurrency(FindByGroupCurrencyRequest) returns (PaymentMethods) {}
+    rpc FindPaymentMethodsByCurrency(FindByIntValue) returns (PaymentMethods) {}
     rpc FindCurrencyByCodeA3(FindByStringValue) returns (billing.Currency) {}
     rpc FindOrderByProjectAndOrderId(FindByProjectOrderId) returns (billing.Order) {}
 }
@@ -40,6 +40,10 @@ message FindByUnderscoreId {
 
 message FindByStringValue {
     string value = 1;
+}
+
+message FindByIntValue {
+    int32 value = 1;
 }
 
 message FindByGroupCurrencyRequest {
