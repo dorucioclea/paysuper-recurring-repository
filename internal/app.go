@@ -8,7 +8,6 @@ import (
 	"github.com/kelseyhightower/envconfig"
 	"github.com/micro/go-grpc"
 	"github.com/micro/go-micro"
-	"github.com/oschwald/geoip2-golang"
 	"log"
 )
 
@@ -23,7 +22,6 @@ type Config struct {
 type Application struct {
 	service     micro.Service
 	Database    *database.Source
-	GeoDbReader *geoip2.Reader
 }
 
 func NewApplication() *Application {
@@ -42,21 +40,13 @@ func (app *Application) Init() {
 
 	app.Database = db
 
-	geoReader, err := geoip2.Open(cfg.GeoIpDbPath)
-
-	if err != nil {
-		log.Fatalf("Geo ip database init failed with error: %s\n", err)
-	}
-
-	app.GeoDbReader = geoReader
-
 	app.service = grpc.NewService(
 		micro.Name(constant.PayOneRepositoryServiceName),
 		micro.Version(constant.PayOneMicroserviceVersion),
 	)
 	app.service.Init()
 
-	rep := &repository.Repository{Database: app.Database, GeoReader: app.GeoDbReader}
+	rep := &repository.Repository{Database: app.Database}
 	proto.RegisterRepositoryHandler(app.service.Server(), rep)
 }
 

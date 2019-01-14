@@ -28,6 +28,7 @@ It has these top-level messages:
 	OrderFeePaymentSystem
 	Order
 	CurrencyRate
+	Commission
 */
 package billing
 

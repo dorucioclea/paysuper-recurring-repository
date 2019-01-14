@@ -19,6 +19,7 @@ service Repository {
     rpc FindPaymentMethodsByCurrency(FindByIntValue) returns (PaymentMethods) {}
     rpc FindCurrencyByCodeA3(FindByStringValue) returns (billing.Currency) {}
     rpc FindOrderByProjectAndOrderId(FindByProjectOrderId) returns (billing.Order) {}
+    rpc CalculateCommission(CommissionRequest) returns (CommissionResponse) {}
 }
 
 message Result {}
@@ -66,4 +67,18 @@ message Projects {
 
 message PaymentMethods {
     repeated billing.PaymentMethod payment_methods = 1;
+}
+
+message CommissionRequest {
+    // @inject_tag: bson:"project_id,bsonobjectid"
+    string project_id = 1;
+    // @inject_tag: bson:"pm_id,bsonobjectid"
+    string payment_method_id = 2;
+    double amount = 3;
+}
+
+message CommissionResponse {
+    double payment_method = 1;
+    double psp = 2;
+    double to_user = 3;
 }
