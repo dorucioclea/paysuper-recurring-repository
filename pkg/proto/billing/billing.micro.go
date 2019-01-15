@@ -29,6 +29,7 @@ It has these top-level messages:
 	Order
 	CurrencyRate
 	Commission
+	Vat
 */
 package billing
 

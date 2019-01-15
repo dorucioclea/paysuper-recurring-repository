@@ -13,6 +13,7 @@ It has these top-level messages:
 	ConvertResponse
 	FindByUnderscoreId
 	FindByStringValue
+	FloatValue
 	FindByIntValue
 	FindByGroupCurrencyRequest
 	FindByProjectOrderId
@@ -20,6 +21,7 @@ It has these top-level messages:
 	PaymentMethods
 	CommissionRequest
 	CommissionResponse
+	CalculateVatRequest
 */
 package repository
 
@@ -67,6 +69,7 @@ type RepositoryService interface {
 	FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.Currency, error)
 	FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, opts ...client.CallOption) (*billing.Order, error)
 	CalculateCommission(ctx context.Context, in *CommissionRequest, opts ...client.CallOption) (*CommissionResponse, error)
+	CalculateVat(ctx context.Context, in *CalculateVatRequest, opts ...client.CallOption) (*FloatValue, error)
 }
 
 type repositoryService struct {
@@ -217,6 +220,16 @@ func (c *repositoryService) CalculateCommission(ctx context.Context, in *Commiss
 	return out, nil
 }
 
+func (c *repositoryService) CalculateVat(ctx context.Context, in *CalculateVatRequest, opts ...client.CallOption) (*FloatValue, error) {
+	req := c.c.NewRequest(c.name, "Repository.CalculateVat", in)
+	out := new(FloatValue)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Repository service
 
 type RepositoryHandler interface {
@@ -233,6 +246,7 @@ type RepositoryHandler interface {
 	FindCurrencyByCodeA3(context.Context, *FindByStringValue, *billing.Currency) error
 	FindOrderByProjectAndOrderId(context.Context, *FindByProjectOrderId, *billing.Order) error
 	CalculateCommission(context.Context, *CommissionRequest, *CommissionResponse) error
+	CalculateVat(context.Context, *CalculateVatRequest, *FloatValue) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
@@ -250,6 +264,7 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, out *billing.Currency) error
 		FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, out *billing.Order) error
 		CalculateCommission(ctx context.Context, in *CommissionRequest, out *CommissionResponse) error
+		CalculateVat(ctx context.Context, in *CalculateVatRequest, out *FloatValue) error
 	}
 	type Repository struct {
 		repository
@@ -312,4 +327,8 @@ func (h *repositoryHandler) FindOrderByProjectAndOrderId(ctx context.Context, in
 
 func (h *repositoryHandler) CalculateCommission(ctx context.Context, in *CommissionRequest, out *CommissionResponse) error {
 	return h.RepositoryHandler.CalculateCommission(ctx, in, out)
+}
+
+func (h *repositoryHandler) CalculateVat(ctx context.Context, in *CalculateVatRequest, out *FloatValue) error {
+	return h.RepositoryHandler.CalculateVat(ctx, in, out)
 }

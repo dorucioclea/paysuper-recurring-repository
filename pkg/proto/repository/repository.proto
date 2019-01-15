@@ -20,6 +20,7 @@ service Repository {
     rpc FindCurrencyByCodeA3(FindByStringValue) returns (billing.Currency) {}
     rpc FindOrderByProjectAndOrderId(FindByProjectOrderId) returns (billing.Order) {}
     rpc CalculateCommission(CommissionRequest) returns (CommissionResponse) {}
+    rpc CalculateVat(CalculateVatRequest) returns (FloatValue) {}
 }
 
 message Result {}
@@ -41,6 +42,10 @@ message FindByUnderscoreId {
 
 message FindByStringValue {
     string value = 1;
+}
+
+message FloatValue {
+    double value = 1;
 }
 
 message FindByIntValue {
@@ -81,4 +86,10 @@ message CommissionResponse {
     double payment_method = 1;
     double psp = 2;
     double to_user = 3;
+}
+
+message CalculateVatRequest {
+    string country_code_a2 = 1;
+    string subdivision = 2;
+    double amount = 3;
 }

@@ -8,8 +8,8 @@ import (
 const (
 	FieldNameUnderscoreId = "_id"
 
-	QueryErrorMask = "[PAYONE ERROR] Query from table \"%s\" ended with error: %s\n"
-	CommissionNotFoundError = "[PAYONE ERROR] Commission not found for specified project and payment method"
+	QueryErrorMask    = "[PAYONE ERROR] Query from table \"%s\" ended with error: %s\n"
+	NotFoundErrorMask = "[PAYONE ERROR] %s not found for specified project and payment method\n"
 
 	CollectionOrder         = "order"
 	CollectionMerchant      = "merchant"
@@ -18,10 +18,13 @@ const (
 	CollectionPaymentMethod = "payment_method"
 	CollectionCurrency      = "currency"
 	CollectionCommission    = "commission"
+	CollectionVat           = "vat"
 )
 
+var VatBySubdivisionCountries = map[string]bool{"US": true, "CA": true}
+
 type Repository struct {
-	Database  *database.Source
+	Database *database.Source
 }
 
 func (r *Repository) toMap(obj interface{}) map[string]interface{} {
