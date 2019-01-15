@@ -66,6 +66,7 @@ type RepositoryService interface {
 	FindProjectById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*billing.Project, error)
 	InsertProject(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*Result, error)
 	UpdateProject(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*Result, error)
+	DeleteProject(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*Result, error)
 	ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*billing.ProjectOrder, error)
 	FindPaymentMethodByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*billing.PaymentMethod, error)
 	FindPaymentMethodsByCurrency(ctx context.Context, in *FindByIntValue, opts ...client.CallOption) (*PaymentMethods, error)
@@ -194,6 +195,16 @@ func (c *repositoryService) UpdateProject(ctx context.Context, in *billing.Proje
 	return out, nil
 }
 
+func (c *repositoryService) DeleteProject(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*Result, error) {
+	req := c.c.NewRequest(c.name, "Repository.DeleteProject", in)
+	out := new(Result)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *repositoryService) ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*billing.ProjectOrder, error) {
 	req := c.c.NewRequest(c.name, "Repository.ConvertProjectToProjectOrder", in)
 	out := new(billing.ProjectOrder)
@@ -287,6 +298,7 @@ type RepositoryHandler interface {
 	FindProjectById(context.Context, *FindByUnderscoreId, *billing.Project) error
 	InsertProject(context.Context, *billing.Project, *Result) error
 	UpdateProject(context.Context, *billing.Project, *Result) error
+	DeleteProject(context.Context, *FindByUnderscoreId, *Result) error
 	ConvertProjectToProjectOrder(context.Context, *billing.Project, *billing.ProjectOrder) error
 	FindPaymentMethodByGroupAndCurrency(context.Context, *FindByGroupCurrencyRequest, *billing.PaymentMethod) error
 	FindPaymentMethodsByCurrency(context.Context, *FindByIntValue, *PaymentMethods) error
@@ -309,6 +321,7 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		FindProjectById(ctx context.Context, in *FindByUnderscoreId, out *billing.Project) error
 		InsertProject(ctx context.Context, in *billing.Project, out *Result) error
 		UpdateProject(ctx context.Context, in *billing.Project, out *Result) error
+		DeleteProject(ctx context.Context, in *FindByUnderscoreId, out *Result) error
 		ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, out *billing.ProjectOrder) error
 		FindPaymentMethodByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *billing.PaymentMethod) error
 		FindPaymentMethodsByCurrency(ctx context.Context, in *FindByIntValue, out *PaymentMethods) error
@@ -367,6 +380,10 @@ func (h *repositoryHandler) InsertProject(ctx context.Context, in *billing.Proje
 
 func (h *repositoryHandler) UpdateProject(ctx context.Context, in *billing.Project, out *Result) error {
 	return h.RepositoryHandler.UpdateProject(ctx, in, out)
+}
+
+func (h *repositoryHandler) DeleteProject(ctx context.Context, in *FindByUnderscoreId, out *Result) error {
+	return h.RepositoryHandler.DeleteProject(ctx, in, out)
 }
 
 func (h *repositoryHandler) ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, out *billing.ProjectOrder) error {

@@ -17,14 +17,15 @@ service Repository {
     rpc FindProjectById (FindByUnderscoreId) returns (billing.Project) {}
     rpc InsertProject (billing.Project) returns (Result) {}
     rpc UpdateProject (billing.Project) returns (Result) {}
+    rpc DeleteProject (FindByUnderscoreId) returns (Result) {}
     rpc ConvertProjectToProjectOrder (billing.Project) returns (billing.ProjectOrder) {}
-    rpc FindPaymentMethodByGroupAndCurrency(FindByGroupCurrencyRequest) returns (billing.PaymentMethod) {}
-    rpc FindPaymentMethodsByCurrency(FindByIntValue) returns (PaymentMethods) {}
-    rpc FindCurrencyByCodeA3(FindByStringValue) returns (billing.Currency) {}
-    rpc FindCurrencyByCodeInt(FindByIntValue) returns (billing.Currency) {}
-    rpc FindOrderByProjectAndOrderId(FindByProjectOrderId) returns (billing.Order) {}
-    rpc CalculateCommission(CommissionRequest) returns (CommissionResponse) {}
-    rpc CalculateVat(CalculateVatRequest) returns (FloatValue) {}
+    rpc FindPaymentMethodByGroupAndCurrency (FindByGroupCurrencyRequest) returns (billing.PaymentMethod) {}
+    rpc FindPaymentMethodsByCurrency (FindByIntValue) returns (PaymentMethods) {}
+    rpc FindCurrencyByCodeA3 (FindByStringValue) returns (billing.Currency) {}
+    rpc FindCurrencyByCodeInt (FindByIntValue) returns (billing.Currency) {}
+    rpc FindOrderByProjectAndOrderId (FindByProjectOrderId) returns (billing.Order) {}
+    rpc CalculateCommission (CommissionRequest) returns (CommissionResponse) {}
+    rpc CalculateVat (CalculateVatRequest) returns (FloatValue) {}
 }
 
 message Result {}
