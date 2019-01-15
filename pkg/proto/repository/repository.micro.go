@@ -62,6 +62,7 @@ type RepositoryService interface {
 	ConvertAmount(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error)
 	GetConvertRate(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error)
 	UpdateMerchant(ctx context.Context, in *billing.Merchant, opts ...client.CallOption) (*Result, error)
+	FindMerchantById(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.Merchant, error)
 	FindProjectById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*billing.Project, error)
 	InsertProject(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*Result, error)
 	UpdateProject(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*Result, error)
@@ -146,6 +147,16 @@ func (c *repositoryService) GetConvertRate(ctx context.Context, in *ConvertReque
 func (c *repositoryService) UpdateMerchant(ctx context.Context, in *billing.Merchant, opts ...client.CallOption) (*Result, error) {
 	req := c.c.NewRequest(c.name, "Repository.UpdateMerchant", in)
 	out := new(Result)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *repositoryService) FindMerchantById(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.Merchant, error) {
+	req := c.c.NewRequest(c.name, "Repository.FindMerchantById", in)
+	out := new(billing.Merchant)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -272,6 +283,7 @@ type RepositoryHandler interface {
 	ConvertAmount(context.Context, *ConvertRequest, *ConvertResponse) error
 	GetConvertRate(context.Context, *ConvertRequest, *ConvertResponse) error
 	UpdateMerchant(context.Context, *billing.Merchant, *Result) error
+	FindMerchantById(context.Context, *FindByStringValue, *billing.Merchant) error
 	FindProjectById(context.Context, *FindByUnderscoreId, *billing.Project) error
 	InsertProject(context.Context, *billing.Project, *Result) error
 	UpdateProject(context.Context, *billing.Project, *Result) error
@@ -293,6 +305,7 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		ConvertAmount(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error
 		GetConvertRate(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error
 		UpdateMerchant(ctx context.Context, in *billing.Merchant, out *Result) error
+		FindMerchantById(ctx context.Context, in *FindByStringValue, out *billing.Merchant) error
 		FindProjectById(ctx context.Context, in *FindByUnderscoreId, out *billing.Project) error
 		InsertProject(ctx context.Context, in *billing.Project, out *Result) error
 		UpdateProject(ctx context.Context, in *billing.Project, out *Result) error
@@ -338,6 +351,10 @@ func (h *repositoryHandler) GetConvertRate(ctx context.Context, in *ConvertReque
 
 func (h *repositoryHandler) UpdateMerchant(ctx context.Context, in *billing.Merchant, out *Result) error {
 	return h.RepositoryHandler.UpdateMerchant(ctx, in, out)
+}
+
+func (h *repositoryHandler) FindMerchantById(ctx context.Context, in *FindByStringValue, out *billing.Merchant) error {
+	return h.RepositoryHandler.FindMerchantById(ctx, in, out)
 }
 
 func (h *repositoryHandler) FindProjectById(ctx context.Context, in *FindByUnderscoreId, out *billing.Project) error {

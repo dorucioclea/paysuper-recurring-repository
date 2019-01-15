@@ -13,6 +13,7 @@ service Repository {
     rpc ConvertAmount (ConvertRequest) returns (ConvertResponse) {}
     rpc GetConvertRate (ConvertRequest) returns (ConvertResponse) {}
     rpc UpdateMerchant (billing.Merchant) returns (Result) {}
+    rpc FindMerchantById(FindByStringValue) returns (billing.Merchant) {}
     rpc FindProjectById (FindByUnderscoreId) returns (billing.Project) {}
     rpc InsertProject (billing.Project) returns (Result) {}
     rpc UpdateProject (billing.Project) returns (Result) {}
