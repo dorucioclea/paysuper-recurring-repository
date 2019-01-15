@@ -25,16 +25,16 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 type Result struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
+	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
+	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
 }
 
 func (m *Result) Reset()         { *m = Result{} }
 func (m *Result) String() string { return proto.CompactTextString(m) }
 func (*Result) ProtoMessage()    {}
 func (*Result) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_2fa4b62c97c66969, []int{0}
+	return fileDescriptor_repository_ff316352f6d79d2d, []int{0}
 }
 func (m *Result) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Result.Unmarshal(m, b)
@@ -58,16 +58,16 @@ type ConvertRequest struct {
 	CurrencyFrom         int32    `protobuf:"varint,1,opt,name=currency_from,json=currencyFrom,proto3" json:"currency_from,omitempty"`
 	CurrencyTo           int32    `protobuf:"varint,2,opt,name=currency_to,json=currencyTo,proto3" json:"currency_to,omitempty"`
 	Amount               float64  `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
+	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
+	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
 }
 
 func (m *ConvertRequest) Reset()         { *m = ConvertRequest{} }
 func (m *ConvertRequest) String() string { return proto.CompactTextString(m) }
 func (*ConvertRequest) ProtoMessage()    {}
 func (*ConvertRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_2fa4b62c97c66969, []int{1}
+	return fileDescriptor_repository_ff316352f6d79d2d, []int{1}
 }
 func (m *ConvertRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConvertRequest.Unmarshal(m, b)
@@ -110,16 +110,16 @@ func (m *ConvertRequest) GetAmount() float64 {
 
 type ConvertResponse struct {
 	Amount               float64  `protobuf:"fixed64,1,opt,name=amount,proto3" json:"amount,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
+	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
+	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
 }
 
 func (m *ConvertResponse) Reset()         { *m = ConvertResponse{} }
 func (m *ConvertResponse) String() string { return proto.CompactTextString(m) }
 func (*ConvertResponse) ProtoMessage()    {}
 func (*ConvertResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_2fa4b62c97c66969, []int{2}
+	return fileDescriptor_repository_ff316352f6d79d2d, []int{2}
 }
 func (m *ConvertResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConvertResponse.Unmarshal(m, b)
@@ -147,18 +147,18 @@ func (m *ConvertResponse) GetAmount() float64 {
 }
 
 type FindByUnderscoreId struct {
-	// @inject_tag: bson:"_id,bsonobjectid"
-	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	// @inject_tag: bson:"_id" structure:"_id,bsonobjectid"
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" bson:"_id" structure:"_id,bsonobjectid"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
+	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
+	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
 }
 
 func (m *FindByUnderscoreId) Reset()         { *m = FindByUnderscoreId{} }
 func (m *FindByUnderscoreId) String() string { return proto.CompactTextString(m) }
 func (*FindByUnderscoreId) ProtoMessage()    {}
 func (*FindByUnderscoreId) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_2fa4b62c97c66969, []int{3}
+	return fileDescriptor_repository_ff316352f6d79d2d, []int{3}
 }
 func (m *FindByUnderscoreId) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_FindByUnderscoreId.Unmarshal(m, b)
@@ -187,16 +187,16 @@ func (m *FindByUnderscoreId) GetId() string {
 
 type FindByStringValue struct {
 	Value                string   `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
+	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
+	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
 }
 
 func (m *FindByStringValue) Reset()         { *m = FindByStringValue{} }
 func (m *FindByStringValue) String() string { return proto.CompactTextString(m) }
 func (*FindByStringValue) ProtoMessage()    {}
 func (*FindByStringValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_2fa4b62c97c66969, []int{4}
+	return fileDescriptor_repository_ff316352f6d79d2d, []int{4}
 }
 func (m *FindByStringValue) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_FindByStringValue.Unmarshal(m, b)
@@ -225,16 +225,16 @@ func (m *FindByStringValue) GetValue() string {
 
 type FloatValue struct {
 	Value                float64  `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
+	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
+	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
 }
 
 func (m *FloatValue) Reset()         { *m = FloatValue{} }
 func (m *FloatValue) String() string { return proto.CompactTextString(m) }
 func (*FloatValue) ProtoMessage()    {}
 func (*FloatValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_2fa4b62c97c66969, []int{5}
+	return fileDescriptor_repository_ff316352f6d79d2d, []int{5}
 }
 func (m *FloatValue) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_FloatValue.Unmarshal(m, b)
@@ -263,16 +263,16 @@ func (m *FloatValue) GetValue() float64 {
 
 type FindByIntValue struct {
 	Value                int32    `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
+	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
+	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
 }
 
 func (m *FindByIntValue) Reset()         { *m = FindByIntValue{} }
 func (m *FindByIntValue) String() string { return proto.CompactTextString(m) }
 func (*FindByIntValue) ProtoMessage()    {}
 func (*FindByIntValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_2fa4b62c97c66969, []int{6}
+	return fileDescriptor_repository_ff316352f6d79d2d, []int{6}
 }
 func (m *FindByIntValue) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_FindByIntValue.Unmarshal(m, b)
@@ -300,20 +300,20 @@ func (m *FindByIntValue) GetValue() int32 {
 }
 
 type FindByGroupCurrencyRequest struct {
-	// @inject_tag: bson:"group"
-	Group string `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
-	// @inject_tag: bson:"currency"
-	Currency             int32    `protobuf:"varint,2,opt,name=currency,proto3" json:"currency,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	// @inject_tag: bson:"group" structure:"group"
+	Group string `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty" bson:"group" structure:"group"`
+	// @inject_tag: bson:"currency" structure:"currency"
+	Currency             int32    `protobuf:"varint,2,opt,name=currency,proto3" json:"currency,omitempty" bson:"currency" structure:"currency"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
+	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
+	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
 }
 
 func (m *FindByGroupCurrencyRequest) Reset()         { *m = FindByGroupCurrencyRequest{} }
 func (m *FindByGroupCurrencyRequest) String() string { return proto.CompactTextString(m) }
 func (*FindByGroupCurrencyRequest) ProtoMessage()    {}
 func (*FindByGroupCurrencyRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_2fa4b62c97c66969, []int{7}
+	return fileDescriptor_repository_ff316352f6d79d2d, []int{7}
 }
 func (m *FindByGroupCurrencyRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_FindByGroupCurrencyRequest.Unmarshal(m, b)
@@ -348,20 +348,20 @@ func (m *FindByGroupCurrencyRequest) GetCurrency() int32 {
 }
 
 type FindByProjectOrderId struct {
-	// @inject_tag: bson:"project.id,bsonobjectid"
-	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	// @inject_tag: bson:"project_order_id"
-	OrderId              string   `protobuf:"bytes,2,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	// @inject_tag: structure:"project.id,bsonobjectid"
+	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty" structure:"project.id,bsonobjectid"`
+	// @inject_tag: structure:"project_order_id"
+	OrderId              string   `protobuf:"bytes,2,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty" structure:"project_order_id"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
+	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
+	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
 }
 
 func (m *FindByProjectOrderId) Reset()         { *m = FindByProjectOrderId{} }
 func (m *FindByProjectOrderId) String() string { return proto.CompactTextString(m) }
 func (*FindByProjectOrderId) ProtoMessage()    {}
 func (*FindByProjectOrderId) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_2fa4b62c97c66969, []int{8}
+	return fileDescriptor_repository_ff316352f6d79d2d, []int{8}
 }
 func (m *FindByProjectOrderId) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_FindByProjectOrderId.Unmarshal(m, b)
@@ -397,16 +397,16 @@ func (m *FindByProjectOrderId) GetOrderId() string {
 
 type Projects struct {
 	Projects             []*billing.Project `protobuf:"bytes,1,rep,name=projects,proto3" json:"projects,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
-	XXX_unrecognized     []byte             `json:"-"`
-	XXX_sizecache        int32              `json:"-"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-" bson:"-" structure:"-"`
+	XXX_unrecognized     []byte             `json:"-" bson:"-" structure:"-"`
+	XXX_sizecache        int32              `json:"-" bson:"-" structure:"-"`
 }
 
 func (m *Projects) Reset()         { *m = Projects{} }
 func (m *Projects) String() string { return proto.CompactTextString(m) }
 func (*Projects) ProtoMessage()    {}
 func (*Projects) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_2fa4b62c97c66969, []int{9}
+	return fileDescriptor_repository_ff316352f6d79d2d, []int{9}
 }
 func (m *Projects) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Projects.Unmarshal(m, b)
@@ -435,16 +435,16 @@ func (m *Projects) GetProjects() []*billing.Project {
 
 type PaymentMethods struct {
 	PaymentMethods       []*billing.PaymentMethod `protobuf:"bytes,1,rep,name=payment_methods,json=paymentMethods,proto3" json:"payment_methods,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                 `json:"-"`
-	XXX_unrecognized     []byte                   `json:"-"`
-	XXX_sizecache        int32                    `json:"-"`
+	XXX_NoUnkeyedLiteral struct{}                 `json:"-" bson:"-" structure:"-"`
+	XXX_unrecognized     []byte                   `json:"-" bson:"-" structure:"-"`
+	XXX_sizecache        int32                    `json:"-" bson:"-" structure:"-"`
 }
 
 func (m *PaymentMethods) Reset()         { *m = PaymentMethods{} }
 func (m *PaymentMethods) String() string { return proto.CompactTextString(m) }
 func (*PaymentMethods) ProtoMessage()    {}
 func (*PaymentMethods) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_2fa4b62c97c66969, []int{10}
+	return fileDescriptor_repository_ff316352f6d79d2d, []int{10}
 }
 func (m *PaymentMethods) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PaymentMethods.Unmarshal(m, b)
@@ -472,21 +472,21 @@ func (m *PaymentMethods) GetPaymentMethods() []*billing.PaymentMethod {
 }
 
 type CommissionRequest struct {
-	// @inject_tag: bson:"project_id,bsonobjectid"
-	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	// @inject_tag: bson:"pm_id,bsonobjectid"
-	PaymentMethodId      string   `protobuf:"bytes,2,opt,name=payment_method_id,json=paymentMethodId,proto3" json:"payment_method_id,omitempty"`
+	// @inject_tag: structure:"project_id,bsonobjectid"
+	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty" structure:"project_id,bsonobjectid"`
+	// @inject_tag: structure:"pm_id,bsonobjectid"
+	PaymentMethodId      string   `protobuf:"bytes,2,opt,name=payment_method_id,json=paymentMethodId,proto3" json:"payment_method_id,omitempty" structure:"pm_id,bsonobjectid"`
 	Amount               float64  `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
+	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
+	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
 }
 
 func (m *CommissionRequest) Reset()         { *m = CommissionRequest{} }
 func (m *CommissionRequest) String() string { return proto.CompactTextString(m) }
 func (*CommissionRequest) ProtoMessage()    {}
 func (*CommissionRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_2fa4b62c97c66969, []int{11}
+	return fileDescriptor_repository_ff316352f6d79d2d, []int{11}
 }
 func (m *CommissionRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CommissionRequest.Unmarshal(m, b)
@@ -531,16 +531,16 @@ type CommissionResponse struct {
 	PaymentMethod        float64  `protobuf:"fixed64,1,opt,name=payment_method,json=paymentMethod,proto3" json:"payment_method,omitempty"`
 	Psp                  float64  `protobuf:"fixed64,2,opt,name=psp,proto3" json:"psp,omitempty"`
 	ToUser               float64  `protobuf:"fixed64,3,opt,name=to_user,json=toUser,proto3" json:"to_user,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
+	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
+	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
 }
 
 func (m *CommissionResponse) Reset()         { *m = CommissionResponse{} }
 func (m *CommissionResponse) String() string { return proto.CompactTextString(m) }
 func (*CommissionResponse) ProtoMessage()    {}
 func (*CommissionResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_2fa4b62c97c66969, []int{12}
+	return fileDescriptor_repository_ff316352f6d79d2d, []int{12}
 }
 func (m *CommissionResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CommissionResponse.Unmarshal(m, b)
@@ -585,16 +585,16 @@ type CalculateVatRequest struct {
 	CountryCodeA2        string   `protobuf:"bytes,1,opt,name=country_code_a2,json=countryCodeA2,proto3" json:"country_code_a2,omitempty"`
 	Subdivision          string   `protobuf:"bytes,2,opt,name=subdivision,proto3" json:"subdivision,omitempty"`
 	Amount               float64  `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
+	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
+	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
 }
 
 func (m *CalculateVatRequest) Reset()         { *m = CalculateVatRequest{} }
 func (m *CalculateVatRequest) String() string { return proto.CompactTextString(m) }
 func (*CalculateVatRequest) ProtoMessage()    {}
 func (*CalculateVatRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_2fa4b62c97c66969, []int{13}
+	return fileDescriptor_repository_ff316352f6d79d2d, []int{13}
 }
 func (m *CalculateVatRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CalculateVatRequest.Unmarshal(m, b)
@@ -1154,10 +1154,10 @@ var _Repository_serviceDesc = grpc.ServiceDesc{
 }
 
 func init() {
-	proto.RegisterFile("repository/repository.proto", fileDescriptor_repository_2fa4b62c97c66969)
+	proto.RegisterFile("repository/repository.proto", fileDescriptor_repository_ff316352f6d79d2d)
 }
 
-var fileDescriptor_repository_2fa4b62c97c66969 = []byte{
+var fileDescriptor_repository_ff316352f6d79d2d = []byte{
 	// 836 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x56, 0xdf, 0x6f, 0xdb, 0x36,
 	0x10, 0xb6, 0x13, 0x24, 0x75, 0x2f, 0xb5, 0xdc, 0xdc, 0xd2, 0x2c, 0x53, 0x7f, 0x19, 0xec, 0x16,

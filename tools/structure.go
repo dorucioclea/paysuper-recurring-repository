@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	DefaultTagName     = "bson"
+	DefaultTagName     = "structure"
 	optionOmitempty    = "omitempty"
 	optionOmitnested   = "omitnested"
 	optionString       = "string"
@@ -114,8 +114,12 @@ func (s *Structure) FillMap(out map[string]interface{}) {
 			}
 		}
 
-		if tagOpts.Has(optionBsonObjectId) && val.Type().Kind() == reflect.Slice {
+		if tagOpts.Has(optionBsonObjectId) && val.Type().Kind() == reflect.String {
 			finalVal = bson.ObjectIdHex(val.Interface().(string))
+		}
+
+		if tagOpts.Has(optionBsonObjectId) && val.Type().Kind() == reflect.Slice {
+			finalVal = ByteToObjectId(val.Interface().([]byte))
 		}
 
 		if isSubStructure && (tagOpts.Has(optionFlatten)) {

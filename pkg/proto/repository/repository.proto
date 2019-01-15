@@ -36,7 +36,7 @@ message ConvertResponse {
 }
 
 message FindByUnderscoreId {
-    // @inject_tag: bson:"_id,bsonobjectid"
+    // @inject_tag: bson:"_id" structure:"_id,bsonobjectid"
     string id = 1;
 }
 
@@ -53,16 +53,16 @@ message FindByIntValue {
 }
 
 message FindByGroupCurrencyRequest {
-    // @inject_tag: bson:"group"
+    // @inject_tag: bson:"group" structure:"group"
     string group = 1;
-    // @inject_tag: bson:"currency"
+    // @inject_tag: bson:"currency" structure:"currency"
     int32 currency = 2;
 }
 
 message FindByProjectOrderId {
-    // @inject_tag: bson:"project.id,bsonobjectid"
+    // @inject_tag: structure:"project.id,bsonobjectid"
     string project_id = 1;
-    // @inject_tag: bson:"project_order_id"
+    // @inject_tag: structure:"project_order_id"
     string order_id = 2;
 }
 
@@ -75,9 +75,9 @@ message PaymentMethods {
 }
 
 message CommissionRequest {
-    // @inject_tag: bson:"project_id,bsonobjectid"
+    // @inject_tag: structure:"project_id,bsonobjectid"
     string project_id = 1;
-    // @inject_tag: bson:"pm_id,bsonobjectid"
+    // @inject_tag: structure:"pm_id,bsonobjectid"
     string payment_method_id = 2;
     double amount = 3;
 }
