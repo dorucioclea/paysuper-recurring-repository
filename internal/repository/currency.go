@@ -18,3 +18,14 @@ func (r *Repository) FindCurrencyByCodeA3(ctx context.Context, req *repository.F
 
 	return nil
 }
+
+func (r *Repository) FindCurrencyByCodeInt(ctx context.Context, req * repository.FindByIntValue, rsp *billing.Currency) error {
+	err := r.Database.Collection(CollectionCurrency).Find(bson.M{"code_int": req.Value, "is_active": true}).One(&rsp)
+
+	if err != nil {
+		log.Printf(QueryErrorMask, CollectionCurrency, err.Error())
+		return err
+	}
+
+	return nil
+}

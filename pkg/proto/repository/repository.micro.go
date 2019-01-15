@@ -69,6 +69,7 @@ type RepositoryService interface {
 	FindPaymentMethodByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*billing.PaymentMethod, error)
 	FindPaymentMethodsByCurrency(ctx context.Context, in *FindByIntValue, opts ...client.CallOption) (*PaymentMethods, error)
 	FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.Currency, error)
+	FindCurrencyByCodeInt(ctx context.Context, in *FindByIntValue, opts ...client.CallOption) (*billing.Currency, error)
 	FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, opts ...client.CallOption) (*billing.Order, error)
 	CalculateCommission(ctx context.Context, in *CommissionRequest, opts ...client.CallOption) (*CommissionResponse, error)
 	CalculateVat(ctx context.Context, in *CalculateVatRequest, opts ...client.CallOption) (*FloatValue, error)
@@ -222,6 +223,16 @@ func (c *repositoryService) FindCurrencyByCodeA3(ctx context.Context, in *FindBy
 	return out, nil
 }
 
+func (c *repositoryService) FindCurrencyByCodeInt(ctx context.Context, in *FindByIntValue, opts ...client.CallOption) (*billing.Currency, error) {
+	req := c.c.NewRequest(c.name, "Repository.FindCurrencyByCodeInt", in)
+	out := new(billing.Currency)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *repositoryService) FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, opts ...client.CallOption) (*billing.Order, error) {
 	req := c.c.NewRequest(c.name, "Repository.FindOrderByProjectAndOrderId", in)
 	out := new(billing.Order)
@@ -268,6 +279,7 @@ type RepositoryHandler interface {
 	FindPaymentMethodByGroupAndCurrency(context.Context, *FindByGroupCurrencyRequest, *billing.PaymentMethod) error
 	FindPaymentMethodsByCurrency(context.Context, *FindByIntValue, *PaymentMethods) error
 	FindCurrencyByCodeA3(context.Context, *FindByStringValue, *billing.Currency) error
+	FindCurrencyByCodeInt(context.Context, *FindByIntValue, *billing.Currency) error
 	FindOrderByProjectAndOrderId(context.Context, *FindByProjectOrderId, *billing.Order) error
 	CalculateCommission(context.Context, *CommissionRequest, *CommissionResponse) error
 	CalculateVat(context.Context, *CalculateVatRequest, *FloatValue) error
@@ -288,6 +300,7 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		FindPaymentMethodByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *billing.PaymentMethod) error
 		FindPaymentMethodsByCurrency(ctx context.Context, in *FindByIntValue, out *PaymentMethods) error
 		FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, out *billing.Currency) error
+		FindCurrencyByCodeInt(ctx context.Context, in *FindByIntValue, out *billing.Currency) error
 		FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, out *billing.Order) error
 		CalculateCommission(ctx context.Context, in *CommissionRequest, out *CommissionResponse) error
 		CalculateVat(ctx context.Context, in *CalculateVatRequest, out *FloatValue) error
@@ -353,6 +366,10 @@ func (h *repositoryHandler) FindPaymentMethodsByCurrency(ctx context.Context, in
 
 func (h *repositoryHandler) FindCurrencyByCodeA3(ctx context.Context, in *FindByStringValue, out *billing.Currency) error {
 	return h.RepositoryHandler.FindCurrencyByCodeA3(ctx, in, out)
+}
+
+func (h *repositoryHandler) FindCurrencyByCodeInt(ctx context.Context, in *FindByIntValue, out *billing.Currency) error {
+	return h.RepositoryHandler.FindCurrencyByCodeInt(ctx, in, out)
 }
 
 func (h *repositoryHandler) FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, out *billing.Order) error {
