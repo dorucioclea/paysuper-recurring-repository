@@ -63,6 +63,8 @@ type RepositoryService interface {
 	GetConvertRate(ctx context.Context, in *ConvertRequest, opts ...client.CallOption) (*ConvertResponse, error)
 	UpdateMerchant(ctx context.Context, in *billing.Merchant, opts ...client.CallOption) (*Result, error)
 	FindProjectById(ctx context.Context, in *FindByUnderscoreId, opts ...client.CallOption) (*billing.Project, error)
+	InsertProject(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*Result, error)
+	UpdateProject(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*Result, error)
 	ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*billing.ProjectOrder, error)
 	FindPaymentMethodByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, opts ...client.CallOption) (*billing.PaymentMethod, error)
 	FindPaymentMethodsByCurrency(ctx context.Context, in *FindByIntValue, opts ...client.CallOption) (*PaymentMethods, error)
@@ -160,6 +162,26 @@ func (c *repositoryService) FindProjectById(ctx context.Context, in *FindByUnder
 	return out, nil
 }
 
+func (c *repositoryService) InsertProject(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*Result, error) {
+	req := c.c.NewRequest(c.name, "Repository.InsertProject", in)
+	out := new(Result)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *repositoryService) UpdateProject(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*Result, error) {
+	req := c.c.NewRequest(c.name, "Repository.UpdateProject", in)
+	out := new(Result)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *repositoryService) ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, opts ...client.CallOption) (*billing.ProjectOrder, error) {
 	req := c.c.NewRequest(c.name, "Repository.ConvertProjectToProjectOrder", in)
 	out := new(billing.ProjectOrder)
@@ -240,6 +262,8 @@ type RepositoryHandler interface {
 	GetConvertRate(context.Context, *ConvertRequest, *ConvertResponse) error
 	UpdateMerchant(context.Context, *billing.Merchant, *Result) error
 	FindProjectById(context.Context, *FindByUnderscoreId, *billing.Project) error
+	InsertProject(context.Context, *billing.Project, *Result) error
+	UpdateProject(context.Context, *billing.Project, *Result) error
 	ConvertProjectToProjectOrder(context.Context, *billing.Project, *billing.ProjectOrder) error
 	FindPaymentMethodByGroupAndCurrency(context.Context, *FindByGroupCurrencyRequest, *billing.PaymentMethod) error
 	FindPaymentMethodsByCurrency(context.Context, *FindByIntValue, *PaymentMethods) error
@@ -258,6 +282,8 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		GetConvertRate(ctx context.Context, in *ConvertRequest, out *ConvertResponse) error
 		UpdateMerchant(ctx context.Context, in *billing.Merchant, out *Result) error
 		FindProjectById(ctx context.Context, in *FindByUnderscoreId, out *billing.Project) error
+		InsertProject(ctx context.Context, in *billing.Project, out *Result) error
+		UpdateProject(ctx context.Context, in *billing.Project, out *Result) error
 		ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, out *billing.ProjectOrder) error
 		FindPaymentMethodByGroupAndCurrency(ctx context.Context, in *FindByGroupCurrencyRequest, out *billing.PaymentMethod) error
 		FindPaymentMethodsByCurrency(ctx context.Context, in *FindByIntValue, out *PaymentMethods) error
@@ -303,6 +329,14 @@ func (h *repositoryHandler) UpdateMerchant(ctx context.Context, in *billing.Merc
 
 func (h *repositoryHandler) FindProjectById(ctx context.Context, in *FindByUnderscoreId, out *billing.Project) error {
 	return h.RepositoryHandler.FindProjectById(ctx, in, out)
+}
+
+func (h *repositoryHandler) InsertProject(ctx context.Context, in *billing.Project, out *Result) error {
+	return h.RepositoryHandler.InsertProject(ctx, in, out)
+}
+
+func (h *repositoryHandler) UpdateProject(ctx context.Context, in *billing.Project, out *Result) error {
+	return h.RepositoryHandler.UpdateProject(ctx, in, out)
 }
 
 func (h *repositoryHandler) ConvertProjectToProjectOrder(ctx context.Context, in *billing.Project, out *billing.ProjectOrder) error {

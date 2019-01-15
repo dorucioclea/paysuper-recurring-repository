@@ -4,8 +4,36 @@ import (
 	"context"
 	"github.com/ProtocolONE/payone-repository/pkg/proto/billing"
 	"github.com/ProtocolONE/payone-repository/pkg/proto/repository"
+	"github.com/globalsign/mgo/bson"
 	"log"
 )
+
+func (r *Repository) InsertProject(ctx context.Context, req *billing.Project, rsp *repository.Result) error {
+	err := r.Database.Collection(CollectionProject).Insert(req)
+
+	if err != nil {
+		log.Printf(QueryErrorMask, CollectionProject, err.Error())
+		return err
+	}
+
+	return nil
+}
+
+func (r *Repository) UpdateProject(ctx context.Context, req *billing.Project, rsp *repository.Result) error {
+	m := r.toMap(req)
+
+	id := m[FieldNameUnderscoreId]
+	delete(m, FieldNameUnderscoreId)
+
+	err := r.Database.Collection(CollectionProject).UpdateId(id, bson.M{"$set": m})
+
+	if err != nil {
+		log.Printf(QueryErrorMask, CollectionProject, err.Error())
+		return err
+	}
+
+	return nil
+}
 
 func (r *Repository) FindProjectById(ctx context.Context, req *repository.FindByUnderscoreId, rsp *billing.Project) error {
 	err := r.Database.Collection(CollectionProject).Find(r.toMap(req)).One(&rsp)
