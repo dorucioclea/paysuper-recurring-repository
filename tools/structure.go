@@ -22,7 +22,6 @@ const (
 type Structure struct {
 	raw      interface{}
 	value    reflect.Value
-	dbHelper *DatabaseHelper
 	TagName  string
 }
 
@@ -32,7 +31,6 @@ func NewStructureConverter(s interface{}) *Structure {
 	return &Structure{
 		raw:      s,
 		value:    structureValue(s),
-		dbHelper: &DatabaseHelper{},
 		TagName:  DefaultTagName,
 	}
 }
@@ -217,7 +215,7 @@ func (s *Structure) nested(val reflect.Value) interface{} {
 
 		finalVal = slices
 	case reflect.Float32, reflect.Float64:
-		finalVal = s.dbHelper.FormatAmount(val.Interface().(float64))
+		finalVal = FormatAmount(val.Interface().(float64))
 		break
 	default:
 		finalVal = val.Interface()
