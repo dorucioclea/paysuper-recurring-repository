@@ -10,7 +10,6 @@ func main() {
 	app.Init()
 
 	defer app.Database.Close()
-	defer app.GeoDbReader.Close()
 
 	app.Run()
 }
