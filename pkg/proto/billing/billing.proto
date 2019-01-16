@@ -149,7 +149,7 @@ message Project {
     // @inject_tag: bson:"payment_methods" structure:"payment_methods"
     map<string, ProjectPaymentMethods> payment_methods = 24; // list of payment methods allowed to project
     // @inject_tag: bson:"is_active" structure:"is_active"
-    bool IsActive = 20; // is project active
+    bool is_active = 20; // is project active
     // @inject_tag: bson:"created_at" structure:"created_at,timestamp"
     google.protobuf.Timestamp created_at = 21; // date of create project
     // @inject_tag: bson:"updated_at" structure:"updated_at,timestamp"

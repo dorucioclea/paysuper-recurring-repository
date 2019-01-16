@@ -12,3 +12,7 @@ func FormatAmount(amount float64) float64 {
 func ByteToObjectId(b []byte) bson.ObjectId {
 	return bson.ObjectId(b[:])
 }
+
+func ObjectIdToByte(id bson.ObjectId) []byte {
+	return []byte(string(id))
+}
