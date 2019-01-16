@@ -213,7 +213,7 @@ message PaymentMethodParams {
 
 message PaymentMethod {
     // @inject_tag: bson:"_id" structure:"_id,bsonobjectid"
-    string id = 1;
+    bytes id = 1;
     // @inject_tag: bson:"name" structure:"name"
     string name = 2;
     // @inject_tag: bson:"group_alias" structure:"group_alias"
