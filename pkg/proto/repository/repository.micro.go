@@ -40,7 +40,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-var _ = billing.Order{}
+var _ = billing.BinData{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -75,6 +75,7 @@ type RepositoryService interface {
 	FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, opts ...client.CallOption) (*billing.Order, error)
 	CalculateCommission(ctx context.Context, in *CommissionRequest, opts ...client.CallOption) (*CommissionResponse, error)
 	CalculateVat(ctx context.Context, in *CalculateVatRequest, opts ...client.CallOption) (*FloatValue, error)
+	FindBinData(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.BinData, error)
 }
 
 type repositoryService struct {
@@ -285,6 +286,16 @@ func (c *repositoryService) CalculateVat(ctx context.Context, in *CalculateVatRe
 	return out, nil
 }
 
+func (c *repositoryService) FindBinData(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.BinData, error) {
+	req := c.c.NewRequest(c.name, "Repository.FindBinData", in)
+	out := new(billing.BinData)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Repository service
 
 type RepositoryHandler interface {
@@ -307,6 +318,7 @@ type RepositoryHandler interface {
 	FindOrderByProjectAndOrderId(context.Context, *FindByProjectOrderId, *billing.Order) error
 	CalculateCommission(context.Context, *CommissionRequest, *CommissionResponse) error
 	CalculateVat(context.Context, *CalculateVatRequest, *FloatValue) error
+	FindBinData(context.Context, *FindByStringValue, *billing.BinData) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
@@ -330,6 +342,7 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		FindOrderByProjectAndOrderId(ctx context.Context, in *FindByProjectOrderId, out *billing.Order) error
 		CalculateCommission(ctx context.Context, in *CommissionRequest, out *CommissionResponse) error
 		CalculateVat(ctx context.Context, in *CalculateVatRequest, out *FloatValue) error
+		FindBinData(ctx context.Context, in *FindByStringValue, out *billing.BinData) error
 	}
 	type Repository struct {
 		repository
@@ -416,4 +429,8 @@ func (h *repositoryHandler) CalculateCommission(ctx context.Context, in *Commiss
 
 func (h *repositoryHandler) CalculateVat(ctx context.Context, in *CalculateVatRequest, out *FloatValue) error {
 	return h.RepositoryHandler.CalculateVat(ctx, in, out)
+}
+
+func (h *repositoryHandler) FindBinData(ctx context.Context, in *FindByStringValue, out *billing.BinData) error {
+	return h.RepositoryHandler.FindBinData(ctx, in, out)
 }

@@ -30,6 +30,7 @@ It has these top-level messages:
 	CurrencyRate
 	Commission
 	Vat
+	BinData
 */
 package billing
 

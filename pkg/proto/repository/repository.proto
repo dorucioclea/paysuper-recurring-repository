@@ -26,6 +26,7 @@ service Repository {
     rpc FindOrderByProjectAndOrderId (FindByProjectOrderId) returns (billing.Order) {}
     rpc CalculateCommission (CommissionRequest) returns (CommissionResponse) {}
     rpc CalculateVat (CalculateVatRequest) returns (FloatValue) {}
+    rpc FindBinData(FindByStringValue) returns (billing.BinData) {}
 }
 
 message Result {}

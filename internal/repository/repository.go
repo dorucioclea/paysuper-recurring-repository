@@ -10,6 +10,7 @@ const (
 
 	QueryErrorMask    = "[PAYONE ERROR] Query from table \"%s\" ended with error: %s\n"
 	NotFoundErrorMask = "[PAYONE ERROR] %s not found for specified project and payment method\n"
+	SomeErrorMask     = "[PAYONE ERROR] Something is wrong. Operation ended with error: %s\n"
 
 	CollectionOrder         = "order"
 	CollectionMerchant      = "merchant"
@@ -19,6 +20,7 @@ const (
 	CollectionCurrency      = "currency"
 	CollectionCommission    = "commission"
 	CollectionVat           = "vat"
+	CollectionBinData       = "bank_bin"
 )
 
 var VatBySubdivisionCountries = map[string]bool{"US": true, "CA": true}
