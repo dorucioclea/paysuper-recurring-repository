@@ -216,7 +216,7 @@ message PaymentMethod {
     string id = 1;
     // @inject_tag: bson:"name" structure:"name"
     string name = 2;
-    // @inject_tag: bson:"group" structure:"group"
+    // @inject_tag: bson:"group_alias" structure:"group_alias"
     string group = 3;
     // @inject_tag: bson:"currencies" structure:"currencies"
     repeated int32 currencies = 5; // list of currencies allowed for payments through the payment method
@@ -251,7 +251,7 @@ message PaymentMethodOrder {
     PaymentMethodParams params = 3;
     // @inject_tag: bson:"payment_system" structure:"payment_system"
     PaymentSystem payment_system = 4;
-    // @inject_tag: bson:"group" structure:"group"
+    // @inject_tag: bson:"group_alias" structure:"group_alias"
     string group_alias = 5;
 }
 
