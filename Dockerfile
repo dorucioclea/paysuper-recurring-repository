@@ -5,7 +5,7 @@ RUN apk add bash ca-certificates git
 WORKDIR /application
 
 ENV GO111MODULE=on
-ENV MICRO_REGISTRY_ADDRESS=p1pay-consul
+ENV MICRO_REGISTRY=mdns
 ENV MONGO_HOST=""
 ENV MONGO_DB=""
 ENV MONGO_USER=""

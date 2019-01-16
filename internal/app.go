@@ -47,7 +47,11 @@ func (app *Application) Init() {
 	app.service.Init()
 
 	rep := &repository.Repository{Database: app.Database}
-	proto.RegisterRepositoryHandler(app.service.Server(), rep)
+	err = proto.RegisterRepositoryHandler(app.service.Server(), rep)
+
+	if err != nil {
+		log.Fatalf("Repository init failed with error %s\n", err)
+	}
 }
 
 func (app *Application) initConfig() *Config {

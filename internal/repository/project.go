@@ -10,7 +10,7 @@ import (
 )
 
 func (r *Repository) InsertProject(ctx context.Context, req *billing.Project, rsp *repository.Result) error {
-	err := r.Database.Collection(CollectionProject).Insert(req)
+	err := r.Database.Collection(CollectionProject).Insert(r.toMap(req))
 
 	if err != nil {
 		log.Printf(QueryErrorMask, CollectionProject, err.Error())
