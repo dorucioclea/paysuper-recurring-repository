@@ -16,7 +16,6 @@ type Config struct {
 	Database    string `envconfig:"MONGO_DB" required:"true"`
 	User        string `envconfig:"MONGO_USER" required:"true"`
 	Password    string `envconfig:"MONGO_PASSWORD" required:"true"`
-	GeoIpDbPath string `envconfig:"MAXMIND_GEOIP_DB_PATH" required:"true"`
 }
 
 type Application struct {

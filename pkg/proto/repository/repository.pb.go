@@ -34,7 +34,7 @@ func (m *Result) Reset()         { *m = Result{} }
 func (m *Result) String() string { return proto.CompactTextString(m) }
 func (*Result) ProtoMessage()    {}
 func (*Result) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_43a89726f4f990ca, []int{0}
+	return fileDescriptor_repository_76f35d931743cfe6, []int{0}
 }
 func (m *Result) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Result.Unmarshal(m, b)
@@ -67,7 +67,7 @@ func (m *ConvertRequest) Reset()         { *m = ConvertRequest{} }
 func (m *ConvertRequest) String() string { return proto.CompactTextString(m) }
 func (*ConvertRequest) ProtoMessage()    {}
 func (*ConvertRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_43a89726f4f990ca, []int{1}
+	return fileDescriptor_repository_76f35d931743cfe6, []int{1}
 }
 func (m *ConvertRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConvertRequest.Unmarshal(m, b)
@@ -119,7 +119,7 @@ func (m *ConvertResponse) Reset()         { *m = ConvertResponse{} }
 func (m *ConvertResponse) String() string { return proto.CompactTextString(m) }
 func (*ConvertResponse) ProtoMessage()    {}
 func (*ConvertResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_43a89726f4f990ca, []int{2}
+	return fileDescriptor_repository_76f35d931743cfe6, []int{2}
 }
 func (m *ConvertResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConvertResponse.Unmarshal(m, b)
@@ -158,7 +158,7 @@ func (m *FindByUnderscoreId) Reset()         { *m = FindByUnderscoreId{} }
 func (m *FindByUnderscoreId) String() string { return proto.CompactTextString(m) }
 func (*FindByUnderscoreId) ProtoMessage()    {}
 func (*FindByUnderscoreId) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_43a89726f4f990ca, []int{3}
+	return fileDescriptor_repository_76f35d931743cfe6, []int{3}
 }
 func (m *FindByUnderscoreId) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_FindByUnderscoreId.Unmarshal(m, b)
@@ -196,7 +196,7 @@ func (m *FindByStringValue) Reset()         { *m = FindByStringValue{} }
 func (m *FindByStringValue) String() string { return proto.CompactTextString(m) }
 func (*FindByStringValue) ProtoMessage()    {}
 func (*FindByStringValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_43a89726f4f990ca, []int{4}
+	return fileDescriptor_repository_76f35d931743cfe6, []int{4}
 }
 func (m *FindByStringValue) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_FindByStringValue.Unmarshal(m, b)
@@ -234,7 +234,7 @@ func (m *FloatValue) Reset()         { *m = FloatValue{} }
 func (m *FloatValue) String() string { return proto.CompactTextString(m) }
 func (*FloatValue) ProtoMessage()    {}
 func (*FloatValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_43a89726f4f990ca, []int{5}
+	return fileDescriptor_repository_76f35d931743cfe6, []int{5}
 }
 func (m *FloatValue) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_FloatValue.Unmarshal(m, b)
@@ -272,7 +272,7 @@ func (m *FindByIntValue) Reset()         { *m = FindByIntValue{} }
 func (m *FindByIntValue) String() string { return proto.CompactTextString(m) }
 func (*FindByIntValue) ProtoMessage()    {}
 func (*FindByIntValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_43a89726f4f990ca, []int{6}
+	return fileDescriptor_repository_76f35d931743cfe6, []int{6}
 }
 func (m *FindByIntValue) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_FindByIntValue.Unmarshal(m, b)
@@ -300,8 +300,8 @@ func (m *FindByIntValue) GetValue() int32 {
 }
 
 type FindByGroupCurrencyRequest struct {
-	// @inject_tag: bson:"group" structure:"group"
-	Group string `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty" bson:"group" structure:"group"`
+	// @inject_tag: bson:"group_alias" structure:"group_alias"
+	Group string `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty" bson:"group_alias" structure:"group_alias"`
 	// @inject_tag: bson:"currency" structure:"currency"
 	Currency             int32    `protobuf:"varint,2,opt,name=currency,proto3" json:"currency,omitempty" bson:"currency" structure:"currency"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
@@ -313,7 +313,7 @@ func (m *FindByGroupCurrencyRequest) Reset()         { *m = FindByGroupCurrencyR
 func (m *FindByGroupCurrencyRequest) String() string { return proto.CompactTextString(m) }
 func (*FindByGroupCurrencyRequest) ProtoMessage()    {}
 func (*FindByGroupCurrencyRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_43a89726f4f990ca, []int{7}
+	return fileDescriptor_repository_76f35d931743cfe6, []int{7}
 }
 func (m *FindByGroupCurrencyRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_FindByGroupCurrencyRequest.Unmarshal(m, b)
@@ -361,7 +361,7 @@ func (m *FindByProjectOrderId) Reset()         { *m = FindByProjectOrderId{} }
 func (m *FindByProjectOrderId) String() string { return proto.CompactTextString(m) }
 func (*FindByProjectOrderId) ProtoMessage()    {}
 func (*FindByProjectOrderId) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_43a89726f4f990ca, []int{8}
+	return fileDescriptor_repository_76f35d931743cfe6, []int{8}
 }
 func (m *FindByProjectOrderId) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_FindByProjectOrderId.Unmarshal(m, b)
@@ -406,7 +406,7 @@ func (m *Projects) Reset()         { *m = Projects{} }
 func (m *Projects) String() string { return proto.CompactTextString(m) }
 func (*Projects) ProtoMessage()    {}
 func (*Projects) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_43a89726f4f990ca, []int{9}
+	return fileDescriptor_repository_76f35d931743cfe6, []int{9}
 }
 func (m *Projects) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Projects.Unmarshal(m, b)
@@ -444,7 +444,7 @@ func (m *PaymentMethods) Reset()         { *m = PaymentMethods{} }
 func (m *PaymentMethods) String() string { return proto.CompactTextString(m) }
 func (*PaymentMethods) ProtoMessage()    {}
 func (*PaymentMethods) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_43a89726f4f990ca, []int{10}
+	return fileDescriptor_repository_76f35d931743cfe6, []int{10}
 }
 func (m *PaymentMethods) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PaymentMethods.Unmarshal(m, b)
@@ -486,7 +486,7 @@ func (m *CommissionRequest) Reset()         { *m = CommissionRequest{} }
 func (m *CommissionRequest) String() string { return proto.CompactTextString(m) }
 func (*CommissionRequest) ProtoMessage()    {}
 func (*CommissionRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_43a89726f4f990ca, []int{11}
+	return fileDescriptor_repository_76f35d931743cfe6, []int{11}
 }
 func (m *CommissionRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CommissionRequest.Unmarshal(m, b)
@@ -540,7 +540,7 @@ func (m *CommissionResponse) Reset()         { *m = CommissionResponse{} }
 func (m *CommissionResponse) String() string { return proto.CompactTextString(m) }
 func (*CommissionResponse) ProtoMessage()    {}
 func (*CommissionResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_43a89726f4f990ca, []int{12}
+	return fileDescriptor_repository_76f35d931743cfe6, []int{12}
 }
 func (m *CommissionResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CommissionResponse.Unmarshal(m, b)
@@ -594,7 +594,7 @@ func (m *CalculateVatRequest) Reset()         { *m = CalculateVatRequest{} }
 func (m *CalculateVatRequest) String() string { return proto.CompactTextString(m) }
 func (*CalculateVatRequest) ProtoMessage()    {}
 func (*CalculateVatRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_repository_43a89726f4f990ca, []int{13}
+	return fileDescriptor_repository_76f35d931743cfe6, []int{13}
 }
 func (m *CalculateVatRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CalculateVatRequest.Unmarshal(m, b)
@@ -1319,10 +1319,10 @@ var _Repository_serviceDesc = grpc.ServiceDesc{
 }
 
 func init() {
-	proto.RegisterFile("repository/repository.proto", fileDescriptor_repository_43a89726f4f990ca)
+	proto.RegisterFile("repository/repository.proto", fileDescriptor_repository_76f35d931743cfe6)
 }
 
-var fileDescriptor_repository_43a89726f4f990ca = []byte{
+var fileDescriptor_repository_76f35d931743cfe6 = []byte{
 	// 893 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x56, 0xdf, 0x6f, 0xdb, 0x36,
 	0x10, 0xb6, 0x13, 0x24, 0x75, 0x2f, 0xb5, 0x9c, 0xdc, 0x92, 0x2c, 0x53, 0x7f, 0x19, 0xec, 0x16,
