@@ -24,7 +24,7 @@ func (r *Repository) FindPaymentMethodByGroupAndCurrency(ctx context.Context, re
 func (r *Repository) FindPaymentMethodsByCurrency(ctx context.Context, req *repository.FindByIntValue, rsp *repository.PaymentMethods) error {
 	var pms []*billing.PaymentMethod
 
-	query := bson.M{"currency": req.Value, "is_active": true}
+	query := bson.M{"currencies": req.Value, "is_active": true}
 	err := r.Database.Collection(CollectionPaymentMethod).Find(query).All(&pms)
 
 	if err != nil {

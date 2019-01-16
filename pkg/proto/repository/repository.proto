@@ -61,7 +61,7 @@ message FindByIntValue {
 message FindByGroupCurrencyRequest {
     // @inject_tag: bson:"group_alias" structure:"group_alias"
     string group = 1;
-    // @inject_tag: bson:"currency" structure:"currency"
+    // @inject_tag: bson:"currencies" structure:"currencies"
     int32 currency = 2;
 }
 
