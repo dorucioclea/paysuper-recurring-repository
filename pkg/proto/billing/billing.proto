@@ -447,9 +447,9 @@ message BinData {
     string bank_country_name = 7;
     // @inject_tag: bson:"bank_country_code_int" structure:"bank_country_code_int"
     int32 bank_country_code_int = 8;
-    // @inject_tag: bson:"country" structure:"country"
+    // @inject_tag: bson:"bank_site" structure:"bank_site"
     string bank_site = 9;
-    // @inject_tag: bson:"country" structure:"country"
+    // @inject_tag: bson:"bank_phone" structure:"bank_phone"
     string bank_phone = 10;
     // @inject_tag: bson:"created_at" structure:"created_at,timestamp"
     google.protobuf.Timestamp created_at = 11;
