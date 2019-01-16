@@ -451,6 +451,4 @@ message BinData {
     string bank_site = 9;
     // @inject_tag: bson:"bank_phone" structure:"bank_phone"
     string bank_phone = 10;
-    // @inject_tag: bson:"created_at" structure:"created_at,timestamp"
-    google.protobuf.Timestamp created_at = 11;
 }
