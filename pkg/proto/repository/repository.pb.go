@@ -20,9 +20,9 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 type Result struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
-	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
-	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *Result) Reset()         { *m = Result{} }
@@ -53,9 +53,9 @@ type ConvertRequest struct {
 	CurrencyFrom         int32    `protobuf:"varint,1,opt,name=currency_from,json=currencyFrom,proto3" json:"currency_from,omitempty"`
 	CurrencyTo           int32    `protobuf:"varint,2,opt,name=currency_to,json=currencyTo,proto3" json:"currency_to,omitempty"`
 	Amount               float64  `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
-	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
-	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *ConvertRequest) Reset()         { *m = ConvertRequest{} }
@@ -105,9 +105,9 @@ func (m *ConvertRequest) GetAmount() float64 {
 
 type ConvertResponse struct {
 	Amount               float64  `protobuf:"fixed64,1,opt,name=amount,proto3" json:"amount,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
-	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
-	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *ConvertResponse) Reset()         { *m = ConvertResponse{} }
@@ -143,10 +143,10 @@ func (m *ConvertResponse) GetAmount() float64 {
 
 type FindByUnderscoreId struct {
 	// @inject_tag: bson:"_id" structure:"_id,bsonobjectid"
-	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" bson:"_id" structure:"_id,bsonobjectid"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
-	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
-	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *FindByUnderscoreId) Reset()         { *m = FindByUnderscoreId{} }
@@ -182,9 +182,9 @@ func (m *FindByUnderscoreId) GetId() string {
 
 type FindByStringValue struct {
 	Value                string   `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
-	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
-	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *FindByStringValue) Reset()         { *m = FindByStringValue{} }
@@ -220,9 +220,9 @@ func (m *FindByStringValue) GetValue() string {
 
 type FloatValue struct {
 	Value                float64  `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
-	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
-	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *FloatValue) Reset()         { *m = FloatValue{} }
@@ -258,9 +258,9 @@ func (m *FloatValue) GetValue() float64 {
 
 type FindByIntValue struct {
 	Value                int32    `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
-	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
-	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *FindByIntValue) Reset()         { *m = FindByIntValue{} }
@@ -296,12 +296,12 @@ func (m *FindByIntValue) GetValue() int32 {
 
 type FindByGroupCurrencyRequest struct {
 	// @inject_tag: bson:"group_alias" structure:"group_alias"
-	Group string `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty" bson:"group_alias" structure:"group_alias"`
+	Group string `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
 	// @inject_tag: bson:"currencies" structure:"currencies"
-	Currency             int32    `protobuf:"varint,2,opt,name=currency,proto3" json:"currency,omitempty" bson:"currencies" structure:"currencies"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
-	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
-	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
+	Currency             int32    `protobuf:"varint,2,opt,name=currency,proto3" json:"currency,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *FindByGroupCurrencyRequest) Reset()         { *m = FindByGroupCurrencyRequest{} }
@@ -344,12 +344,12 @@ func (m *FindByGroupCurrencyRequest) GetCurrency() int32 {
 
 type FindByProjectOrderId struct {
 	// @inject_tag: structure:"project.id,bsonobjectid"
-	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty" structure:"project.id,bsonobjectid"`
+	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// @inject_tag: structure:"project_order_id"
-	OrderId              string   `protobuf:"bytes,2,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty" structure:"project_order_id"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
-	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
-	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
+	OrderId              string   `protobuf:"bytes,2,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *FindByProjectOrderId) Reset()         { *m = FindByProjectOrderId{} }
@@ -392,9 +392,9 @@ func (m *FindByProjectOrderId) GetOrderId() string {
 
 type Projects struct {
 	Projects             []*billing.Project `protobuf:"bytes,1,rep,name=projects,proto3" json:"projects,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}           `json:"-" bson:"-" structure:"-"`
-	XXX_unrecognized     []byte             `json:"-" bson:"-" structure:"-"`
-	XXX_sizecache        int32              `json:"-" bson:"-" structure:"-"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
 }
 
 func (m *Projects) Reset()         { *m = Projects{} }
@@ -430,9 +430,9 @@ func (m *Projects) GetProjects() []*billing.Project {
 
 type PaymentMethods struct {
 	PaymentMethods       []*billing.PaymentMethod `protobuf:"bytes,1,rep,name=payment_methods,json=paymentMethods,proto3" json:"payment_methods,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                 `json:"-" bson:"-" structure:"-"`
-	XXX_unrecognized     []byte                   `json:"-" bson:"-" structure:"-"`
-	XXX_sizecache        int32                    `json:"-" bson:"-" structure:"-"`
+	XXX_NoUnkeyedLiteral struct{}                 `json:"-"`
+	XXX_unrecognized     []byte                   `json:"-"`
+	XXX_sizecache        int32                    `json:"-"`
 }
 
 func (m *PaymentMethods) Reset()         { *m = PaymentMethods{} }
@@ -468,13 +468,13 @@ func (m *PaymentMethods) GetPaymentMethods() []*billing.PaymentMethod {
 
 type CommissionRequest struct {
 	// @inject_tag: structure:"project_id,bsonobjectid"
-	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty" structure:"project_id,bsonobjectid"`
+	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// @inject_tag: structure:"pm_id,bsonobjectid"
-	PaymentMethodId      string   `protobuf:"bytes,2,opt,name=payment_method_id,json=paymentMethodId,proto3" json:"payment_method_id,omitempty" structure:"pm_id,bsonobjectid"`
+	PaymentMethodId      string   `protobuf:"bytes,2,opt,name=payment_method_id,json=paymentMethodId,proto3" json:"payment_method_id,omitempty"`
 	Amount               float64  `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
-	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
-	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *CommissionRequest) Reset()         { *m = CommissionRequest{} }
@@ -526,9 +526,9 @@ type CommissionResponse struct {
 	PaymentMethod        float64  `protobuf:"fixed64,1,opt,name=payment_method,json=paymentMethod,proto3" json:"payment_method,omitempty"`
 	Psp                  float64  `protobuf:"fixed64,2,opt,name=psp,proto3" json:"psp,omitempty"`
 	ToUser               float64  `protobuf:"fixed64,3,opt,name=to_user,json=toUser,proto3" json:"to_user,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
-	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
-	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *CommissionResponse) Reset()         { *m = CommissionResponse{} }
@@ -580,9 +580,9 @@ type CalculateVatRequest struct {
 	CountryCodeA2        string   `protobuf:"bytes,1,opt,name=country_code_a2,json=countryCodeA2,proto3" json:"country_code_a2,omitempty"`
 	Subdivision          string   `protobuf:"bytes,2,opt,name=subdivision,proto3" json:"subdivision,omitempty"`
 	Amount               float64  `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" structure:"-"`
-	XXX_unrecognized     []byte   `json:"-" bson:"-" structure:"-"`
-	XXX_sizecache        int32    `json:"-" bson:"-" structure:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *CalculateVatRequest) Reset()         { *m = CalculateVatRequest{} }

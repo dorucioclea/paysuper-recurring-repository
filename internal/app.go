@@ -55,12 +55,6 @@ func (app *Application) Init() {
 
 	app.Database = db
 
-	/*app.service = grpc.NewService(
-		micro.Name(constant.PayOneRepositoryServiceName),
-		micro.Version(constant.PayOneMicroserviceVersion),
-	)
-	app.service.Init()*/
-
 	options := []micro.Option{
 		micro.Name(constant.PayOneRepositoryServiceName),
 		micro.Version(constant.PayOneMicroserviceVersion),
