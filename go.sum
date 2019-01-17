@@ -71,6 +71,8 @@ github.com/micro/grpc-go v0.0.0-20180913204047-2c703400301b h1:tPWzIEV+QV2LrgdYd
 github.com/micro/grpc-go v0.0.0-20180913204047-2c703400301b/go.mod h1://clyXyptX/KfdauimE3DJIvC/TKOioMd9rb5blDZmI=
 github.com/micro/h2c v1.0.0 h1:ejw6MS5+WaUoMHRtqkVCCrrVzLMzOFEH52rEyd8Fl2I=
 github.com/micro/h2c v1.0.0/go.mod h1:54sOOQW/GRlHhH43vKwOhUb+kHaXhVxR0d3CJhn9alE=
+github.com/micro/kubernetes v0.2.0 h1:BbjDvVUwRuu8juowgXbbWQOPMZGCi9kPOPVcnRL47GI=
+github.com/micro/kubernetes v0.2.0/go.mod h1:YMCRhiXTTNCND35/YcgACDFd1tOTmrDFAEqsvkID6pw=
 github.com/micro/mdns v0.0.0-20181201230301-9c3770d4057a h1:QD0DngoQMpPt8pvimhNtIJiocn4C+IyqpazrEYX1lHo=
 github.com/micro/mdns v0.0.0-20181201230301-9c3770d4057a/go.mod h1:SQG6o/94RinohLuB5noHSevg2Iqg2wXLDUn4lj2LWWo=
 github.com/micro/protobuf v0.0.0-20180321161605-ebd3be6d4fdb h1:7X2fjfHGQUGIqA6PwBpPChDIRrnB0Y0zD0ox3Cqg/Bs=

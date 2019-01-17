@@ -8,19 +8,20 @@ import (
 	"github.com/ProtocolONE/payone-repository/pkg/constant"
 	proto "github.com/ProtocolONE/payone-repository/pkg/proto/repository"
 	"github.com/kelseyhightower/envconfig"
-	"github.com/micro/go-grpc"
 	"github.com/micro/go-micro"
+	k8s "github.com/micro/kubernetes/go/micro"
 	"log"
 	"net/http"
 	"time"
 )
 
 type Config struct {
-	Host        string `envconfig:"MONGO_HOST" required:"true"`
-	Database    string `envconfig:"MONGO_DB" required:"true"`
-	User        string `envconfig:"MONGO_USER" required:"true"`
-	Password    string `envconfig:"MONGO_PASSWORD" required:"true"`
-	MetricsPort string `envconfig:"METRICS_PORT" required:"false" default:"8085"`
+	Host           string `envconfig:"MONGO_HOST" required:"true"`
+	Database       string `envconfig:"MONGO_DB" required:"true"`
+	User           string `envconfig:"MONGO_USER" required:"true"`
+	Password       string `envconfig:"MONGO_PASSWORD" required:"true"`
+	MetricsPort    string `envconfig:"METRICS_PORT" required:"false" default:"8085"`
+	KubernetesHost string `envconfig:"KUBERNETES_SERVICE_HOST" required:"false"`
 }
 
 type Application struct {
@@ -54,10 +55,25 @@ func (app *Application) Init() {
 
 	app.Database = db
 
-	app.service = grpc.NewService(
+	/*app.service = grpc.NewService(
 		micro.Name(constant.PayOneRepositoryServiceName),
 		micro.Version(constant.PayOneMicroserviceVersion),
 	)
+	app.service.Init()*/
+
+	options := []micro.Option{
+		micro.Name(constant.PayOneRepositoryServiceName),
+		micro.Version(constant.PayOneMicroserviceVersion),
+	}
+
+	if app.cfg.KubernetesHost == "" {
+		app.service = micro.NewService(options...)
+		log.Println("Initialize micro service")
+	} else {
+		app.service = k8s.NewService(options...)
+		log.Println("Initialize k8s service")
+	}
+
 	app.service.Init()
 
 	rep := &repository.Repository{Database: app.Database}
