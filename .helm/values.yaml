@@ -4,9 +4,15 @@
 backend:
   name: gobackend
   role: gobackend
+  port: 8080
+  healthPort: 8081
   image: "p1hub/payone-repository"
   imageTag: latest
   replicas: 1
+  service: 
+    type: ClusterIP
+    port: 8080
+    protocol: TCP
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
