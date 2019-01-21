@@ -22,7 +22,8 @@ It has these top-level messages:
 	CommissionRequest
 	CommissionResponse
 	CalculateVatRequest
-	AddSavedCardRequest
+	SavedCardRequest
+	SavedCardList
 */
 package repository
 
@@ -77,9 +78,10 @@ type RepositoryService interface {
 	CalculateCommission(ctx context.Context, in *CommissionRequest, opts ...client.CallOption) (*CommissionResponse, error)
 	CalculateVat(ctx context.Context, in *CalculateVatRequest, opts ...client.CallOption) (*FloatValue, error)
 	FindBinData(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.BinData, error)
-	AddSavedCard(ctx context.Context, in *AddSavedCardRequest, opts ...client.CallOption) (*Result, error)
-	DeleteSavedCard(ctx context.Context, in *billing.SavedCardMasked, opts ...client.CallOption) (*Result, error)
-	FindSavedCardsByAccount(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.SavedCard, error)
+	InsertSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*Result, error)
+	DeleteSavedCard(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*Result, error)
+	FindSavedCardsByAccount(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*SavedCardList, error)
+	FindSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*billing.SavedCard, error)
 }
 
 type repositoryService struct {
@@ -300,8 +302,8 @@ func (c *repositoryService) FindBinData(ctx context.Context, in *FindByStringVal
 	return out, nil
 }
 
-func (c *repositoryService) AddSavedCard(ctx context.Context, in *AddSavedCardRequest, opts ...client.CallOption) (*Result, error) {
-	req := c.c.NewRequest(c.name, "Repository.AddSavedCard", in)
+func (c *repositoryService) InsertSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*Result, error) {
+	req := c.c.NewRequest(c.name, "Repository.InsertSavedCard", in)
 	out := new(Result)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -310,7 +312,7 @@ func (c *repositoryService) AddSavedCard(ctx context.Context, in *AddSavedCardRe
 	return out, nil
 }
 
-func (c *repositoryService) DeleteSavedCard(ctx context.Context, in *billing.SavedCardMasked, opts ...client.CallOption) (*Result, error) {
+func (c *repositoryService) DeleteSavedCard(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*Result, error) {
 	req := c.c.NewRequest(c.name, "Repository.DeleteSavedCard", in)
 	out := new(Result)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -320,8 +322,18 @@ func (c *repositoryService) DeleteSavedCard(ctx context.Context, in *billing.Sav
 	return out, nil
 }
 
-func (c *repositoryService) FindSavedCardsByAccount(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.SavedCard, error) {
+func (c *repositoryService) FindSavedCardsByAccount(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*SavedCardList, error) {
 	req := c.c.NewRequest(c.name, "Repository.FindSavedCardsByAccount", in)
+	out := new(SavedCardList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *repositoryService) FindSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*billing.SavedCard, error) {
+	req := c.c.NewRequest(c.name, "Repository.FindSavedCard", in)
 	out := new(billing.SavedCard)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -353,9 +365,10 @@ type RepositoryHandler interface {
 	CalculateCommission(context.Context, *CommissionRequest, *CommissionResponse) error
 	CalculateVat(context.Context, *CalculateVatRequest, *FloatValue) error
 	FindBinData(context.Context, *FindByStringValue, *billing.BinData) error
-	AddSavedCard(context.Context, *AddSavedCardRequest, *Result) error
-	DeleteSavedCard(context.Context, *billing.SavedCardMasked, *Result) error
-	FindSavedCardsByAccount(context.Context, *FindByStringValue, *billing.SavedCard) error
+	InsertSavedCard(context.Context, *SavedCardRequest, *Result) error
+	DeleteSavedCard(context.Context, *FindByStringValue, *Result) error
+	FindSavedCardsByAccount(context.Context, *FindByStringValue, *SavedCardList) error
+	FindSavedCard(context.Context, *SavedCardRequest, *billing.SavedCard) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
@@ -380,9 +393,10 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		CalculateCommission(ctx context.Context, in *CommissionRequest, out *CommissionResponse) error
 		CalculateVat(ctx context.Context, in *CalculateVatRequest, out *FloatValue) error
 		FindBinData(ctx context.Context, in *FindByStringValue, out *billing.BinData) error
-		AddSavedCard(ctx context.Context, in *AddSavedCardRequest, out *Result) error
-		DeleteSavedCard(ctx context.Context, in *billing.SavedCardMasked, out *Result) error
-		FindSavedCardsByAccount(ctx context.Context, in *FindByStringValue, out *billing.SavedCard) error
+		InsertSavedCard(ctx context.Context, in *SavedCardRequest, out *Result) error
+		DeleteSavedCard(ctx context.Context, in *FindByStringValue, out *Result) error
+		FindSavedCardsByAccount(ctx context.Context, in *FindByStringValue, out *SavedCardList) error
+		FindSavedCard(ctx context.Context, in *SavedCardRequest, out *billing.SavedCard) error
 	}
 	type Repository struct {
 		repository
@@ -475,14 +489,18 @@ func (h *repositoryHandler) FindBinData(ctx context.Context, in *FindByStringVal
 	return h.RepositoryHandler.FindBinData(ctx, in, out)
 }
 
-func (h *repositoryHandler) AddSavedCard(ctx context.Context, in *AddSavedCardRequest, out *Result) error {
-	return h.RepositoryHandler.AddSavedCard(ctx, in, out)
+func (h *repositoryHandler) InsertSavedCard(ctx context.Context, in *SavedCardRequest, out *Result) error {
+	return h.RepositoryHandler.InsertSavedCard(ctx, in, out)
 }
 
-func (h *repositoryHandler) DeleteSavedCard(ctx context.Context, in *billing.SavedCardMasked, out *Result) error {
+func (h *repositoryHandler) DeleteSavedCard(ctx context.Context, in *FindByStringValue, out *Result) error {
 	return h.RepositoryHandler.DeleteSavedCard(ctx, in, out)
 }
 
-func (h *repositoryHandler) FindSavedCardsByAccount(ctx context.Context, in *FindByStringValue, out *billing.SavedCard) error {
+func (h *repositoryHandler) FindSavedCardsByAccount(ctx context.Context, in *FindByStringValue, out *SavedCardList) error {
 	return h.RepositoryHandler.FindSavedCardsByAccount(ctx, in, out)
+}
+
+func (h *repositoryHandler) FindSavedCard(ctx context.Context, in *SavedCardRequest, out *billing.SavedCard) error {
+	return h.RepositoryHandler.FindSavedCard(ctx, in, out)
 }

@@ -32,8 +32,6 @@ It has these top-level messages:
 	Vat
 	BinData
 	SavedCard
-	SavedCardFull
-	SavedCardMasked
 	CardExpire
 */
 package billing

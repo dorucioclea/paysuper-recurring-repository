@@ -460,36 +460,18 @@ message SavedCard {
     string account = 2;
     // @inject_tag: bson:"project_id" structure:"project_id,bsonobjectid"
     bytes project_id = 3;
-    // @inject_tag: bson:"saved_card_full" structure:"saved_card_full"
-    map<string, SavedCardFull> saved_card_full = 4;
-    // @inject_tag: bson:"saved_card_masked" structure:"saved_card_masked"
-    repeated SavedCardMasked saved_card_masked = 5;
-    // @inject_tag: bson:"is_active" structure:"is_active"
-    bool is_active = 6;
-    // @inject_tag: bson:"created_at" structure:"created_at,timestamp"
-    google.protobuf.Timestamp created_at = 7;
-    // @inject_tag: bson:"updated_at" structure:"updated_at,timestamp"
-    google.protobuf.Timestamp updated_at = 8;
-}
-
-message SavedCardFull {
+    // @inject_tag: bson:"masked_pan" structure:"masked_pan"
+    string masked_pan = 4;
     // @inject_tag: bson:"pan" structure:"pan"
-    string pan = 1;
-    // @inject_tag: bson:"expire" structure:"expire"
-    CardExpire expire = 2;
+    string pan = 5;
     // @inject_tag: bson:"card_holder" structure:"card_holder"
-    string card_holder = 3;
-    // @inject_tag: bson:"created_at" structure:"created_at,timestamp"
-    google.protobuf.Timestamp created_at = 4;
-}
-
-message SavedCardMasked {
-    // @inject_tag: bson:"pan" structure:"pan"
-    string pan = 1;
+    string card_holder = 6;
     // @inject_tag: bson:"expire" structure:"expire"
-    CardExpire expire = 2;
+    CardExpire expire = 7;
+    // @inject_tag: bson:"is_active" structure:"is_active"
+    bool is_active = 8;
     // @inject_tag: bson:"created_at" structure:"created_at,timestamp"
-    google.protobuf.Timestamp created_at = 3;
+    google.protobuf.Timestamp created_at = 9;
 }
 
 message CardExpire {

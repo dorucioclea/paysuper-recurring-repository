@@ -27,9 +27,10 @@ service Repository {
     rpc CalculateCommission (CommissionRequest) returns (CommissionResponse) {}
     rpc CalculateVat (CalculateVatRequest) returns (FloatValue) {}
     rpc FindBinData(FindByStringValue) returns (billing.BinData) {}
-    rpc AddSavedCard(AddSavedCardRequest) returns (Result) {}
-    rpc DeleteSavedCard(billing.SavedCardMasked) returns (Result) {}
-    rpc FindSavedCardsByAccount(FindByStringValue) returns (billing.SavedCard) {}
+    rpc InsertSavedCard(SavedCardRequest) returns (Result) {}
+    rpc DeleteSavedCard(FindByStringValue) returns (Result) {}
+    rpc FindSavedCardsByAccount(FindByStringValue) returns (SavedCardList) {}
+    rpc FindSavedCard(SavedCardRequest) returns (billing.SavedCard) {}
 }
 
 message Result {}
@@ -103,10 +104,14 @@ message CalculateVatRequest {
     double amount = 3;
 }
 
-message AddSavedCardRequest {
+message SavedCardRequest {
     string account = 1;
     bytes project_id = 2;
     string pan = 3;
     billing.CardExpire expire = 4;
     string card_holder = 5;
+}
+
+message SavedCardList {
+    repeated billing.SavedCard saved_cards = 1;
 }
