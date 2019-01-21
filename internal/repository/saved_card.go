@@ -37,6 +37,10 @@ func (r *Repository) DeleteSavedCard(ctx context.Context, req *repository.FindBy
 	return nil
 }
 
-func (r *Repository) FindSavedCardsByAccount(ctx context.Context, req *repository.FindByStringValue, rsp *billing.SavedCard) error {
+func (r *Repository) FindSavedCardsByAccount(ctx context.Context, req *repository.FindByStringValue, rsp *repository.SavedCardList) error {
+	return nil
+}
+
+func (r *Repository) FindSavedCard(ctx context.Context, req *repository.SavedCardRequest, rsp *billing.SavedCard) error {
 	return nil
 }
