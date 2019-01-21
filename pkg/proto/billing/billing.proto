@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package="github.com/ProtocolONE/payone-repository/pkg/proto/billing";
+option go_package = "github.com/ProtocolONE/payone-repository/pkg/proto/billing";
 
 package billing;
 
@@ -370,7 +370,7 @@ message Order {
     // @inject_tag: bson:"psp_fee_amount" structure:"psp_fee_amount"
     OrderFeePsp psp_fee_amount = 34; // PSP (P1) fee amount
     // @inject_tag: bson:"project_fee_amount" structure:"project_fee_amount"
-    OrderFee project_fee_amount  = 35; // fee is charged with the project for the operation
+    OrderFee project_fee_amount = 35; // fee is charged with the project for the operation
     // @inject_tag: bson:"to_payer_fee_amount" structure:"to_payer_fee_amount"
     OrderFee to_payer_fee_amount = 36; // value of fee which added to payer amount
     // @inject_tag: bson:"vat_amount" structure:"vat_amount"
@@ -451,4 +451,50 @@ message BinData {
     string bank_site = 9;
     // @inject_tag: bson:"bank_phone" structure:"bank_phone"
     string bank_phone = 10;
+}
+
+message SavedCard {
+    // @inject_tag: bson:"_id" structure:"_id,bsonobjectid"
+    bytes id = 1;
+    // @inject_tag: bson:"account" structure:"account"
+    string account = 2;
+    // @inject_tag: bson:"project_id" structure:"project_id,bsonobjectid"
+    bytes project_id = 3;
+    // @inject_tag: bson:"saved_card_full" structure:"saved_card_full"
+    map<string, SavedCardFull> saved_card_full = 4;
+    // @inject_tag: bson:"saved_card_masked" structure:"saved_card_masked"
+    repeated SavedCardMasked saved_card_masked = 5;
+    // @inject_tag: bson:"is_active" structure:"is_active"
+    bool is_active = 6;
+    // @inject_tag: bson:"created_at" structure:"created_at,timestamp"
+    google.protobuf.Timestamp created_at = 7;
+    // @inject_tag: bson:"updated_at" structure:"updated_at,timestamp"
+    google.protobuf.Timestamp updated_at = 8;
+}
+
+message SavedCardFull {
+    // @inject_tag: bson:"pan" structure:"pan"
+    string pan = 1;
+    // @inject_tag: bson:"expire" structure:"expire"
+    CardExpire expire = 2;
+    // @inject_tag: bson:"card_holder" structure:"card_holder"
+    string card_holder = 3;
+    // @inject_tag: bson:"created_at" structure:"created_at,timestamp"
+    google.protobuf.Timestamp created_at = 4;
+}
+
+message SavedCardMasked {
+    // @inject_tag: bson:"pan" structure:"pan"
+    string pan = 1;
+    // @inject_tag: bson:"expire" structure:"expire"
+    CardExpire expire = 2;
+    // @inject_tag: bson:"created_at" structure:"created_at,timestamp"
+    google.protobuf.Timestamp created_at = 3;
+}
+
+message CardExpire {
+    // @inject_tag: bson:"month" structure:"month"
+    string month = 1;
+    // @inject_tag: bson:"year" structure:"year"
+    string year = 2;
 }

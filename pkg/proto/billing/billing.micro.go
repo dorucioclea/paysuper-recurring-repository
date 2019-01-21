@@ -31,6 +31,10 @@ It has these top-level messages:
 	Commission
 	Vat
 	BinData
+	SavedCard
+	SavedCardFull
+	SavedCardMasked
+	CardExpire
 */
 package billing
 

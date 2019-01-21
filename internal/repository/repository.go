@@ -21,6 +21,7 @@ const (
 	CollectionCommission    = "commission"
 	CollectionVat           = "vat"
 	CollectionBinData       = "bank_bin"
+	CollectionSavedCard     = "saved_card"
 )
 
 var VatBySubdivisionCountries = map[string]bool{"US": true, "CA": true}

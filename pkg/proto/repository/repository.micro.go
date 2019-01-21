@@ -22,6 +22,7 @@ It has these top-level messages:
 	CommissionRequest
 	CommissionResponse
 	CalculateVatRequest
+	AddSavedCardRequest
 */
 package repository
 
@@ -40,7 +41,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-var _ = billing.BinData{}
+var _ = billing.SavedCard{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -76,6 +77,9 @@ type RepositoryService interface {
 	CalculateCommission(ctx context.Context, in *CommissionRequest, opts ...client.CallOption) (*CommissionResponse, error)
 	CalculateVat(ctx context.Context, in *CalculateVatRequest, opts ...client.CallOption) (*FloatValue, error)
 	FindBinData(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.BinData, error)
+	AddSavedCard(ctx context.Context, in *AddSavedCardRequest, opts ...client.CallOption) (*Result, error)
+	DeleteSavedCard(ctx context.Context, in *billing.SavedCardMasked, opts ...client.CallOption) (*Result, error)
+	FindSavedCardsByAccount(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.SavedCard, error)
 }
 
 type repositoryService struct {
@@ -296,6 +300,36 @@ func (c *repositoryService) FindBinData(ctx context.Context, in *FindByStringVal
 	return out, nil
 }
 
+func (c *repositoryService) AddSavedCard(ctx context.Context, in *AddSavedCardRequest, opts ...client.CallOption) (*Result, error) {
+	req := c.c.NewRequest(c.name, "Repository.AddSavedCard", in)
+	out := new(Result)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *repositoryService) DeleteSavedCard(ctx context.Context, in *billing.SavedCardMasked, opts ...client.CallOption) (*Result, error) {
+	req := c.c.NewRequest(c.name, "Repository.DeleteSavedCard", in)
+	out := new(Result)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *repositoryService) FindSavedCardsByAccount(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.SavedCard, error) {
+	req := c.c.NewRequest(c.name, "Repository.FindSavedCardsByAccount", in)
+	out := new(billing.SavedCard)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Repository service
 
 type RepositoryHandler interface {
@@ -319,6 +353,9 @@ type RepositoryHandler interface {
 	CalculateCommission(context.Context, *CommissionRequest, *CommissionResponse) error
 	CalculateVat(context.Context, *CalculateVatRequest, *FloatValue) error
 	FindBinData(context.Context, *FindByStringValue, *billing.BinData) error
+	AddSavedCard(context.Context, *AddSavedCardRequest, *Result) error
+	DeleteSavedCard(context.Context, *billing.SavedCardMasked, *Result) error
+	FindSavedCardsByAccount(context.Context, *FindByStringValue, *billing.SavedCard) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
@@ -343,6 +380,9 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		CalculateCommission(ctx context.Context, in *CommissionRequest, out *CommissionResponse) error
 		CalculateVat(ctx context.Context, in *CalculateVatRequest, out *FloatValue) error
 		FindBinData(ctx context.Context, in *FindByStringValue, out *billing.BinData) error
+		AddSavedCard(ctx context.Context, in *AddSavedCardRequest, out *Result) error
+		DeleteSavedCard(ctx context.Context, in *billing.SavedCardMasked, out *Result) error
+		FindSavedCardsByAccount(ctx context.Context, in *FindByStringValue, out *billing.SavedCard) error
 	}
 	type Repository struct {
 		repository
@@ -433,4 +473,16 @@ func (h *repositoryHandler) CalculateVat(ctx context.Context, in *CalculateVatRe
 
 func (h *repositoryHandler) FindBinData(ctx context.Context, in *FindByStringValue, out *billing.BinData) error {
 	return h.RepositoryHandler.FindBinData(ctx, in, out)
+}
+
+func (h *repositoryHandler) AddSavedCard(ctx context.Context, in *AddSavedCardRequest, out *Result) error {
+	return h.RepositoryHandler.AddSavedCard(ctx, in, out)
+}
+
+func (h *repositoryHandler) DeleteSavedCard(ctx context.Context, in *billing.SavedCardMasked, out *Result) error {
+	return h.RepositoryHandler.DeleteSavedCard(ctx, in, out)
+}
+
+func (h *repositoryHandler) FindSavedCardsByAccount(ctx context.Context, in *FindByStringValue, out *billing.SavedCard) error {
+	return h.RepositoryHandler.FindSavedCardsByAccount(ctx, in, out)
 }

@@ -27,6 +27,9 @@ service Repository {
     rpc CalculateCommission (CommissionRequest) returns (CommissionResponse) {}
     rpc CalculateVat (CalculateVatRequest) returns (FloatValue) {}
     rpc FindBinData(FindByStringValue) returns (billing.BinData) {}
+    rpc AddSavedCard(AddSavedCardRequest) returns (Result) {}
+    rpc DeleteSavedCard(billing.SavedCardMasked) returns (Result) {}
+    rpc FindSavedCardsByAccount(FindByStringValue) returns (billing.SavedCard) {}
 }
 
 message Result {}
@@ -98,4 +101,12 @@ message CalculateVatRequest {
     string country_code_a2 = 1;
     string subdivision = 2;
     double amount = 3;
+}
+
+message AddSavedCardRequest {
+    string account = 1;
+    bytes project_id = 2;
+    string pan = 3;
+    billing.CardExpire expire = 4;
+    string card_holder = 5;
 }
