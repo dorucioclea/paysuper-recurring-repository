@@ -3,6 +3,7 @@ package internal
 import (
 	"github.com/InVisionApp/go-health"
 	"github.com/InVisionApp/go-health/handlers"
+	prometheus_plugin "github.com/ProtocolONE/go-micro-plugins/wrapper/monitoring/prometheus"
 	"github.com/ProtocolONE/payone-repository/internal/database"
 	"github.com/ProtocolONE/payone-repository/internal/repository"
 	"github.com/ProtocolONE/payone-repository/pkg/constant"
@@ -10,6 +11,7 @@ import (
 	"github.com/kelseyhightower/envconfig"
 	"github.com/micro/go-micro"
 	k8s "github.com/micro/kubernetes/go/micro"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"log"
 	"net/http"
 	"time"
@@ -58,6 +60,7 @@ func (app *Application) Init() {
 	options := []micro.Option{
 		micro.Name(constant.PayOneRepositoryServiceName),
 		micro.Version(constant.PayOneMicroserviceVersion),
+		micro.WrapHandler(prometheus_plugin.NewHandlerWrapper((*proto.RepositoryService)(nil))),
 	}
 
 	if app.cfg.KubernetesHost == "" {
@@ -79,6 +82,7 @@ func (app *Application) Init() {
 
 	app.router = http.NewServeMux()
 	app.initHealth()
+	app.initMetrics()
 }
 
 func (app *Application) initConfig() {
@@ -113,6 +117,10 @@ func (app *Application) initHealth() {
 	}
 
 	app.router.HandleFunc("/health", handlers.NewJSONHandlerFunc(h, nil))
+}
+
+func (app *Application) initMetrics() {
+	app.router.Handle("/metrics", promhttp.Handler())
 }
 
 func (app *Application) Run() {
