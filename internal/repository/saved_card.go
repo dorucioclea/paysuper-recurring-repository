@@ -65,7 +65,7 @@ func (r *Repository) DeleteSavedCard(ctx context.Context, req *repository.FindBy
 func (r *Repository) FindSavedCards(ctx context.Context, req *repository.SavedCardRequest, rsp *repository.SavedCardList) error {
 	var c []*billing.SavedCard
 
-	q := bson.M{"account": req.Account, "project_id": tools.ByteToObjectId(req.ProjectId)}
+	q := bson.M{"account": req.Account, "project_id": tools.ByteToObjectId(req.ProjectId), "is_active": true}
 	err := r.Database.Collection(CollectionSavedCard).Find(q).All(&c)
 
 	if err != nil {
