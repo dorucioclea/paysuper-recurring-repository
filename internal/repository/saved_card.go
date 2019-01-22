@@ -110,8 +110,15 @@ func (r *Repository) FindSavedCardById(ctx context.Context, req *repository.Find
 		log.Printf(QueryErrorMask, CollectionSavedCard, err.Error())
 		return err
 	}
-	
-	rsp = c
+
+	rsp.Id = c.Id
+	rsp.ProjectId = c.ProjectId
+	rsp.Pan = c.Pan
+	rsp.Expire = c.Expire
+	rsp.CardHolder = c.CardHolder
+	rsp.MaskedPan = c.MaskedPan
+	rsp.IsActive = c.IsActive
+	rsp.CreatedAt = c.CreatedAt
 
 	return nil
 }
