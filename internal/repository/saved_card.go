@@ -80,20 +80,24 @@ func (r *Repository) FindSavedCards(ctx context.Context, req *repository.SavedCa
 }
 
 func (r *Repository) FindSavedCard(ctx context.Context, req *repository.SavedCardRequest, rsp *billing.SavedCard) error {
+	var c *billing.SavedCard
+
 	q := bson.M{
 		"account":    req.Account,
 		"project_id": tools.ByteToObjectId(req.ProjectId),
 		"pan":        req.Pan,
 	}
-	err := r.Database.Collection(CollectionSavedCard).Find(q).One(&rsp)
+	err := r.Database.Collection(CollectionSavedCard).Find(q).One(&c)
 
 	if err != nil {
 		log.Printf(QueryErrorMask, CollectionSavedCard, err.Error())
 	}
 
-	if rsp == nil {
+	if c == nil {
 		return errors.New(fmt.Sprintf(NotFoundGeneralErrorMask, "Saved card"))
 	}
+
+	rsp = c
 
 	return nil
 }
