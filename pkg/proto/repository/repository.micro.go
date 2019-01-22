@@ -82,6 +82,7 @@ type RepositoryService interface {
 	DeleteSavedCard(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*Result, error)
 	FindSavedCards(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*SavedCardList, error)
 	FindSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*billing.SavedCard, error)
+	FindSavedCardById(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.SavedCard, error)
 }
 
 type repositoryService struct {
@@ -342,6 +343,16 @@ func (c *repositoryService) FindSavedCard(ctx context.Context, in *SavedCardRequ
 	return out, nil
 }
 
+func (c *repositoryService) FindSavedCardById(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.SavedCard, error) {
+	req := c.c.NewRequest(c.name, "Repository.FindSavedCardById", in)
+	out := new(billing.SavedCard)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Repository service
 
 type RepositoryHandler interface {
@@ -369,6 +380,7 @@ type RepositoryHandler interface {
 	DeleteSavedCard(context.Context, *FindByStringValue, *Result) error
 	FindSavedCards(context.Context, *SavedCardRequest, *SavedCardList) error
 	FindSavedCard(context.Context, *SavedCardRequest, *billing.SavedCard) error
+	FindSavedCardById(context.Context, *FindByStringValue, *billing.SavedCard) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
@@ -397,6 +409,7 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		DeleteSavedCard(ctx context.Context, in *FindByStringValue, out *Result) error
 		FindSavedCards(ctx context.Context, in *SavedCardRequest, out *SavedCardList) error
 		FindSavedCard(ctx context.Context, in *SavedCardRequest, out *billing.SavedCard) error
+		FindSavedCardById(ctx context.Context, in *FindByStringValue, out *billing.SavedCard) error
 	}
 	type Repository struct {
 		repository
@@ -503,4 +516,8 @@ func (h *repositoryHandler) FindSavedCards(ctx context.Context, in *SavedCardReq
 
 func (h *repositoryHandler) FindSavedCard(ctx context.Context, in *SavedCardRequest, out *billing.SavedCard) error {
 	return h.RepositoryHandler.FindSavedCard(ctx, in, out)
+}
+
+func (h *repositoryHandler) FindSavedCardById(ctx context.Context, in *FindByStringValue, out *billing.SavedCard) error {
+	return h.RepositoryHandler.FindSavedCardById(ctx, in, out)
 }

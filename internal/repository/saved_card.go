@@ -101,3 +101,17 @@ func (r *Repository) FindSavedCard(ctx context.Context, req *repository.SavedCar
 
 	return nil
 }
+
+func (r *Repository) FindSavedCardById(ctx context.Context, req *repository.FindByStringValue, rsp *billing.SavedCard) error {
+	var c *billing.SavedCard
+	err := r.Database.Collection(CollectionSavedCard).Find(bson.M{"_id": bson.ObjectIdHex(req.Value)}).One(&c)
+
+	if err != nil {
+		log.Printf(QueryErrorMask, CollectionSavedCard, err.Error())
+		return err
+	}
+	
+	rsp = c
+
+	return nil
+}
