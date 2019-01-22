@@ -8,9 +8,11 @@ import (
 const (
 	FieldNameUnderscoreId = "_id"
 
-	QueryErrorMask    = "[PAYONE ERROR] Query from table \"%s\" ended with error: %s\n"
-	NotFoundErrorMask = "[PAYONE ERROR] %s not found for specified project and payment method\n"
-	SomeErrorMask     = "[PAYONE ERROR] Something is wrong. Operation ended with error: %s\n"
+	QueryErrorMask           = "[PAYONE ERROR] Query from table \"%s\" ended with error: %s\n"
+	NotFoundGeneralErrorMask = "[PAYONE ERROR] %s not found\n"
+	NotFoundErrorMask        = "[PAYONE ERROR] %s not found for specified project and payment method\n"
+	SomeErrorMask            = "[PAYONE ERROR] Something is wrong. Operation ended with error: %s\n"
+	AlreadyExistErrorMask    = "[PAYONE ERROR] %s record with specified data already exist"
 
 	CollectionOrder         = "order"
 	CollectionMerchant      = "merchant"

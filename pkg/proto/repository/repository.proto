@@ -29,7 +29,7 @@ service Repository {
     rpc FindBinData(FindByStringValue) returns (billing.BinData) {}
     rpc InsertSavedCard(SavedCardRequest) returns (Result) {}
     rpc DeleteSavedCard(FindByStringValue) returns (Result) {}
-    rpc FindSavedCardsByAccount(FindByStringValue) returns (SavedCardList) {}
+    rpc FindSavedCards(SavedCardRequest) returns (SavedCardList) {}
     rpc FindSavedCard(SavedCardRequest) returns (billing.SavedCard) {}
 }
 
