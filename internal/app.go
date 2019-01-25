@@ -60,7 +60,7 @@ func (app *Application) Init() {
 	options := []micro.Option{
 		micro.Name(constant.PayOneRepositoryServiceName),
 		micro.Version(constant.PayOneMicroserviceVersion),
-		micro.WrapHandler(prometheus_plugin.NewHandlerWrapper((*proto.RepositoryService)(nil))),
+		micro.WrapHandler(prometheus_plugin.NewHandlerWrapper()),
 	}
 
 	if app.cfg.KubernetesHost == "" {

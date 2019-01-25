@@ -4,8 +4,8 @@ github.com/InVisionApp/go-health v2.1.0+incompatible h1:m5nRf/RKaMCkob7V5Vc3tuzl
 github.com/InVisionApp/go-health v2.1.0+incompatible/go.mod h1:/+Gv1o8JUsrjC6pi6MN6/CgKJo4OqZ6x77XAnImrzhg=
 github.com/InVisionApp/go-logger v1.0.1 h1:WFL19PViM1mHUmUWfsv5zMo379KSWj2MRmBlzMFDRiE=
 github.com/InVisionApp/go-logger v1.0.1/go.mod h1:+cGTDSn+P8105aZkeOfIhdd7vFO5X1afUHcjvanY0L8=
-github.com/ProtocolONE/go-micro-plugins v0.1.0 h1:YrdSgLUVbX416bjB5B4WiINcz82TEO0BV79bFOnHv8k=
-github.com/ProtocolONE/go-micro-plugins v0.1.0/go.mod h1:FwImy+CPrSYFiFuxkg0Gg8FznrrNmvkjr+uU5rIe9H4=
+github.com/ProtocolONE/go-micro-plugins v0.2.0 h1:FNN7U2RpzZPLZ2DyczdjC/LC8tYfSWvOys2b9iGwANg=
+github.com/ProtocolONE/go-micro-plugins v0.2.0/go.mod h1:/gvuHZoDRGfxS+ox0fHXuwwsTEVEHWRWKOhzbnozrZ8=
 github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da h1:8GUt8eRujhVEGZFFEjBj46YV4rDjvGrNxb0KMWYkL2I=
 github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da/go.mod h1:Q73ZrmVTwzkszR9V5SSuryQ31EELlFMUz1kKyl939pY=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973 h1:xJ4a3vCFaGF/jqvzLMYoU8P317H5OQ+Via4RmuPwCS0=
