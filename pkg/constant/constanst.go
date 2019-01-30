@@ -4,7 +4,7 @@ const (
 	PayOneMicroserviceVersion = "latest"
 	PayOneRepositoryServiceName  = "p1payrepository"
 
-	PayOneTopicNotifyPaymentName = "payone.topic.notify-payment"
+	PayOneTopicNotifyPaymentName = "notify-payment"
 
 	PaymentSystemCardPayDateFormat  = "2006-01-02T15:04:05Z"
 	PaymentSystemGroupAliasBankCard = "BANKCARD"
