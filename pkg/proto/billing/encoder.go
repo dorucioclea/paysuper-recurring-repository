@@ -1,7 +1,6 @@
 package billing
 
 import (
-	"github.com/ProtocolONE/payone-repository/tools"
 	"github.com/globalsign/mgo/bson"
 	"github.com/golang/protobuf/ptypes"
 	"time"
@@ -26,7 +25,7 @@ type MgoSavedCard struct {
 
 func (s *SavedCard) GetBSON() (interface{}, error) {
 	st := &MgoSavedCard{
-		Id:         tools.ByteToObjectId(s.Id),
+		Id:         bson.ObjectIdHex(s.Id),
 		Account:    s.Account,
 		ProjectId:  bson.ObjectIdHex(s.ProjectId),
 		MaskedPan:  s.MaskedPan,
@@ -58,7 +57,7 @@ func (s *SavedCard) SetBSON(raw bson.Raw) error {
 		return err
 	}
 
-	s.Id = tools.ObjectIdToByte(decoded.Id)
+	s.Id = decoded.Id.Hex()
 	s.Account = decoded.Account
 	s.ProjectId = decoded.ProjectId.Hex()
 	s.MaskedPan = decoded.MaskedPan

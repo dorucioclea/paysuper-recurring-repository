@@ -29,7 +29,7 @@ func (r *Repository) InsertSavedCard(ctx context.Context, req *repository.SavedC
 	}
 
 	data := &billing.SavedCard{
-		Id:         tools.ObjectIdToByte(bson.NewObjectId()),
+		Id:         bson.NewObjectId().Hex(),
 		Account:    req.Account,
 		ProjectId:  req.ProjectId,
 		MaskedPan:  tools.MaskBankCardNumber(req.Pan),
