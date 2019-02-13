@@ -28,7 +28,7 @@ func (s *SavedCard) GetBSON() (interface{}, error) {
 	st := &MgoSavedCard{
 		Id:         tools.ByteToObjectId(s.Id),
 		Account:    s.Account,
-		ProjectId:  tools.ByteToObjectId(s.ProjectId),
+		ProjectId:  bson.ObjectIdHex(s.ProjectId),
 		MaskedPan:  s.MaskedPan,
 		Pan:        s.Pan,
 		CardHolder: s.CardHolder,
@@ -60,7 +60,7 @@ func (s *SavedCard) SetBSON(raw bson.Raw) error {
 
 	s.Id = tools.ObjectIdToByte(decoded.Id)
 	s.Account = decoded.Account
-	s.ProjectId = tools.ObjectIdToByte(decoded.ProjectId)
+	s.ProjectId = decoded.ProjectId.Hex()
 	s.MaskedPan = decoded.MaskedPan
 	s.Pan = decoded.Pan
 	s.CardHolder = decoded.CardHolder

@@ -459,7 +459,7 @@ message SavedCard {
     // @inject_tag: bson:"account" structure:"account"
     string account = 2;
     // @inject_tag: bson:"project_id" structure:"project_id,bsonobjectid"
-    bytes project_id = 3;
+    string project_id = 3;
     // @inject_tag: bson:"masked_pan" structure:"masked_pan"
     string masked_pan = 4;
     // @inject_tag: bson:"pan" structure:"pan"

@@ -107,7 +107,7 @@ message CalculateVatRequest {
 
 message SavedCardRequest {
     string account = 1;
-    bytes project_id = 2;
+    string project_id = 2;
     string pan = 3;
     billing.CardExpire expire = 4;
     string card_holder = 5;

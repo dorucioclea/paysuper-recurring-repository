@@ -21,7 +21,7 @@ func (r *Repository) InsertSavedCard(ctx context.Context, req *repository.SavedC
 		msg := fmt.Sprintf(
 			savedCardAlreadyExistMessage,
 			req.Account,
-			tools.ByteToObjectId(req.ProjectId).Hex(),
+			req.ProjectId,
 			tools.MaskBankCardNumber(req.Pan),
 		)
 		log.Printf(AlreadyExistErrorMask, msg)
@@ -65,7 +65,7 @@ func (r *Repository) DeleteSavedCard(ctx context.Context, req *repository.FindBy
 func (r *Repository) FindSavedCards(ctx context.Context, req *repository.SavedCardRequest, rsp *repository.SavedCardList) error {
 	var c []*billing.SavedCard
 
-	q := bson.M{"account": req.Account, "project_id": tools.ByteToObjectId(req.ProjectId), "is_active": true}
+	q := bson.M{"account": req.Account, "project_id": req.ProjectId, "is_active": true}
 	err := r.Database.Collection(CollectionSavedCard).Find(q).All(&c)
 
 	if err != nil {
@@ -84,7 +84,7 @@ func (r *Repository) FindSavedCard(ctx context.Context, req *repository.SavedCar
 
 	q := bson.M{
 		"account":    req.Account,
-		"project_id": tools.ByteToObjectId(req.ProjectId),
+		"project_id": req.ProjectId,
 		"pan":        req.Pan,
 	}
 	err := r.Database.Collection(CollectionSavedCard).Find(q).One(&c)
