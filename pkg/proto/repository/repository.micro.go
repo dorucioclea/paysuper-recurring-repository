@@ -58,7 +58,6 @@ var _ server.Option
 // Client API for Repository service
 
 type RepositoryService interface {
-	FindBinData(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.BinData, error)
 	InsertSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*Result, error)
 	DeleteSavedCard(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*Result, error)
 	FindSavedCards(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*SavedCardList, error)
@@ -82,16 +81,6 @@ func NewRepositoryService(name string, c client.Client) RepositoryService {
 		c:    c,
 		name: name,
 	}
-}
-
-func (c *repositoryService) FindBinData(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.BinData, error) {
-	req := c.c.NewRequest(c.name, "Repository.FindBinData", in)
-	out := new(billing.BinData)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *repositoryService) InsertSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*Result, error) {
@@ -147,7 +136,6 @@ func (c *repositoryService) FindSavedCardById(ctx context.Context, in *FindByStr
 // Server API for Repository service
 
 type RepositoryHandler interface {
-	FindBinData(context.Context, *FindByStringValue, *billing.BinData) error
 	InsertSavedCard(context.Context, *SavedCardRequest, *Result) error
 	DeleteSavedCard(context.Context, *FindByStringValue, *Result) error
 	FindSavedCards(context.Context, *SavedCardRequest, *SavedCardList) error
@@ -157,7 +145,6 @@ type RepositoryHandler interface {
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
 	type repository interface {
-		FindBinData(ctx context.Context, in *FindByStringValue, out *billing.BinData) error
 		InsertSavedCard(ctx context.Context, in *SavedCardRequest, out *Result) error
 		DeleteSavedCard(ctx context.Context, in *FindByStringValue, out *Result) error
 		FindSavedCards(ctx context.Context, in *SavedCardRequest, out *SavedCardList) error
@@ -173,10 +160,6 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 
 type repositoryHandler struct {
 	RepositoryHandler
-}
-
-func (h *repositoryHandler) FindBinData(ctx context.Context, in *FindByStringValue, out *billing.BinData) error {
-	return h.RepositoryHandler.FindBinData(ctx, in, out)
 }
 
 func (h *repositoryHandler) InsertSavedCard(ctx context.Context, in *SavedCardRequest, out *Result) error {

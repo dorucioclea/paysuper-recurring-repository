@@ -22,7 +22,6 @@ const (
 	CollectionCurrency      = "currency"
 	CollectionCommission    = "commission"
 	CollectionVat           = "vat"
-	CollectionBinData       = "bank_bin"
 	CollectionSavedCard     = "saved_card"
 )
 

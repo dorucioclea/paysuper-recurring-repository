@@ -7,7 +7,6 @@ import "billing/billing.proto";
 package repository;
 
 service Repository {
-    rpc FindBinData(FindByStringValue) returns (billing.BinData) {}
     rpc InsertSavedCard(SavedCardRequest) returns (Result) {}
     rpc DeleteSavedCard(FindByStringValue) returns (Result) {}
     rpc FindSavedCards(SavedCardRequest) returns (SavedCardList) {}
