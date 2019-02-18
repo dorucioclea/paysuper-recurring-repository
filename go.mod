@@ -3,7 +3,7 @@ module github.com/ProtocolONE/payone-repository
 require (
 	github.com/InVisionApp/go-health v2.1.0+incompatible
 	github.com/InVisionApp/go-logger v1.0.1 // indirect
-	github.com/ProtocolONE/go-micro-plugins v0.2.0
+	github.com/ProtocolONE/go-micro-plugins v0.3.0
 	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
 	github.com/golang/protobuf v1.2.0
 	github.com/hashicorp/go-sockaddr v1.0.1 // indirect
