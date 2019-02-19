@@ -1,4 +1,4 @@
-package billing
+package entity
 
 import (
 	"github.com/globalsign/mgo/bson"

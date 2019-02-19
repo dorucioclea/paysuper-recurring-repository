@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
-	"github.com/ProtocolONE/payone-repository/pkg/proto/billing"
+	"github.com/ProtocolONE/payone-repository/pkg/proto/entity"
 	"github.com/ProtocolONE/payone-repository/pkg/proto/repository"
 	"github.com/ProtocolONE/payone-repository/tools"
 	"github.com/globalsign/mgo/bson"
@@ -17,7 +17,7 @@ const (
 )
 
 func (r *Repository) InsertSavedCard(ctx context.Context, req *repository.SavedCardRequest, rsp *repository.Result) error {
-	if err := r.FindSavedCard(ctx, req, &billing.SavedCard{}); err == nil {
+	if err := r.FindSavedCard(ctx, req, &entity.SavedCard{}); err == nil {
 		msg := fmt.Sprintf(
 			savedCardAlreadyExistMessage,
 			req.Account,
@@ -28,7 +28,7 @@ func (r *Repository) InsertSavedCard(ctx context.Context, req *repository.SavedC
 		return nil
 	}
 
-	data := &billing.SavedCard{
+	data := &entity.SavedCard{
 		Id:         bson.NewObjectId().Hex(),
 		Account:    req.Account,
 		ProjectId:  req.ProjectId,
@@ -63,7 +63,7 @@ func (r *Repository) DeleteSavedCard(ctx context.Context, req *repository.FindBy
 }
 
 func (r *Repository) FindSavedCards(ctx context.Context, req *repository.SavedCardRequest, rsp *repository.SavedCardList) error {
-	var c []*billing.SavedCard
+	var c []*entity.SavedCard
 
 	q := bson.M{"account": req.Account, "project_id": req.ProjectId, "is_active": true}
 	err := r.Database.Collection(CollectionSavedCard).Find(q).All(&c)
@@ -79,8 +79,8 @@ func (r *Repository) FindSavedCards(ctx context.Context, req *repository.SavedCa
 	return nil
 }
 
-func (r *Repository) FindSavedCard(ctx context.Context, req *repository.SavedCardRequest, rsp *billing.SavedCard) error {
-	var c *billing.SavedCard
+func (r *Repository) FindSavedCard(ctx context.Context, req *repository.SavedCardRequest, rsp *entity.SavedCard) error {
+	var c *entity.SavedCard
 
 	q := bson.M{
 		"account":    req.Account,
@@ -102,8 +102,8 @@ func (r *Repository) FindSavedCard(ctx context.Context, req *repository.SavedCar
 	return nil
 }
 
-func (r *Repository) FindSavedCardById(ctx context.Context, req *repository.FindByStringValue, rsp *billing.SavedCard) error {
-	var c *billing.SavedCard
+func (r *Repository) FindSavedCardById(ctx context.Context, req *repository.FindByStringValue, rsp *entity.SavedCard) error {
+	var c *entity.SavedCard
 	err := r.Database.Collection(CollectionSavedCard).Find(bson.M{"_id": bson.ObjectIdHex(req.Value)}).One(&c)
 
 	if err != nil {

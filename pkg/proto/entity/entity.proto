@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option go_package = "github.com/ProtocolONE/payone-repository/pkg/proto/entity";
+
+package entity;
+
+import "google/protobuf/timestamp.proto";
+
+message SavedCard {
+    // @inject_tag: bson:"_id"
+    string id = 1;
+    // @inject_tag: bson:"account"
+    string account = 2;
+    // @inject_tag: bson:"project_id"
+    string project_id = 3;
+    // @inject_tag: bson:"masked_pan"
+    string masked_pan = 4;
+    // @inject_tag: bson:"pan"
+    string pan = 5;
+    // @inject_tag: bson:"card_holder"
+    string card_holder = 6;
+    // @inject_tag: bson:"expire"
+    CardExpire expire = 7;
+    // @inject_tag: bson:"is_active"
+    bool is_active = 8;
+    // @inject_tag: bson:"created_at"
+    google.protobuf.Timestamp created_at = 9;
+}
+
+message CardExpire {
+    // @inject_tag: bson:"month"
+    string month = 1;
+    // @inject_tag: bson:"year"
+    string year = 2;
+}

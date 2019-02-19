@@ -2,99 +2,31 @@ syntax = "proto3";
 
 option go_package = "github.com/ProtocolONE/payone-repository/pkg/proto/repository";
 
-import "billing/billing.proto";
+import "entity/entity.proto";
 
 package repository;
 
 service Repository {
-    rpc UpdateMerchant (billing.Merchant) returns (Result) {}
-    rpc UpdateOrder (billing.Order) returns (Result) {}
     rpc InsertSavedCard(SavedCardRequest) returns (Result) {}
     rpc DeleteSavedCard(FindByStringValue) returns (Result) {}
     rpc FindSavedCards(SavedCardRequest) returns (SavedCardList) {}
-    rpc FindSavedCard(SavedCardRequest) returns (billing.SavedCard) {}
-    rpc FindSavedCardById(FindByStringValue) returns (billing.SavedCard) {}
+    rpc FindSavedCard(SavedCardRequest) returns (entity.SavedCard) {}
+    rpc FindSavedCardById(FindByStringValue) returns (entity.SavedCard) {}
 }
 
 message Result {}
 
-message ConvertRequest {
-    int32 currency_from = 1;
-    int32 currency_to = 2;
-    double amount = 3;
-}
-
-message ConvertResponse {
-    double amount = 1;
-}
-
-message FindByUnderscoreId {
-    // @inject_tag: bson:"_id" structure:"_id,bsonobjectid"
-    string id = 1;
-}
-
 message FindByStringValue {
     string value = 1;
 }
-
-message FloatValue {
-    double value = 1;
-}
-
-message FindByIntValue {
-    int32 value = 1;
-}
-
-message FindByGroupCurrencyRequest {
-    // @inject_tag: bson:"group_alias" structure:"group_alias"
-    string group = 1;
-    // @inject_tag: bson:"currencies" structure:"currencies"
-    int32 currency = 2;
-}
-
-message FindByProjectOrderId {
-    // @inject_tag: structure:"project.id,bsonobjectid"
-    string project_id = 1;
-    // @inject_tag: structure:"project_order_id"
-    string order_id = 2;
-}
-
-message Projects {
-    repeated billing.Project projects = 1;
-}
-
-message PaymentMethods {
-    repeated billing.PaymentMethod payment_methods = 1;
-}
-
-message CommissionRequest {
-    // @inject_tag: structure:"project_id,bsonobjectid"
-    string project_id = 1;
-    // @inject_tag: structure:"pm_id,bsonobjectid"
-    string payment_method_id = 2;
-    double amount = 3;
-}
-
-message CommissionResponse {
-    double payment_method = 1;
-    double psp = 2;
-    double to_user = 3;
-}
-
-message CalculateVatRequest {
-    string country_code_a2 = 1;
-    string subdivision = 2;
-    double amount = 3;
-}
-
 message SavedCardRequest {
     string account = 1;
     string project_id = 2;
     string pan = 3;
-    billing.CardExpire expire = 4;
+    entity.CardExpire expire = 4;
     string card_holder = 5;
 }
 
 message SavedCardList {
-    repeated billing.SavedCard saved_cards = 1;
+    repeated entity.SavedCard saved_cards = 1;
 }

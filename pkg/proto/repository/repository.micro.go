@@ -9,19 +9,7 @@ It is generated from these files:
 
 It has these top-level messages:
 	Result
-	ConvertRequest
-	ConvertResponse
-	FindByUnderscoreId
 	FindByStringValue
-	FloatValue
-	FindByIntValue
-	FindByGroupCurrencyRequest
-	FindByProjectOrderId
-	Projects
-	PaymentMethods
-	CommissionRequest
-	CommissionResponse
-	CalculateVatRequest
 	SavedCardRequest
 	SavedCardList
 */
@@ -30,7 +18,7 @@ package repository
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import billing "github.com/ProtocolONE/payone-repository/pkg/proto/billing"
+import entity "github.com/ProtocolONE/payone-repository/pkg/proto/entity"
 
 import (
 	context "context"
@@ -42,7 +30,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-var _ = billing.SavedCard{}
+var _ = entity.SavedCard{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -58,13 +46,11 @@ var _ server.Option
 // Client API for Repository service
 
 type RepositoryService interface {
-	UpdateMerchant(ctx context.Context, in *billing.Merchant, opts ...client.CallOption) (*Result, error)
-	UpdateOrder(ctx context.Context, in *billing.Order, opts ...client.CallOption) (*Result, error)
 	InsertSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*Result, error)
 	DeleteSavedCard(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*Result, error)
 	FindSavedCards(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*SavedCardList, error)
-	FindSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*billing.SavedCard, error)
-	FindSavedCardById(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.SavedCard, error)
+	FindSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*entity.SavedCard, error)
+	FindSavedCardById(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*entity.SavedCard, error)
 }
 
 type repositoryService struct {
@@ -83,26 +69,6 @@ func NewRepositoryService(name string, c client.Client) RepositoryService {
 		c:    c,
 		name: name,
 	}
-}
-
-func (c *repositoryService) UpdateMerchant(ctx context.Context, in *billing.Merchant, opts ...client.CallOption) (*Result, error) {
-	req := c.c.NewRequest(c.name, "Repository.UpdateMerchant", in)
-	out := new(Result)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *repositoryService) UpdateOrder(ctx context.Context, in *billing.Order, opts ...client.CallOption) (*Result, error) {
-	req := c.c.NewRequest(c.name, "Repository.UpdateOrder", in)
-	out := new(Result)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *repositoryService) InsertSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*Result, error) {
@@ -135,9 +101,9 @@ func (c *repositoryService) FindSavedCards(ctx context.Context, in *SavedCardReq
 	return out, nil
 }
 
-func (c *repositoryService) FindSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*billing.SavedCard, error) {
+func (c *repositoryService) FindSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*entity.SavedCard, error) {
 	req := c.c.NewRequest(c.name, "Repository.FindSavedCard", in)
-	out := new(billing.SavedCard)
+	out := new(entity.SavedCard)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -145,9 +111,9 @@ func (c *repositoryService) FindSavedCard(ctx context.Context, in *SavedCardRequ
 	return out, nil
 }
 
-func (c *repositoryService) FindSavedCardById(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*billing.SavedCard, error) {
+func (c *repositoryService) FindSavedCardById(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*entity.SavedCard, error) {
 	req := c.c.NewRequest(c.name, "Repository.FindSavedCardById", in)
-	out := new(billing.SavedCard)
+	out := new(entity.SavedCard)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -158,24 +124,20 @@ func (c *repositoryService) FindSavedCardById(ctx context.Context, in *FindByStr
 // Server API for Repository service
 
 type RepositoryHandler interface {
-	UpdateMerchant(context.Context, *billing.Merchant, *Result) error
-	UpdateOrder(context.Context, *billing.Order, *Result) error
 	InsertSavedCard(context.Context, *SavedCardRequest, *Result) error
 	DeleteSavedCard(context.Context, *FindByStringValue, *Result) error
 	FindSavedCards(context.Context, *SavedCardRequest, *SavedCardList) error
-	FindSavedCard(context.Context, *SavedCardRequest, *billing.SavedCard) error
-	FindSavedCardById(context.Context, *FindByStringValue, *billing.SavedCard) error
+	FindSavedCard(context.Context, *SavedCardRequest, *entity.SavedCard) error
+	FindSavedCardById(context.Context, *FindByStringValue, *entity.SavedCard) error
 }
 
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
 	type repository interface {
-		UpdateMerchant(ctx context.Context, in *billing.Merchant, out *Result) error
-		UpdateOrder(ctx context.Context, in *billing.Order, out *Result) error
 		InsertSavedCard(ctx context.Context, in *SavedCardRequest, out *Result) error
 		DeleteSavedCard(ctx context.Context, in *FindByStringValue, out *Result) error
 		FindSavedCards(ctx context.Context, in *SavedCardRequest, out *SavedCardList) error
-		FindSavedCard(ctx context.Context, in *SavedCardRequest, out *billing.SavedCard) error
-		FindSavedCardById(ctx context.Context, in *FindByStringValue, out *billing.SavedCard) error
+		FindSavedCard(ctx context.Context, in *SavedCardRequest, out *entity.SavedCard) error
+		FindSavedCardById(ctx context.Context, in *FindByStringValue, out *entity.SavedCard) error
 	}
 	type Repository struct {
 		repository
@@ -186,14 +148,6 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 
 type repositoryHandler struct {
 	RepositoryHandler
-}
-
-func (h *repositoryHandler) UpdateMerchant(ctx context.Context, in *billing.Merchant, out *Result) error {
-	return h.RepositoryHandler.UpdateMerchant(ctx, in, out)
-}
-
-func (h *repositoryHandler) UpdateOrder(ctx context.Context, in *billing.Order, out *Result) error {
-	return h.RepositoryHandler.UpdateOrder(ctx, in, out)
 }
 
 func (h *repositoryHandler) InsertSavedCard(ctx context.Context, in *SavedCardRequest, out *Result) error {
@@ -208,10 +162,10 @@ func (h *repositoryHandler) FindSavedCards(ctx context.Context, in *SavedCardReq
 	return h.RepositoryHandler.FindSavedCards(ctx, in, out)
 }
 
-func (h *repositoryHandler) FindSavedCard(ctx context.Context, in *SavedCardRequest, out *billing.SavedCard) error {
+func (h *repositoryHandler) FindSavedCard(ctx context.Context, in *SavedCardRequest, out *entity.SavedCard) error {
 	return h.RepositoryHandler.FindSavedCard(ctx, in, out)
 }
 
-func (h *repositoryHandler) FindSavedCardById(ctx context.Context, in *FindByStringValue, out *billing.SavedCard) error {
+func (h *repositoryHandler) FindSavedCardById(ctx context.Context, in *FindByStringValue, out *entity.SavedCard) error {
 	return h.RepositoryHandler.FindSavedCardById(ctx, in, out)
 }
