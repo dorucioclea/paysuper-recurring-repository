@@ -7,6 +7,8 @@ import "billing/billing.proto";
 package repository;
 
 service Repository {
+    rpc UpdateMerchant (billing.Merchant) returns (Result) {}
+    rpc UpdateOrder (billing.Order) returns (Result) {}
     rpc InsertSavedCard(SavedCardRequest) returns (Result) {}
     rpc DeleteSavedCard(FindByStringValue) returns (Result) {}
     rpc FindSavedCards(SavedCardRequest) returns (SavedCardList) {}

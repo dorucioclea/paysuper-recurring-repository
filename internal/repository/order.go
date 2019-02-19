@@ -23,25 +23,3 @@ func (r *Repository) UpdateOrder(ctx context.Context, req *billing.Order, rsp *r
 
 	return nil
 }
-
-func (r *Repository) InsertOrder(ctx context.Context, req *billing.Order, rsp *repository.Result) error {
-	err := r.Database.Collection(CollectionOrder).Insert(req)
-
-	if err != nil {
-		log.Printf(QueryErrorMask, CollectionOrder, err.Error())
-		return err
-	}
-
-	return nil
-}
-
-func (r *Repository) FindOrderById(ctx context.Context, req *repository.FindByUnderscoreId, rsp *billing.Order) error {
-	err := r.Database.Collection(CollectionOrder).Find(req).All(&rsp)
-
-	if err != nil {
-		log.Printf(QueryErrorMask, CollectionOrder, err.Error())
-		return err
-	}
-
-	return nil
-}

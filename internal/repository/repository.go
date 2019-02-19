@@ -17,15 +17,8 @@ const (
 	CollectionOrder         = "order"
 	CollectionMerchant      = "merchant"
 	CollectionCurrencyRate  = "currency_rate"
-	CollectionProject       = "project"
-	CollectionPaymentMethod = "payment_method"
-	CollectionCurrency      = "currency"
-	CollectionCommission    = "commission"
-	CollectionVat           = "vat"
 	CollectionSavedCard     = "saved_card"
 )
-
-var VatBySubdivisionCountries = map[string]bool{"US": true, "CA": true}
 
 type Repository struct {
 	Database *database.Source

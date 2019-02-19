@@ -23,14 +23,3 @@ func (r *Repository) UpdateMerchant(ctx context.Context, req *billing.Merchant, 
 
 	return nil
 }
-
-func (r *Repository) FindMerchantById(ctx context.Context, req *repository.FindByStringValue, rsp *billing.Merchant) error {
-	err := r.Database.Collection(CollectionMerchant).Find(bson.M{"external_id": req.Value}).One(&rsp)
-
-	if err != nil {
-		log.Printf(QueryErrorMask, CollectionMerchant, err.Error())
-		return err
-	}
-
-	return nil
-}
