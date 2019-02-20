@@ -1,9 +1,9 @@
-module github.com/ProtocolONE/paysuper-recurring-repository
+module github.com/paysuper/paysuper-recurring-repository
 
 require (
 	github.com/InVisionApp/go-health v2.1.0+incompatible
 	github.com/ProtocolONE/go-micro-plugins v0.3.0
-	github.com/ProtocolONE/payone-billing-service v0.0.0-20190219092501-33ad8e757d04
+	github.com/paysuper/paysuper-recurring-repository v1.0.93
 	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
 	github.com/golang/protobuf v1.2.1-0.20181128192352-1d3f30b51784
 	github.com/kelseyhightower/envconfig v1.3.0

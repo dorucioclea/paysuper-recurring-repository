@@ -18,7 +18,7 @@ package repository
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import entity "github.com/ProtocolONE/paysuper-recurring-repository/pkg/proto/entity"
+import entity "github.com/paysuper/paysuper-recurring-repository/pkg/proto/entity"
 
 import (
 	context "context"

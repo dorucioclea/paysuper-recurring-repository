@@ -12,6 +12,8 @@ github.com/ProtocolONE/payone-billing-service v0.0.0-20190219092501-33ad8e757d04
 github.com/ProtocolONE/payone-billing-service v0.0.0-20190219092501-33ad8e757d04/go.mod h1:HGfbX7xwEKRjTlOERqj/uRJf2ttL+VpMLoMbG3IxPx8=
 github.com/ProtocolONE/payone-repository v1.0.87 h1:U7ieDRNidkynHQ9/ZZ82EMZbSWiLeXzda7EfwiYS1hk=
 github.com/ProtocolONE/payone-repository v1.0.87/go.mod h1:lZGSpT/GENLxpfF53e9CQqaxBPEOZDHmeIvHk8XRQPw=
+github.com/ProtocolONE/paysuper-recurring-repository v1.0.93 h1:On/BoVBn9wjKOwjj8Yg9blDAAkeQcHwwdSAW9oODenY=
+github.com/ProtocolONE/paysuper-recurring-repository v1.0.93/go.mod h1:ujhRi5I+jdVnFDB4yMgkMQBDj+3gZepOEoy9IMZdris=
 github.com/ProtocolONE/rabbitmq v0.0.0-20190129162844-9f24367e139c h1:jiH5dizqc7/6rM8WJpKbgcVOMMXohKvenUWBhCN2gyI=
 github.com/ProtocolONE/rabbitmq v0.0.0-20190129162844-9f24367e139c/go.mod h1:ZnV4uG7YnB4iU8c8co8XU4w7xL0sGaGEw5d9g1THmwk=
 github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e/go.mod h1:3U/XgcO3hCbHZ8TKRvWD2dDTCfh9M9ya+I9JpbB7O8o=
