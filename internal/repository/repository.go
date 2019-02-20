@@ -2,11 +2,11 @@ package repository
 
 import (
 	"context"
-	"github.com/ProtocolONE/paysuper-recurring-repository/internal/database"
-	"github.com/ProtocolONE/paysuper-recurring-repository/pkg/proto/entity"
-	"github.com/ProtocolONE/paysuper-recurring-repository/pkg/proto/repository"
 	"github.com/globalsign/mgo/bson"
 	"github.com/golang/protobuf/ptypes"
+	"github.com/paysuper/paysuper-recurring-repository/internal/database"
+	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/entity"
+	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/repository"
 	"go.uber.org/zap"
 )
 
