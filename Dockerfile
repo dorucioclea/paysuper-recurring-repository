@@ -15,6 +15,6 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . ./
-RUN CGO_ENABLED=0 GOOS=linux go build -a -o $GOPATH/bin/payone_repository .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -o $GOPATH/bin/paysuper_repository .
 
-ENTRYPOINT $GOPATH/bin/payone_repository
+ENTRYPOINT $GOPATH/bin/paysuper_repository
