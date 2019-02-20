@@ -10,7 +10,6 @@ service Repository {
     rpc InsertSavedCard(SavedCardRequest) returns (Result) {}
     rpc DeleteSavedCard(FindByStringValue) returns (Result) {}
     rpc FindSavedCards(SavedCardRequest) returns (SavedCardList) {}
-    rpc FindSavedCard(SavedCardRequest) returns (entity.SavedCard) {}
     rpc FindSavedCardById(FindByStringValue) returns (entity.SavedCard) {}
 }
 
@@ -22,9 +21,9 @@ message FindByStringValue {
 message SavedCardRequest {
     string account = 1;
     string project_id = 2;
-    string pan = 3;
-    entity.CardExpire expire = 4;
-    string card_holder = 5;
+    string masked_pan = 3;
+    string recurring_id = 4;
+    entity.CardExpire expire = 5;
 }
 
 message SavedCardList {

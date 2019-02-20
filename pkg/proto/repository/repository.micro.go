@@ -49,7 +49,6 @@ type RepositoryService interface {
 	InsertSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*Result, error)
 	DeleteSavedCard(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*Result, error)
 	FindSavedCards(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*SavedCardList, error)
-	FindSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*entity.SavedCard, error)
 	FindSavedCardById(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*entity.SavedCard, error)
 }
 
@@ -101,16 +100,6 @@ func (c *repositoryService) FindSavedCards(ctx context.Context, in *SavedCardReq
 	return out, nil
 }
 
-func (c *repositoryService) FindSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*entity.SavedCard, error) {
-	req := c.c.NewRequest(c.name, "Repository.FindSavedCard", in)
-	out := new(entity.SavedCard)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *repositoryService) FindSavedCardById(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*entity.SavedCard, error) {
 	req := c.c.NewRequest(c.name, "Repository.FindSavedCardById", in)
 	out := new(entity.SavedCard)
@@ -127,7 +116,6 @@ type RepositoryHandler interface {
 	InsertSavedCard(context.Context, *SavedCardRequest, *Result) error
 	DeleteSavedCard(context.Context, *FindByStringValue, *Result) error
 	FindSavedCards(context.Context, *SavedCardRequest, *SavedCardList) error
-	FindSavedCard(context.Context, *SavedCardRequest, *entity.SavedCard) error
 	FindSavedCardById(context.Context, *FindByStringValue, *entity.SavedCard) error
 }
 
@@ -136,7 +124,6 @@ func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...
 		InsertSavedCard(ctx context.Context, in *SavedCardRequest, out *Result) error
 		DeleteSavedCard(ctx context.Context, in *FindByStringValue, out *Result) error
 		FindSavedCards(ctx context.Context, in *SavedCardRequest, out *SavedCardList) error
-		FindSavedCard(ctx context.Context, in *SavedCardRequest, out *entity.SavedCard) error
 		FindSavedCardById(ctx context.Context, in *FindByStringValue, out *entity.SavedCard) error
 	}
 	type Repository struct {
@@ -160,10 +147,6 @@ func (h *repositoryHandler) DeleteSavedCard(ctx context.Context, in *FindByStrin
 
 func (h *repositoryHandler) FindSavedCards(ctx context.Context, in *SavedCardRequest, out *SavedCardList) error {
 	return h.RepositoryHandler.FindSavedCards(ctx, in, out)
-}
-
-func (h *repositoryHandler) FindSavedCard(ctx context.Context, in *SavedCardRequest, out *entity.SavedCard) error {
-	return h.RepositoryHandler.FindSavedCard(ctx, in, out)
 }
 
 func (h *repositoryHandler) FindSavedCardById(ctx context.Context, in *FindByStringValue, out *entity.SavedCard) error {

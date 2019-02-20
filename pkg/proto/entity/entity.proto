@@ -15,16 +15,14 @@ message SavedCard {
     string project_id = 3;
     // @inject_tag: bson:"masked_pan"
     string masked_pan = 4;
-    // @inject_tag: bson:"pan"
-    string pan = 5;
-    // @inject_tag: bson:"card_holder"
-    string card_holder = 6;
     // @inject_tag: bson:"expire"
-    CardExpire expire = 7;
+    CardExpire expire = 5;
+    // @inject_tag: bson:"recurring_id"
+    string recurring_id = 6;
     // @inject_tag: bson:"is_active"
-    bool is_active = 8;
+    bool is_active = 7;
     // @inject_tag: bson:"created_at"
-    google.protobuf.Timestamp created_at = 9;
+    google.protobuf.Timestamp created_at = 8;
 }
 
 message CardExpire {

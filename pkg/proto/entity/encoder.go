@@ -29,8 +29,6 @@ func (s *SavedCard) GetBSON() (interface{}, error) {
 		Account:    s.Account,
 		ProjectId:  bson.ObjectIdHex(s.ProjectId),
 		MaskedPan:  s.MaskedPan,
-		Pan:        s.Pan,
-		CardHolder: s.CardHolder,
 		Expire: &MgoExpire{
 			Month: s.Expire.Month,
 			Year:  s.Expire.Year,
@@ -61,8 +59,6 @@ func (s *SavedCard) SetBSON(raw bson.Raw) error {
 	s.Account = decoded.Account
 	s.ProjectId = decoded.ProjectId.Hex()
 	s.MaskedPan = decoded.MaskedPan
-	s.Pan = decoded.Pan
-	s.CardHolder = decoded.CardHolder
 	s.Expire = &CardExpire{
 		Month: decoded.Expire.Month,
 		Year:  decoded.Expire.Year,

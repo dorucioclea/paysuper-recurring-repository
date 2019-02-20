@@ -8,7 +8,6 @@ func main() {
 	app := internal.NewApplication()
 	app.Init()
 
-	defer app.Database.Close()
-
+	defer app.Stop()
 	app.Run()
 }

@@ -1,22 +1,19 @@
 package repository
 
 import (
+	"context"
 	"github.com/ProtocolONE/payone-repository/internal/database"
-	"github.com/ProtocolONE/payone-repository/tools"
+	"github.com/ProtocolONE/payone-repository/pkg/proto/entity"
+	"github.com/ProtocolONE/payone-repository/pkg/proto/repository"
+	"github.com/globalsign/mgo/bson"
+	"github.com/golang/protobuf/ptypes"
+	"go.uber.org/zap"
 )
 
 const (
-	FieldNameUnderscoreId = "_id"
+	QueryErrorMask           = "[PAYSUPER_REPOSITORY] Query to saved cards collection failed"
+	AlreadyExistErrorMask    = "[PAYSUPER_REPOSITORY] Saved card with specified data already exist"
 
-	QueryErrorMask           = "[PAYONE ERROR] Query from table \"%s\" ended with error: %s\n"
-	NotFoundGeneralErrorMask = "[PAYONE ERROR] %s not found\n"
-	NotFoundErrorMask        = "[PAYONE ERROR] %s not found for specified project and payment method\n"
-	SomeErrorMask            = "[PAYONE ERROR] Something is wrong. Operation ended with error: %s\n"
-	AlreadyExistErrorMask    = "[PAYONE ERROR] %s record with specified data already exist"
-
-	CollectionOrder         = "order"
-	CollectionMerchant      = "merchant"
-	CollectionCurrencyRate  = "currency_rate"
 	CollectionSavedCard     = "saved_card"
 )
 
@@ -24,6 +21,111 @@ type Repository struct {
 	Database *database.Source
 }
 
-func (r *Repository) toMap(obj interface{}) map[string]interface{} {
-	return tools.NewStructureConverter(obj).Map()
+func (r *Repository) InsertSavedCard(
+	ctx context.Context,
+	req *repository.SavedCardRequest,
+	rsp *repository.Result,
+) error {
+	var savedCard *entity.SavedCard
+
+	q := bson.M{
+		"account":    req.Account,
+		"project_id": req.ProjectId,
+		"pan":        req.MaskedPan,
+	}
+	err := r.Database.Collection(CollectionSavedCard).Find(q).One(&savedCard)
+
+	if err != nil {
+		zap.L().Error(QueryErrorMask, zap.Error(err), zap.Any("filter", q))
+	}
+
+	if savedCard != nil {
+		zap.L().Info(AlreadyExistErrorMask, zap.Any("filter", q))
+		return nil
+	}
+
+	data := &entity.SavedCard{
+		Id:          bson.NewObjectId().Hex(),
+		Account:     req.Account,
+		ProjectId:   req.ProjectId,
+		MaskedPan:   req.MaskedPan,
+		RecurringId: req.RecurringId,
+		Expire:      req.Expire,
+		IsActive:    true,
+		CreatedAt:   ptypes.TimestampNow(),
+	}
+
+	err = r.Database.Collection(CollectionSavedCard).Insert(data)
+
+	if err != nil {
+		zap.L().Error(QueryErrorMask, zap.Error(err), zap.Any("set", data))
+		return err
+	}
+
+	return nil
+}
+
+func (r *Repository) DeleteSavedCard(
+	ctx context.Context,
+	req *repository.FindByStringValue,
+	rsp *repository.Result,
+) error {
+	q := bson.M{"is_active": false}
+	err := r.Database.Collection(CollectionSavedCard).UpdateId(bson.ObjectIdHex(req.Value), bson.M{"$set": q})
+
+	if err != nil {
+		zap.L().Error(QueryErrorMask, zap.Error(err), zap.String("id", req.Value), zap.Any("set", q))
+		return err
+	}
+
+	return nil
+}
+
+func (r *Repository) FindSavedCards(
+	ctx context.Context,
+	req *repository.SavedCardRequest,
+	rsp *repository.SavedCardList,
+) error {
+	var c []*entity.SavedCard
+
+	q := bson.M{
+		"account":    req.Account,
+		"project_id": req.ProjectId,
+		"is_active":  true,
+	}
+	err := r.Database.Collection(CollectionSavedCard).Find(q).All(&c)
+
+	if err != nil {
+		zap.L().Error(QueryErrorMask, zap.Error(err), zap.Any("set", q))
+	}
+
+	if len(c) > 0 {
+		rsp.SavedCards = c
+	}
+
+	return nil
+}
+
+func (r *Repository) FindSavedCardById(
+	ctx context.Context,
+	req *repository.FindByStringValue,
+	rsp *entity.SavedCard,
+) error {
+	var c *entity.SavedCard
+
+	err := r.Database.Collection(CollectionSavedCard).Find(bson.M{"_id": bson.ObjectIdHex(req.Value)}).One(&c)
+
+	if err != nil {
+		zap.L().Error(QueryErrorMask, zap.Error(err), zap.Any("id", req.Value))
+		return err
+	}
+
+	rsp.Id = c.Id
+	rsp.ProjectId = c.ProjectId
+	rsp.Expire = c.Expire
+	rsp.MaskedPan = c.MaskedPan
+	rsp.IsActive = c.IsActive
+	rsp.CreatedAt = c.CreatedAt
+
+	return nil
 }
