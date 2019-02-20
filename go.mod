@@ -1,4 +1,4 @@
-module github.com/ProtocolONE/payone-repository
+module github.com/ProtocolONE/paysuper-recurring-repository
 
 require (
 	github.com/InVisionApp/go-health v2.1.0+incompatible
