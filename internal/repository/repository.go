@@ -2,19 +2,19 @@ package repository
 
 import (
 	"context"
-	"github.com/ProtocolONE/payone-repository/internal/database"
-	"github.com/ProtocolONE/payone-repository/pkg/proto/entity"
-	"github.com/ProtocolONE/payone-repository/pkg/proto/repository"
+	"github.com/ProtocolONE/paysuper-recurring-repository/internal/database"
+	"github.com/ProtocolONE/paysuper-recurring-repository/pkg/proto/entity"
+	"github.com/ProtocolONE/paysuper-recurring-repository/pkg/proto/repository"
 	"github.com/globalsign/mgo/bson"
 	"github.com/golang/protobuf/ptypes"
 	"go.uber.org/zap"
 )
 
 const (
-	QueryErrorMask           = "[PAYSUPER_REPOSITORY] Query to saved cards collection failed"
-	AlreadyExistErrorMask    = "[PAYSUPER_REPOSITORY] Saved card with specified data already exist"
+	QueryErrorMask        = "[PAYSUPER_REPOSITORY] Query to saved cards collection failed"
+	AlreadyExistErrorMask = "[PAYSUPER_REPOSITORY] Saved card with specified data already exist"
 
-	CollectionSavedCard     = "saved_card"
+	CollectionSavedCard = "saved_card"
 )
 
 type Repository struct {

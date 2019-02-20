@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-option go_package = "github.com/ProtocolONE/payone-repository/pkg/proto/billing";
+option go_package = "github.com/ProtocolONE/paysuper-recurring-repository/pkg/proto/entity";
 
-package billing;
+package entity;
 
 message XSollaUser {
     string id = 1;

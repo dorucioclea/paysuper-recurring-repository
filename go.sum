@@ -10,6 +10,7 @@ github.com/ProtocolONE/go-micro-plugins v0.3.0 h1:LMPWEsMiuJnBa92b+Bsi0CHOGl1LhN
 github.com/ProtocolONE/go-micro-plugins v0.3.0/go.mod h1:/gvuHZoDRGfxS+ox0fHXuwwsTEVEHWRWKOhzbnozrZ8=
 github.com/ProtocolONE/payone-billing-service v0.0.0-20190219092501-33ad8e757d04 h1:N3snspoLqF1DwH8LWThS7IWMnvBFKcgAte5LZsQ9MzA=
 github.com/ProtocolONE/payone-billing-service v0.0.0-20190219092501-33ad8e757d04/go.mod h1:HGfbX7xwEKRjTlOERqj/uRJf2ttL+VpMLoMbG3IxPx8=
+github.com/ProtocolONE/payone-repository v1.0.87 h1:U7ieDRNidkynHQ9/ZZ82EMZbSWiLeXzda7EfwiYS1hk=
 github.com/ProtocolONE/payone-repository v1.0.87/go.mod h1:lZGSpT/GENLxpfF53e9CQqaxBPEOZDHmeIvHk8XRQPw=
 github.com/ProtocolONE/rabbitmq v0.0.0-20190129162844-9f24367e139c h1:jiH5dizqc7/6rM8WJpKbgcVOMMXohKvenUWBhCN2gyI=
 github.com/ProtocolONE/rabbitmq v0.0.0-20190129162844-9f24367e139c/go.mod h1:ZnV4uG7YnB4iU8c8co8XU4w7xL0sGaGEw5d9g1THmwk=

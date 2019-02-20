@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ProtocolONE/payone-repository/internal"
+	"github.com/ProtocolONE/paysuper-recurring-repository/internal"
 )
 
 func main() {
