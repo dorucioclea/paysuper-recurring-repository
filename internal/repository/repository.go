@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
 	"github.com/golang/protobuf/ptypes"
 	"github.com/paysuper/paysuper-recurring-repository/internal/database"
@@ -30,12 +31,12 @@ func (r *Repository) InsertSavedCard(
 
 	q := bson.M{
 		"account":    req.Account,
-		"project_id": req.ProjectId,
+		"project_id": bson.ObjectIdHex(req.ProjectId),
 		"pan":        req.MaskedPan,
 	}
 	err := r.Database.Collection(CollectionSavedCard).Find(q).One(&savedCard)
 
-	if err != nil {
+	if err != nil && err != mgo.ErrNotFound {
 		zap.L().Error(QueryErrorMask, zap.Error(err), zap.Any("filter", q))
 		return err
 	}
@@ -91,7 +92,7 @@ func (r *Repository) FindSavedCards(
 
 	q := bson.M{
 		"account":    req.Account,
-		"project_id": req.ProjectId,
+		"project_id": bson.ObjectIdHex(req.ProjectId),
 		"is_active":  true,
 	}
 	err := r.Database.Collection(CollectionSavedCard).Find(q).All(&c)
