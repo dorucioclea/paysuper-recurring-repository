@@ -27,4 +27,6 @@ const (
 	OrderStatusChargeback                  = 10
 	OrderStatusPaymentSystemDeclined       = 11
 	OrderStatusPaymentSystemCanceled       = 12
+
+	RegistryKubernetes = "kubernetes"
 )

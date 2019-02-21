@@ -7,6 +7,7 @@ import (
 	metrics "github.com/ProtocolONE/go-micro-plugins/wrapper/monitoring/prometheus"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/micro/go-micro"
+	k8s "github.com/micro/kubernetes/go/micro"
 	"github.com/paysuper/paysuper-recurring-repository/internal/database"
 	"github.com/paysuper/paysuper-recurring-repository/internal/repository"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/constant"
@@ -19,11 +20,12 @@ import (
 )
 
 type Config struct {
-	Host        string `envconfig:"MONGO_HOST" required:"true"`
-	Database    string `envconfig:"MONGO_DB" required:"true"`
-	User        string `envconfig:"MONGO_USER" required:"true"`
-	Password    string `envconfig:"MONGO_PASSWORD" required:"true"`
-	MetricsPort string `envconfig:"METRICS_PORT" required:"false" default:"8085"`
+	Host          string `envconfig:"MONGO_HOST" required:"true"`
+	Database      string `envconfig:"MONGO_DB" required:"true"`
+	User          string `envconfig:"MONGO_USER" required:"true"`
+	Password      string `envconfig:"MONGO_PASSWORD" required:"true"`
+	MetricsPort   string `envconfig:"METRICS_PORT" required:"false" default:"8085"`
+	MicroRegistry string `envconfig:"MICRO_REGISTRY" required:"false"`
 }
 
 type Application struct {
@@ -63,7 +65,7 @@ func (app *Application) Init() {
 
 	app.db = db
 
-	app.service = micro.NewService(
+	options := []micro.Option{
 		micro.Name(constant.PayOneRepositoryServiceName),
 		micro.Version(constant.PayOneMicroserviceVersion),
 		micro.WrapHandler(metrics.NewHandlerWrapper()),
@@ -71,8 +73,15 @@ func (app *Application) Init() {
 			app.log.Info("[PAYSUPER_REPOSITORY] Micro service stopped")
 			return nil
 		}),
-	)
-	app.log.Info("[PAYSUPER_REPOSITORY] Initialize micro service")
+	}
+
+	if app.cfg.MicroRegistry == constant.RegistryKubernetes {
+		app.service = k8s.NewService(options...)
+		app.log.Info("[PAYSUPER_REPOSITORY] Initialize k8s service")
+	} else {
+		app.service = micro.NewService(options...)
+		app.log.Info("[PAYSUPER_REPOSITORY] Initialize micro service")
+	}
 
 	app.service.Init()
 
