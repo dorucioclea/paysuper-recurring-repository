@@ -68,7 +68,7 @@ func (app *Application) Init() {
 		micro.Version(constant.PayOneMicroserviceVersion),
 		micro.WrapHandler(metrics.NewHandlerWrapper()),
 		micro.AfterStop(func() error {
-			app.log.Info("Micro service stopped")
+			app.log.Info("[PAYSUPER_REPOSITORY] Micro service stopped")
 			return nil
 		}),
 	)

@@ -17,7 +17,7 @@ require (
 	github.com/gogo/protobuf v1.2.0 // indirect
 	github.com/golang/groupcache v0.0.0-20190129154638-5b532d6fd5ef // indirect
 	github.com/golang/lint v0.0.0-20181217174547-8f45f776aaf1 // indirect
-	github.com/golang/protobuf v1.2.1-0.20181128192352-1d3f30b51784
+	github.com/golang/protobuf v1.2.0
 	github.com/google/pprof v0.0.0-20190109223431-e84dfd68c163 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e // indirect
 	github.com/gregjones/httpcache v0.0.0-20190203031600-7a902570cb17 // indirect
@@ -25,11 +25,9 @@ require (
 	github.com/kelseyhightower/envconfig v1.3.0
 	github.com/micro/examples v0.1.0 // indirect
 	github.com/micro/go-micro v0.26.1
-	github.com/micro/go-plugins v0.25.0 // indirect
-	github.com/micro/kubernetes v0.2.0
+	github.com/micro/go-plugins v0.25.0
 	github.com/microcosm-cc/bluemonday v1.0.2 // indirect
 	github.com/openzipkin/zipkin-go v0.1.5 // indirect
-	github.com/pkg/errors v0.8.1
 	github.com/prometheus/client_golang v0.9.2
 	github.com/prometheus/client_model v0.0.0-20190129233127-fd36f4220a90 // indirect
 	github.com/prometheus/common v0.2.0 // indirect
@@ -52,9 +50,7 @@ require (
 	go.uber.org/zap v1.9.1
 	go4.org v0.0.0-20181109185143-00e24f1b2599 // indirect
 	golang.org/x/exp v0.0.0-20190125153040-c74c464bbbf2 // indirect
-	golang.org/x/net v0.0.0-20190213061140-3a22650c66bd
 	golang.org/x/perf v0.0.0-20190124201629-844a5f5b46f4 // indirect
-	google.golang.org/grpc v1.18.0
 	honnef.co/go/tools v0.0.0-20190128043916-71123fcbb8fe // indirect
 	sourcegraph.com/sqs/pbtypes v1.0.0 // indirect
 )
