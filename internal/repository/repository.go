@@ -126,6 +126,7 @@ func (r *Repository) FindSavedCardById(
 	rsp.ProjectId = c.ProjectId
 	rsp.Expire = c.Expire
 	rsp.MaskedPan = c.MaskedPan
+	rsp.RecurringId = c.RecurringId
 	rsp.IsActive = c.IsActive
 	rsp.CreatedAt = c.CreatedAt
 
