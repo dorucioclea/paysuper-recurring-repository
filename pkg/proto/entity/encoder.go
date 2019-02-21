@@ -12,27 +12,27 @@ type MgoExpire struct {
 }
 
 type MgoSavedCard struct {
-	Id         bson.ObjectId `bson:"_id" json:"id"`
-	Account    string        `bson:"account" json:"account"`
-	ProjectId  bson.ObjectId `bson:"project_id" json:"project_id"`
-	MaskedPan  string        `bson:"masked_pan" json:"masked_pan"`
-	Pan        string        `bson:"pan" json:"pan"`
-	CardHolder string        `bson:"card_holder" json:"card_holder"`
-	Expire     *MgoExpire    `bson:"expire" json:"expire"`
-	IsActive   bool          `bson:"is_active" json:"is_active"`
-	CreatedAt  time.Time     `bson:"created_at" json:"created_at"`
+	Id          bson.ObjectId `bson:"_id"`
+	Account     string        `bson:"account"`
+	ProjectId   bson.ObjectId `bson:"project_id"`
+	MaskedPan   string        `bson:"masked_pan"`
+	Expire      *MgoExpire    `bson:"expire"`
+	RecurringId string        `bson:"recurring_id"`
+	IsActive    bool          `bson:"is_active"`
+	CreatedAt   time.Time     `bson:"created_at"`
 }
 
 func (s *SavedCard) GetBSON() (interface{}, error) {
 	st := &MgoSavedCard{
-		Id:         bson.ObjectIdHex(s.Id),
-		Account:    s.Account,
-		ProjectId:  bson.ObjectIdHex(s.ProjectId),
-		MaskedPan:  s.MaskedPan,
+		Id:        bson.ObjectIdHex(s.Id),
+		Account:   s.Account,
+		ProjectId: bson.ObjectIdHex(s.ProjectId),
+		MaskedPan: s.MaskedPan,
 		Expire: &MgoExpire{
 			Month: s.Expire.Month,
 			Year:  s.Expire.Year,
 		},
+		RecurringId: s.RecurringId,
 		IsActive: s.IsActive,
 	}
 
@@ -63,6 +63,7 @@ func (s *SavedCard) SetBSON(raw bson.Raw) error {
 		Month: decoded.Expire.Month,
 		Year:  decoded.Expire.Year,
 	}
+	s.RecurringId = decoded.RecurringId
 	s.IsActive = decoded.IsActive
 	s.CreatedAt, err = ptypes.TimestampProto(decoded.CreatedAt)
 

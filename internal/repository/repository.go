@@ -37,6 +37,7 @@ func (r *Repository) InsertSavedCard(
 
 	if err != nil {
 		zap.L().Error(QueryErrorMask, zap.Error(err), zap.Any("filter", q))
+		return err
 	}
 
 	if savedCard != nil {
