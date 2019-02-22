@@ -14,11 +14,4 @@ FROM alpine:3.9
 WORKDIR /application/
 COPY --from=builder /application/app .
 
-ENV GO111MODULE=on
-ENV MICRO_REGISTRY=consul
-ENV MONGO_HOST="localhost:3002"
-ENV MONGO_DB="paysuper"
-ENV MONGO_USER=""
-ENV MONGO_PASSWORD=""
-
 ENTRYPOINT ["./app"]
