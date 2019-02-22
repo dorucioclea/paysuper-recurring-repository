@@ -4,17 +4,21 @@ RUN apk add bash ca-certificates git
 
 WORKDIR /application
 
-ENV GO111MODULE=on
-ENV MICRO_REGISTRY=mdns
-ENV MONGO_HOST=""
-ENV MONGO_DB=""
-ENV MONGO_USER=""
-ENV MONGO_PASSWORD=""
-
 COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . ./
-RUN CGO_ENABLED=0 GOOS=linux go build -a -o $GOPATH/bin/paysuper_repository .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -o app .
 
-ENTRYPOINT $GOPATH/bin/paysuper_repository
+FROM alpine:3.9
+WORKDIR /application/
+COPY --from=builder /application/app .
+
+ENV GO111MODULE=on
+ENV MICRO_REGISTRY=consul
+ENV MONGO_HOST="localhost:3002"
+ENV MONGO_DB="paysuper"
+ENV MONGO_USER=""
+ENV MONGO_PASSWORD=""
+
+ENTRYPOINT ["./app"]
