@@ -46,6 +46,8 @@ spec:
             value: "static"
           - name: MICRO_SERVER_ADDRESS
             value: "0.0.0.0:{{ $deployment.port }}"
+          - name: METRICS_PORT
+            value: "{{ $deployment.healthPort }}"
           - name: MONGO_HOST
             valueFrom:
               secretKeyRef:
@@ -66,14 +68,6 @@ spec:
               secretKeyRef:
                 name: p1payapi-mongo-connection
                 key: MONGO_PASSWORD
-          - name: MICRO_SERVER_ADDRESS
-            value: "0.0.0.0:{{ $deployment.port }}"
-          - name: MICRO_REGISTRY
-            value: "kubernetes"
-          - name: MICRO_SELECTOR
-            value: "static"
-          - name: METRICS_PORT
-            value: "{{ $deployment.healthPort }}"
 
         #livenessProbe:
         #  httpGet:
