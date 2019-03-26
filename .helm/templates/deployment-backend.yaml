@@ -51,22 +51,22 @@ spec:
           - name: MONGO_HOST
             valueFrom:
               secretKeyRef:
-                name: p1payapi-mongo-connection
+                name: p1payapi-gobackend-env
                 key: MONGO_HOST
           - name: MONGO_DB
             valueFrom:
               secretKeyRef:
-                name: p1payapi-mongo-connection
+                name: p1payapi-gobackend-env
                 key: MONGO_DB
           - name: MONGO_USER
             valueFrom:
               secretKeyRef:
-                name: p1payapi-mongo-connection
+                name: p1payapi-gobackend-env
                 key: MONGO_USER
           - name: MONGO_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: p1payapi-mongo-connection
+                name: p1payapi-gobackend-env
                 key: MONGO_PASSWORD
 
         #livenessProbe:
