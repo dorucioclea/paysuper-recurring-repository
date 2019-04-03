@@ -46,34 +46,28 @@ spec:
             value: "static"
           - name: MICRO_SERVER_ADDRESS
             value: "0.0.0.0:{{ $deployment.port }}"
+          - name: METRICS_PORT
+            value: "{{ $deployment.healthPort }}"
           - name: MONGO_HOST
             valueFrom:
               secretKeyRef:
-                name: p1payapi-mongo-connection
+                name: p1payapi-gobackend-env
                 key: MONGO_HOST
           - name: MONGO_DB
             valueFrom:
               secretKeyRef:
-                name: p1payapi-mongo-connection
+                name: p1payapi-gobackend-env
                 key: MONGO_DB
           - name: MONGO_USER
             valueFrom:
               secretKeyRef:
-                name: p1payapi-mongo-connection
+                name: p1payapi-gobackend-env
                 key: MONGO_USER
           - name: MONGO_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: p1payapi-mongo-connection
+                name: p1payapi-gobackend-env
                 key: MONGO_PASSWORD
-          - name: MICRO_SERVER_ADDRESS
-            value: "0.0.0.0:{{ $deployment.port }}"
-          - name: MICRO_REGISTRY
-            value: "kubernetes"
-          - name: MICRO_SELECTOR
-            value: "static"
-          - name: METRICS_PORT
-            value: "{{ $deployment.healthPort }}"
 
         #livenessProbe:
         #  httpGet:
