@@ -10,12 +10,18 @@ stages:
 jobs:
   include:
   - stage: test
+    services:
+      - mongodb
+    env:
+      - GO111MODULE=on
+      - MONGO_HOST=127.0.0.1:27017
+      - MONGO_DB=paysuper_repository_test
     install: true
     script:
     - echo "tests here"
-    #- go test ./... -coverprofile=coverage.out -covermode=atomic -p=1
-    #after_success:
-    #- bash <(curl -s https://codecov.io/bash)
+    - go test ./... -coverprofile=coverage.out -covermode=atomic -p=1
+    after_success:
+    - bash <(curl -s https://codecov.io/bash)
   - stage: deploy
     services: docker
     install: true
