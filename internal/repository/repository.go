@@ -116,13 +116,13 @@ func (r *Repository) FindSavedCardById(
     var card *entity.SavedCard
     err := r.db.Collection(constant.CollectionSavedCard).FindId(bson.ObjectIdHex(req.Value)).One(&card)
 
-    if err != nil && err != mgo.ErrNotFound {
+    if err != nil {
+        if err == mgo.ErrNotFound {
+            return constant.ErrNotFound
+        }
+
         r.logError(savedCardQueryErrorFind, []interface{}{"error", err.Error(), "_id", req.Value})
         return constant.ErrDatabase
-    }
-
-    if card == nil {
-        return constant.ErrNotFound
     }
 
     rsp.Id = card.Id
