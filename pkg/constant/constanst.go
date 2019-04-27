@@ -34,5 +34,12 @@ const (
 	OrderStatusPaymentSystemDeclined       = 11
 	OrderStatusPaymentSystemCanceled       = 12
 
+	OrderPublicStatusCreated    = "created"
+	OrderPublicStatusProcessed  = "processed"
+	OrderPublicStatusCanceled   = "canceled"
+	OrderPublicStatusRejected   = "rejected"
+	OrderPublicStatusRefunded   = "refunded"
+	OrderPublicStatusChargeback = "chargeback"
+
 	RegistryKubernetes = "kubernetes"
 )
