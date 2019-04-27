@@ -40,6 +40,7 @@ const (
 	OrderPublicStatusRejected   = "rejected"
 	OrderPublicStatusRefunded   = "refunded"
 	OrderPublicStatusChargeback = "chargeback"
+	OrderPublicStatusPending    = "pending"
 
 	RegistryKubernetes = "kubernetes"
 )
