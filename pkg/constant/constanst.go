@@ -1,5 +1,7 @@
 package constant
 
+import "errors"
+
 const (
 	PayOneMicroserviceVersion   = "latest"
 	PayOneRepositoryServiceName = "p1payrepository"
@@ -43,4 +45,14 @@ const (
 	OrderPublicStatusPending    = "pending"
 
 	RegistryKubernetes = "kubernetes"
+
+	CollectionSavedCard = "saved_card"
+
+	SavedCardErrorNotFound     = "saved card with specified identifier not found"
+	SavedCardErrorDatabase     = "saved cards database query failed"
+)
+
+var (
+	ErrNotFound    = errors.New(SavedCardErrorNotFound)
+	ErrDatabase    = errors.New(SavedCardErrorDatabase)
 )

@@ -19,11 +19,12 @@ message FindByStringValue {
     string value = 1;
 }
 message SavedCardRequest {
-    string account = 1;
+    string token = 1;
     string project_id = 2;
-    string masked_pan = 3;
-    string recurring_id = 4;
-    entity.CardExpire expire = 5;
+    string merchant_id = 3;
+    string masked_pan = 4;
+    string recurring_id = 5;
+    entity.CardExpire expire = 6;
 }
 
 message SavedCardList {

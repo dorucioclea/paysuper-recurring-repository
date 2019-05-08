@@ -7,27 +7,24 @@ package entity;
 import "google/protobuf/timestamp.proto";
 
 message SavedCard {
-    // @inject_tag: bson:"_id"
+    // @inject_tag: json:"id"
     string id = 1;
-    // @inject_tag: bson:"account"
-    string account = 2;
-    // @inject_tag: bson:"project_id"
+    string token = 2;
     string project_id = 3;
-    // @inject_tag: bson:"masked_pan"
-    string masked_pan = 4;
-    // @inject_tag: bson:"expire"
-    CardExpire expire = 5;
-    // @inject_tag: bson:"recurring_id"
-    string recurring_id = 6;
-    // @inject_tag: bson:"is_active"
-    bool is_active = 7;
-    // @inject_tag: bson:"created_at"
-    google.protobuf.Timestamp created_at = 8;
+    string merchant_id = 4;
+    // @inject_tag: json:"pan"
+    string masked_pan = 5;
+    // @inject_tag: json:"expire"
+    CardExpire expire = 6;
+    string recurring_id = 7;
+    bool is_active = 8;
+    google.protobuf.Timestamp created_at = 9;
+    google.protobuf.Timestamp updated_at = 10;
 }
 
 message CardExpire {
-    // @inject_tag: bson:"month"
+    // @inject_tag: json:"month"
     string month = 1;
-    // @inject_tag: bson:"year"
+    // @inject_tag: json:"year"
     string year = 2;
 }
