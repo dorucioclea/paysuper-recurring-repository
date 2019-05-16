@@ -44,10 +44,10 @@ func (r *Repository) InsertSavedCard(
     }
 
     if card != nil {
-        if card.Token == req.Token {
+        if card.RecurringId == req.RecurringId {
             return nil
         } else {
-            card.Token = req.Token
+            card.RecurringId = req.RecurringId
             card.UpdatedAt = ptypes.TimestampNow()
 
             err = r.db.Collection(constant.CollectionSavedCard).UpdateId(bson.ObjectIdHex(card.Id), card)
