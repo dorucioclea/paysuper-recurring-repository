@@ -44,23 +44,30 @@ func (r *Repository) InsertSavedCard(
     }
 
     if card != nil {
-        return nil
-    }
+        if card.Token == req.Token {
+            return nil
+        } else {
+            card.Token = req.Token
+            card.UpdatedAt = ptypes.TimestampNow()
 
-    card = &entity.SavedCard{
-        Id:          bson.NewObjectId().Hex(),
-        Token:       req.Token,
-        ProjectId:   req.ProjectId,
-        MerchantId:  req.MerchantId,
-        MaskedPan:   req.MaskedPan,
-        RecurringId: req.RecurringId,
-        Expire:      req.Expire,
-        IsActive:    true,
-        CreatedAt:   ptypes.TimestampNow(),
-        UpdatedAt:   ptypes.TimestampNow(),
-    }
+            err = r.db.Collection(constant.CollectionSavedCard).UpdateId(bson.ObjectIdHex(card.Id), card)
+        }
+    } else {
+        card = &entity.SavedCard{
+            Id:          bson.NewObjectId().Hex(),
+            Token:       req.Token,
+            ProjectId:   req.ProjectId,
+            MerchantId:  req.MerchantId,
+            MaskedPan:   req.MaskedPan,
+            RecurringId: req.RecurringId,
+            Expire:      req.Expire,
+            IsActive:    true,
+            CreatedAt:   ptypes.TimestampNow(),
+            UpdatedAt:   ptypes.TimestampNow(),
+        }
 
-    err = r.db.Collection(constant.CollectionSavedCard).Insert(card)
+        err = r.db.Collection(constant.CollectionSavedCard).Insert(card)
+    }
 
     if err != nil {
         r.logError(savedCardQueryErrorCreate, []interface{}{"error", err.Error(), "data", card})
