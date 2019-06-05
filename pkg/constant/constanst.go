@@ -12,7 +12,9 @@ const (
 	TaxjarTransactionsTopicName      = "taxjar-sync-transactions"
 	TaxjarTransactionsRetryTopicName = "taxjar-sync-transactions-retry"
 	TaxjarRefundsTopicName           = "taxjar-sync-refunds"
-	TaxjarRefundsRetryTopicName      = "taxjar-sync-refunds-retry"
+	TaxjarRefundsRetryTopicName      = "taxjar-sync-refunds-retry"	
+	TaxjarNotificationStatusPayment = "taxjar-payment"
+	TaxjarNotificationStatusRefund  = "taxjar-refund"
 
 	PaymentSystemCardPayDateFormat  = "2006-01-02T15:04:05Z"
 	PaymentSystemGroupAliasBankCard = "BANKCARD"
