@@ -23,8 +23,9 @@ message SavedCardRequest {
     string project_id = 2;
     string merchant_id = 3;
     string masked_pan = 4;
-    string recurring_id = 5;
-    entity.CardExpire expire = 6;
+    string card_holder = 5;
+    string recurring_id = 6;
+    entity.CardExpire expire = 7;
 }
 
 message SavedCardList {

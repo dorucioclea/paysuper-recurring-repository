@@ -14,12 +14,13 @@ message SavedCard {
     string merchant_id = 4;
     // @inject_tag: json:"pan"
     string masked_pan = 5;
+    string card_holder = 6;
     // @inject_tag: json:"expire"
-    CardExpire expire = 6;
-    string recurring_id = 7;
-    bool is_active = 8;
-    google.protobuf.Timestamp created_at = 9;
-    google.protobuf.Timestamp updated_at = 10;
+    CardExpire expire = 7;
+    string recurring_id = 8;
+    bool is_active = 9;
+    google.protobuf.Timestamp created_at = 10;
+    google.protobuf.Timestamp updated_at = 11;
 }
 
 message CardExpire {
