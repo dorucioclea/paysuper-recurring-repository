@@ -31,13 +31,13 @@ phases:
       - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
       - kubectl cluster-info
-      - helm init --client-only &&
-                helm upgrade --install $REPOSITORY_NAME .helm \
-                --set backend.image=$REPOSITORY_URI \
-                --set backend.imageTag=$TAG \
-                --wait \
-                --timeout 180 ||
-                (helm history --max 2 $REPOSITORY_NAME | head -n 2 | tail -n 1 | cut -f 1 | xargs helm rollback $REPOSITORY_NAME && exit 1)'
+#      - helm init --client-only &&
+#                helm upgrade --install $REPOSITORY_NAME .helm \
+#                --set backend.image=$REPOSITORY_URI \
+#                --set backend.imageTag=$TAG \
+#                --wait \
+#                --timeout 180 ||
+#                (helm history --max 2 $REPOSITORY_NAME | head -n 2 | tail -n 1 | cut -f 1 | xargs helm rollback $REPOSITORY_NAME && exit 1)'
       - printf '[{"name":"hello-k8s","imageUri":"%s"}]' $REPOSITORY_URI:$TAG > build.json
 artifacts:
   files: build.json
