@@ -22,7 +22,7 @@ func MaskBankCardNumber(pan string) string {
 	return pan[:panMaskFirstSymbolsCount] + strings.Repeat(panMaskedSymbol, rSymCount) + pan[rSymCount+panMaskFirstSymbolsCount:]
 }
 
-func toPrecise(val float64) float64 {
+func ToPrecise(val float64) float64 {
 	p := math.Pow(10, precision)
 	return math.Round(val*p) / p
 }
