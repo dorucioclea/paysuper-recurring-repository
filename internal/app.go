@@ -55,7 +55,6 @@ func (app *Application) Init() {
 		app.log.Fatal(
 			"[PAYSUPER_REPOSITORY] db init failed",
 			zap.Error(err),
-			zap.String("connection_string", settings.String()),
 		)
 	}
 
