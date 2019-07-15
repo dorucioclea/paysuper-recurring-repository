@@ -48,26 +48,13 @@ spec:
             value: "0.0.0.0:{{ $deployment.port }}"
           - name: METRICS_PORT
             value: "{{ $deployment.healthPort }}"
-          - name: MONGO_HOST
+          {{- range .Values.backend.env }}
+          - name: {{ . }}
             valueFrom:
               secretKeyRef:
-                name: p1payapi-gobackend-env
-                key: MONGO_HOST
-          - name: MONGO_DB
-            valueFrom:
-              secretKeyRef:
-                name: p1payapi-gobackend-env
-                key: MONGO_DB
-          - name: MONGO_USER
-            valueFrom:
-              secretKeyRef:
-                name: p1payapi-gobackend-env
-                key: MONGO_USER
-          - name: MONGO_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: p1payapi-gobackend-env
-                key: MONGO_PASSWORD
+                name: {{ $deploymentName }}-env
+                key: {{ . }}
+          {{- end }}
 
         #livenessProbe:
         #  httpGet:
