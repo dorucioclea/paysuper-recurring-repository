@@ -2,8 +2,7 @@ package repository
 
 import (
 	"context"
-	"github.com/paysuper/paysuper-recurring-repository/internal/config"
-	"github.com/paysuper/paysuper-recurring-repository/internal/database"
+	mongodb "github.com/paysuper/paysuper-database-mongo"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/constant"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/entity"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/repository"
@@ -24,21 +23,7 @@ func Test_Repository(t *testing.T) {
 }
 
 func (suite *RepositoryTestSuite) SetupTest() {
-	cfg, err := config.NewConfig()
-
-	if err != nil {
-		suite.FailNow("Config load failed", "%v", err)
-	}
-
-	settings := database.Connection{
-		Host:     cfg.Host,
-		Database: cfg.Database,
-		User:     cfg.User,
-		Password: cfg.Password,
-	}
-
-	db, err := database.NewDatabase(settings)
-
+	db, err := mongodb.NewDatabase()
 	if err != nil {
 		suite.FailNow("db connection failed", "%v", err)
 	}

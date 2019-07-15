@@ -6,7 +6,7 @@ import (
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
 	"github.com/golang/protobuf/ptypes"
-	"github.com/paysuper/paysuper-recurring-repository/internal/database"
+	mongodb "github.com/paysuper/paysuper-database-mongo"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/constant"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/entity"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/repository"
@@ -21,10 +21,10 @@ const (
 )
 
 type Repository struct {
-	db *database.Source
+	db *mongodb.Source
 }
 
-func NewRepositoryService(db *database.Source) *Repository {
+func NewRepositoryService(db *mongodb.Source) *Repository {
 	return &Repository{db: db}
 }
 

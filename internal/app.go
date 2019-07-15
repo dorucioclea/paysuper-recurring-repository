@@ -6,8 +6,8 @@ import (
 	"github.com/InVisionApp/go-health/handlers"
 	metrics "github.com/ProtocolONE/go-micro-plugins/wrapper/monitoring/prometheus"
 	"github.com/micro/go-micro"
+	mongodb "github.com/paysuper/paysuper-database-mongo"
 	"github.com/paysuper/paysuper-recurring-repository/internal/config"
-	"github.com/paysuper/paysuper-recurring-repository/internal/database"
 	"github.com/paysuper/paysuper-recurring-repository/internal/repository"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/constant"
 	proto "github.com/paysuper/paysuper-recurring-repository/pkg/proto/repository"
@@ -21,7 +21,7 @@ import (
 type Application struct {
 	cfg        *config.Config
 	log        *zap.Logger
-	db         *database.Source
+	db         *mongodb.Source
 	service    micro.Service
 	httpServer *http.Server
 	router     *http.ServeMux
@@ -43,19 +43,9 @@ func (app *Application) Init() {
 
 	app.cfg = cfg
 
-	settings := database.Connection{
-		Host:     app.cfg.Host,
-		Database: app.cfg.Database,
-		User:     app.cfg.User,
-		Password: app.cfg.Password,
-	}
-	db, err := database.NewDatabase(settings)
-
+	db, err := mongodb.NewDatabase()
 	if err != nil {
-		app.log.Fatal(
-			"[PAYSUPER_REPOSITORY] db init failed",
-			zap.Error(err),
-		)
+		app.log.Fatal("[PAYSUPER_REPOSITORY] Database connection failed", zap.Error(err))
 	}
 
 	app.db = db
