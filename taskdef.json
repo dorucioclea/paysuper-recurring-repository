@@ -1,0 +1,34 @@
+{
+    "executionRoleArn": "arn:aws:iam::303476446393:role/paysuper-stg-recurring-ecsTaskExecutionRole",
+    "containerDefinitions": [
+        {
+            "dnsSearchDomains": null,
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/nginx",
+                    "awslogs-region": "eu-west-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "entryPoint": null,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "protocol": "tcp",
+                    "containerPort": 80
+                }
+            ],
+            "image": "<IMAGE1_NAME>",
+            "name": "nginx"
+        }
+    ],
+    "memory": "512",
+    "taskRoleArn": "arn:aws:iam::303476446393:role/ecsTaskExecutionRole",
+    "family": "nginx",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "networkMode": "awsvpc",
+    "cpu": "256",
+}
