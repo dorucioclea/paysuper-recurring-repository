@@ -24,5 +24,5 @@ func MaskBankCardNumber(pan string) string {
 
 func ToPrecise(val float64) float64 {
 	p := math.Pow(10, precision)
-	return math.Ceil(val*p) / p
+	return math.Round(val*p) / p
 }
