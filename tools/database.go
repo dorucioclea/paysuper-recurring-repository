@@ -9,7 +9,7 @@ const (
 	panMaskFirstSymbolsCount = 6
 	panMaskLastSymbolsCount  = 4
 	panMaskedSymbol          = "*"
-	precision                = 10
+	precision                = 6
 )
 
 func FormatAmount(amount float64) float64 {
@@ -24,5 +24,5 @@ func MaskBankCardNumber(pan string) string {
 
 func ToPrecise(val float64) float64 {
 	p := math.Pow(10, precision)
-	return math.Round(val*p) / p
+	return math.Ceil(val*p) / p
 }
