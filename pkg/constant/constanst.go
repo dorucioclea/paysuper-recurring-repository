@@ -12,9 +12,9 @@ const (
 	TaxjarTransactionsTopicName      = "taxjar-sync-transactions"
 	TaxjarTransactionsRetryTopicName = "taxjar-sync-transactions-retry"
 	TaxjarRefundsTopicName           = "taxjar-sync-refunds"
-	TaxjarRefundsRetryTopicName      = "taxjar-sync-refunds-retry"	
-	TaxjarNotificationStatusPayment = "taxjar-payment"
-	TaxjarNotificationStatusRefund  = "taxjar-refund"
+	TaxjarRefundsRetryTopicName      = "taxjar-sync-refunds-retry"
+	TaxjarNotificationStatusPayment  = "taxjar-payment"
+	TaxjarNotificationStatusRefund   = "taxjar-refund"
 
 	PaymentSystemCardPayDateFormat  = "2006-01-02T15:04:05Z"
 	PaymentSystemGroupAliasBankCard = "BANKCARD"
@@ -37,6 +37,7 @@ const (
 	OrderStatusChargeback                  = 10
 	OrderStatusPaymentSystemDeclined       = 11
 	OrderStatusPaymentSystemCanceled       = 12
+	OrderStatusItemReplaced                = 13
 
 	OrderPublicStatusCreated    = "created"
 	OrderPublicStatusProcessed  = "processed"
@@ -50,11 +51,11 @@ const (
 
 	CollectionSavedCard = "saved_card"
 
-	SavedCardErrorNotFound     = "saved card with specified identifier not found"
-	SavedCardErrorDatabase     = "saved cards database query failed"
+	SavedCardErrorNotFound = "saved card with specified identifier not found"
+	SavedCardErrorDatabase = "saved cards database query failed"
 )
 
 var (
-	ErrNotFound    = errors.New(SavedCardErrorNotFound)
-	ErrDatabase    = errors.New(SavedCardErrorDatabase)
+	ErrNotFound = errors.New(SavedCardErrorNotFound)
+	ErrDatabase = errors.New(SavedCardErrorDatabase)
 )
