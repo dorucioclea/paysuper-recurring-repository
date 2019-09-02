@@ -7,7 +7,6 @@ require (
 	contrib.go.opencensus.io/integrations/ocsql v0.1.3 // indirect
 	dmitri.shuralyov.com/app/changes v0.0.0-20181114035150-5af16e21babb // indirect
 	dmitri.shuralyov.com/service/change v0.0.0-20190203025214-430bf650e55a // indirect
-	git.apache.org/thrift.git v0.12.0 // indirect
 	github.com/99designs/gqlgen v0.7.2 // indirect
 	github.com/Azure/azure-storage-blob-go v0.0.0-20190123011202-457680cc0804 // indirect
 	github.com/DataDog/datadog-go v0.0.0-20180822151419-281ae9f2d895 // indirect
@@ -20,6 +19,7 @@ require (
 	github.com/afex/hystrix-go v0.0.0-20180502004556-fa1af6a1f4f5 // indirect
 	github.com/anacrolix/tagflag v0.0.0-20180803105420-3a8ff5428f76 // indirect
 	github.com/anacrolix/utp v0.0.0-20180219060659-9e0e1d1d0572 // indirect
+	github.com/apache/thrift v0.12.0 // indirect
 	github.com/armon/go-radix v1.0.0 // indirect
 	github.com/asim/go-awsxray v0.0.0-20161209120537-0d8a60b6e205 // indirect
 	github.com/asim/go-bson v0.0.0-20160318195205-84522947cabd // indirect
