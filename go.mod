@@ -60,4 +60,4 @@ require (
 	sourcegraph.com/sqs/pbtypes v1.0.0 // indirect
 )
 
-replace git.apache.org/thrift.git v0.12.0 => github.com/apache/thrift v0.12.0
+replace git.apache.org/thrift.git => github.com/apache/thrift v0.12.0
