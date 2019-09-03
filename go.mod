@@ -40,3 +40,5 @@ require (
 	golang.org/x/perf v0.0.0-20190124201629-844a5f5b46f4 // indirect
 	sourcegraph.com/sqs/pbtypes v1.0.0 // indirect
 )
+
+replace git.apache.org/thrift.git => github.com/apache/thrift v0.12.0
