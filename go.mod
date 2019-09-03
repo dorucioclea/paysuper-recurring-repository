@@ -14,5 +14,3 @@ require (
 	github.com/prometheus/client_golang v1.0.0
 	go.uber.org/zap v1.10.0
 )
-
-replace git.apache.org/thrift.git => github.com/apache/thrift v0.12.0
