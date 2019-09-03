@@ -3,32 +3,22 @@ module github.com/paysuper/paysuper-recurring-repository
 require (
 	dmitri.shuralyov.com/app/changes v0.0.0-20181114035150-5af16e21babb // indirect
 	dmitri.shuralyov.com/service/change v0.0.0-20190203025214-430bf650e55a // indirect
-	git.apache.org/thrift.git v0.12.0 // indirect
-	github.com/Azure/azure-storage-blob-go v0.0.0-20190123011202-457680cc0804 // indirect
-	github.com/GoogleCloudPlatform/cloudsql-proxy v0.0.0-20190129172621-c8b1d7a94ddf // indirect
 	github.com/InVisionApp/go-health v2.1.0+incompatible
 	github.com/InVisionApp/go-logger v1.0.1 // indirect
 	github.com/ProtocolONE/go-micro-plugins v0.3.0
-	github.com/anacrolix/tagflag v0.0.0-20180803105420-3a8ff5428f76 // indirect
-	github.com/coreos/bbolt v1.3.2 // indirect
 	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
-	github.com/glycerine/go-unsnap-stream v0.0.0-20181221182339-f9677308dec2 // indirect
-	github.com/go-logfmt/logfmt v0.4.0 // indirect
-	github.com/gogo/protobuf v1.2.0 // indirect
-	github.com/golang/groupcache v0.0.0-20190129154638-5b532d6fd5ef // indirect
 	github.com/golang/lint v0.0.0-20181217174547-8f45f776aaf1 // indirect
 	github.com/golang/protobuf v1.3.2
-	github.com/google/pprof v0.0.0-20190109223431-e84dfd68c163 // indirect
-	github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e // indirect
 	github.com/gregjones/httpcache v0.0.0-20190203031600-7a902570cb17 // indirect
-	github.com/hashicorp/serf v0.8.2 // indirect
-	github.com/huandu/xstrings v1.2.0 // indirect
+	github.com/hashicorp/consul v1.4.2 // indirect
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/micro/examples v0.1.0 // indirect
-	github.com/micro/go-micro v1.0.0
-	github.com/micro/go-plugins v1.0.0
+	github.com/micro/go-micro v1.8.0
+	github.com/micro/go-plugins v1.2.0
+	github.com/micro/go-rcache v0.2.1 // indirect
+	github.com/micro/util v0.2.0 // indirect
 	github.com/microcosm-cc/bluemonday v1.0.2 // indirect
-	github.com/openzipkin/zipkin-go v0.1.5 // indirect
+	github.com/openzipkin/zipkin-go v0.1.6 // indirect
 	github.com/paysuper/paysuper-database-mongo v0.1.0
 	github.com/prometheus/client_golang v1.0.0
 	github.com/russross/blackfriday v2.0.0+incompatible // indirect
@@ -45,14 +35,8 @@ require (
 	github.com/shurcooL/reactions v0.0.0-20181222204718-145cd5e7f3d1 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/shurcooL/webdavfs v0.0.0-20181215192745-5988b2d638f6 // indirect
-	github.com/smartystreets/assertions v0.0.0-20190116191733-b6c0e53d7304 // indirect
-	github.com/smartystreets/goconvey v0.0.0-20181108003508-044398e4856c // indirect
 	go.uber.org/zap v1.10.0
 	go4.org v0.0.0-20181109185143-00e24f1b2599 // indirect
-	golang.org/x/exp v0.0.0-20190125153040-c74c464bbbf2 // indirect
 	golang.org/x/perf v0.0.0-20190124201629-844a5f5b46f4 // indirect
-	honnef.co/go/tools v0.0.0-20190128043916-71123fcbb8fe // indirect
 	sourcegraph.com/sqs/pbtypes v1.0.0 // indirect
 )
-
-replace git.apache.org/thrift.git => github.com/apache/thrift v0.12.0
