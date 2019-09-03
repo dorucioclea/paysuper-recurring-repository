@@ -6,6 +6,7 @@ import (
 	"github.com/InVisionApp/go-health/handlers"
 	metrics "github.com/ProtocolONE/go-micro-plugins/wrapper/monitoring/prometheus"
 	"github.com/micro/go-micro"
+	"github.com/micro/go-plugins/client/selector/static"
 	mongodb "github.com/paysuper/paysuper-database-mongo"
 	"github.com/paysuper/paysuper-recurring-repository/internal/config"
 	"github.com/paysuper/paysuper-recurring-repository/internal/repository"
@@ -58,6 +59,11 @@ func (app *Application) Init() {
 			app.log.Info("[PAYSUPER_REPOSITORY] Micro service stopped")
 			return nil
 		}),
+	}
+
+	if app.cfg.MicroSelector == "static" {
+		zap.L().Info(`Use micro selector "static"`)
+		options = append(options, micro.Selector(static.NewSelector()))
 	}
 
 	app.log.Info("[PAYSUPER_REPOSITORY] Initialize micro service")

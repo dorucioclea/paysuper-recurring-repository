@@ -13,7 +13,9 @@ require (
 	github.com/micro/util v0.1.0 // indirect
 	github.com/paysuper/paysuper-database-mongo v0.1.0
 	github.com/prometheus/client_golang v1.0.0
+	github.com/stretchr/testify v1.3.0
 	go.uber.org/zap v1.10.0
+	gopkg.in/mgo.v2 v2.0.0-20160818020120-3f83fa500528
 )
 
 replace github.com/hashicorp/consul => github.com/hashicorp/consul v1.5.1
