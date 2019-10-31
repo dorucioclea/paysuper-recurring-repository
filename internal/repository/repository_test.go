@@ -146,8 +146,11 @@ func (suite *RepositoryTestSuite) TestRepository_DeleteSavedCard_Ok() {
 	assert.NotNil(suite.T(), card)
 	assert.True(suite.T(), card.IsActive)
 
-	req1 := &repository.FindByStringValue{Value: card.Id}
-	rsp1 := &repository.Result{}
+	req1 := &repository.DeleteSavedCardRequest{
+		Id:    card.Id,
+		Token: req.Token,
+	}
+	rsp1 := &repository.DeleteSavedCardResponse{}
 	err = suite.repository.DeleteSavedCard(context.TODO(), req1, rsp1)
 	assert.NoError(suite.T(), err)
 
@@ -157,8 +160,11 @@ func (suite *RepositoryTestSuite) TestRepository_DeleteSavedCard_Ok() {
 }
 
 func (suite *RepositoryTestSuite) TestRepository_DeleteSavedCard_CardNotExist_Ok() {
-	req1 := &repository.FindByStringValue{Value: bson.NewObjectId().Hex()}
-	rsp1 := &repository.Result{}
+	req1 := &repository.DeleteSavedCardRequest{
+		Id:    bson.NewObjectId().Hex(),
+		Token: bson.NewObjectId().Hex(),
+	}
+	rsp1 := &repository.DeleteSavedCardResponse{}
 	err := suite.repository.DeleteSavedCard(context.TODO(), req1, rsp1)
 	assert.NoError(suite.T(), err)
 }

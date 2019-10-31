@@ -12,6 +12,8 @@ It has these top-level messages:
 	FindByStringValue
 	SavedCardRequest
 	SavedCardList
+	DeleteSavedCardRequest
+	DeleteSavedCardResponse
 */
 package repository
 
@@ -47,7 +49,7 @@ var _ server.Option
 
 type RepositoryService interface {
 	InsertSavedCard(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*Result, error)
-	DeleteSavedCard(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*Result, error)
+	DeleteSavedCard(ctx context.Context, in *DeleteSavedCardRequest, opts ...client.CallOption) (*DeleteSavedCardResponse, error)
 	FindSavedCards(ctx context.Context, in *SavedCardRequest, opts ...client.CallOption) (*SavedCardList, error)
 	FindSavedCardById(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*entity.SavedCard, error)
 }
@@ -80,9 +82,9 @@ func (c *repositoryService) InsertSavedCard(ctx context.Context, in *SavedCardRe
 	return out, nil
 }
 
-func (c *repositoryService) DeleteSavedCard(ctx context.Context, in *FindByStringValue, opts ...client.CallOption) (*Result, error) {
+func (c *repositoryService) DeleteSavedCard(ctx context.Context, in *DeleteSavedCardRequest, opts ...client.CallOption) (*DeleteSavedCardResponse, error) {
 	req := c.c.NewRequest(c.name, "Repository.DeleteSavedCard", in)
-	out := new(Result)
+	out := new(DeleteSavedCardResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -114,7 +116,7 @@ func (c *repositoryService) FindSavedCardById(ctx context.Context, in *FindByStr
 
 type RepositoryHandler interface {
 	InsertSavedCard(context.Context, *SavedCardRequest, *Result) error
-	DeleteSavedCard(context.Context, *FindByStringValue, *Result) error
+	DeleteSavedCard(context.Context, *DeleteSavedCardRequest, *DeleteSavedCardResponse) error
 	FindSavedCards(context.Context, *SavedCardRequest, *SavedCardList) error
 	FindSavedCardById(context.Context, *FindByStringValue, *entity.SavedCard) error
 }
@@ -122,7 +124,7 @@ type RepositoryHandler interface {
 func RegisterRepositoryHandler(s server.Server, hdlr RepositoryHandler, opts ...server.HandlerOption) error {
 	type repository interface {
 		InsertSavedCard(ctx context.Context, in *SavedCardRequest, out *Result) error
-		DeleteSavedCard(ctx context.Context, in *FindByStringValue, out *Result) error
+		DeleteSavedCard(ctx context.Context, in *DeleteSavedCardRequest, out *DeleteSavedCardResponse) error
 		FindSavedCards(ctx context.Context, in *SavedCardRequest, out *SavedCardList) error
 		FindSavedCardById(ctx context.Context, in *FindByStringValue, out *entity.SavedCard) error
 	}
@@ -141,7 +143,7 @@ func (h *repositoryHandler) InsertSavedCard(ctx context.Context, in *SavedCardRe
 	return h.RepositoryHandler.InsertSavedCard(ctx, in, out)
 }
 
-func (h *repositoryHandler) DeleteSavedCard(ctx context.Context, in *FindByStringValue, out *Result) error {
+func (h *repositoryHandler) DeleteSavedCard(ctx context.Context, in *DeleteSavedCardRequest, out *DeleteSavedCardResponse) error {
 	return h.RepositoryHandler.DeleteSavedCard(ctx, in, out)
 }
 

@@ -6,6 +6,7 @@ import (
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
 	"github.com/golang/protobuf/ptypes"
+	"github.com/paysuper/paysuper-billing-server/pkg"
 	mongodb "github.com/paysuper/paysuper-database-mongo"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/constant"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/entity"
@@ -16,8 +17,10 @@ import (
 
 const (
 	savedCardQueryErrorFind   = "Query to find saved card failed"
-	savedCardQueryErrorDelete = "Query to delete saved card failed"
 	savedCardQueryErrorCreate = "Query to create saved card failed"
+
+	errorUnknown  = "unknown error"
+	errorNotFound = "saved card for customer not found"
 )
 
 type Repository struct {
@@ -80,16 +83,40 @@ func (r *Repository) InsertSavedCard(
 
 func (r *Repository) DeleteSavedCard(
 	ctx context.Context,
-	req *repository.FindByStringValue,
-	rsp *repository.Result,
+	req *repository.DeleteSavedCardRequest,
+	rsp *repository.DeleteSavedCardResponse,
 ) error {
-	query := bson.M{"is_active": false, "updated_at": time.Now()}
-	err := r.db.Collection(constant.CollectionSavedCard).UpdateId(bson.ObjectIdHex(req.Value), bson.M{"$set": query})
-
-	if err != nil && err != mgo.ErrNotFound {
-		r.logError(savedCardQueryErrorDelete, []interface{}{"error", err.Error(), "_id", req.Value})
-		return constant.ErrDatabase
+	query := bson.M{
+		"_id":   bson.ObjectIdHex(req.Id),
+		"token": req.Token,
 	}
+	set := bson.M{
+		"is_active":  false,
+		"updated_at": time.Now(),
+	}
+	err := r.db.Collection(constant.CollectionSavedCard).Update(query, bson.M{"$set": set})
+
+	if err != nil {
+		rsp.Status = pkg.ResponseStatusSystemError
+		rsp.Message = errorUnknown
+
+		if err != mgo.ErrNotFound {
+			rsp.Status = pkg.ResponseStatusNotFound
+			rsp.Message = errorNotFound
+		}
+
+		zap.L().Error(
+			pkg.ErrorDatabaseQueryFailed,
+			zap.Error(err),
+			zap.String(pkg.ErrorDatabaseFieldCollection, constant.CollectionSavedCard),
+			zap.Any(pkg.ErrorDatabaseFieldQuery, query),
+			zap.Any(pkg.ErrorDatabaseFieldSet, set),
+		)
+
+		return nil
+	}
+
+	rsp.Status = pkg.ResponseStatusOk
 
 	return nil
 }
