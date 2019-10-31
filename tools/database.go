@@ -13,7 +13,7 @@ const (
 )
 
 func FormatAmount(amount float64) float64 {
-	return math.Ceil(amount*100) / 100
+	return math.Floor(amount*100) / 100
 }
 
 func MaskBankCardNumber(pan string) string {
