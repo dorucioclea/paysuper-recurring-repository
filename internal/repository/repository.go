@@ -103,6 +103,7 @@ func (r *Repository) DeleteSavedCard(
 		if err != mgo.ErrNotFound {
 			rsp.Status = pkg.ResponseStatusNotFound
 			rsp.Message = errorNotFound
+			return nil
 		}
 
 		zap.L().Error(
