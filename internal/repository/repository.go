@@ -47,14 +47,17 @@ func (r *Repository) InsertSavedCard(
 	}
 
 	if card != nil {
-		if card.RecurringId == req.RecurringId {
-			return nil
-		} else {
+		if card.RecurringId != req.RecurringId {
 			card.RecurringId = req.RecurringId
-			card.UpdatedAt = ptypes.TimestampNow()
-
-			err = r.db.Collection(constant.CollectionSavedCard).UpdateId(bson.ObjectIdHex(card.Id), card)
 		}
+
+		card.UpdatedAt = ptypes.TimestampNow()
+
+		if !card.IsActive {
+			card.IsActive = true
+		}
+
+		err = r.db.Collection(constant.CollectionSavedCard).UpdateId(bson.ObjectIdHex(card.Id), card)
 	} else {
 		card = &entity.SavedCard{
 			Id:          bson.NewObjectId().Hex(),
