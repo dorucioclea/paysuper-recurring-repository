@@ -26,3 +26,7 @@ func ToPrecise(val float64) float64 {
 	p := math.Pow(10, precision)
 	return math.Round(val*p) / p
 }
+
+func GetPercentPartFromAmount(amount, rate float64) float64 {
+	return amount / (1 + rate) * rate
+}
