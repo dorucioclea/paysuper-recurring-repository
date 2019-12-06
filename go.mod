@@ -10,7 +10,7 @@ require (
 	github.com/micro/go-plugins v1.2.0
 	github.com/paysuper/paysuper-billing-server v0.0.0-20191031115520-5d2419c5f2cf
 	github.com/paysuper/paysuper-database-mongo v0.1.1
-	github.com/prometheus/client_golang v1.1.0
+	github.com/prometheus/client_golang v1.2.1
 	github.com/stretchr/testify v1.4.0
 	go.uber.org/zap v1.10.0
 	gopkg.in/mgo.v2 v2.0.0-20180705113604-9856a29383ce
