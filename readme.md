@@ -17,10 +17,10 @@ The main PaySuper architecture scheme with the `"paysuper-recurring-repository"`
 
 ## Features
 
-* Securely storing information about a customer's payment to simplify next payments.
-* Finding all saved customer's payment methods using the management method.
-* Finding one saved customer's payment method using the management method.
-* Removing a saved customer's payment method using the management method.
+* Securely stores information about customer payments to simplify next payments.
+* Finds all saved customer's payment methods using the management method.
+* Finds one saved customer's payment method using the management method.
+* Removes a saved customer's payment method using the management method.
 
 ## Table of Contents
 
