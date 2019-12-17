@@ -7,13 +7,13 @@ import (
 	metrics "github.com/ProtocolONE/go-micro-plugins/wrapper/monitoring/prometheus"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-plugins/client/selector/static"
-	mongodb "github.com/paysuper/paysuper-database-mongo"
 	"github.com/paysuper/paysuper-recurring-repository/internal/config"
 	"github.com/paysuper/paysuper-recurring-repository/internal/repository"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/constant"
 	proto "github.com/paysuper/paysuper-recurring-repository/pkg/proto/repository"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/zap"
+	mongodb "gopkg.in/paysuper/paysuper-database-mongo.v1"
 	"log"
 	"net/http"
 	"time"
@@ -147,7 +147,7 @@ func (app *Application) Stop() {
 	}
 	app.log.Info("Http server stopped")
 
-	app.db.Close()
+	_ = app.db.Close()
 	app.log.Info("db connection closed")
 
 	func() {

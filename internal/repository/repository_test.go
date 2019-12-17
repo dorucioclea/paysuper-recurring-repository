@@ -2,13 +2,13 @@ package repository
 
 import (
 	"context"
-	mongodb "github.com/paysuper/paysuper-database-mongo"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/constant"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/entity"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/repository"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"gopkg.in/mgo.v2/bson"
+	mongodb "gopkg.in/paysuper/paysuper-database-mongo.v1"
 	"testing"
 	"time"
 )
@@ -36,7 +36,7 @@ func (suite *RepositoryTestSuite) TearDownTest() {
 		suite.FailNow("db deletion failed", "%v", err)
 	}
 
-	suite.repository.db.Close()
+	_ = suite.repository.db.Close()
 }
 
 func (suite *RepositoryTestSuite) TestRepository_InsertSavedCard_Ok() {
@@ -58,8 +58,12 @@ func (suite *RepositoryTestSuite) TestRepository_InsertSavedCard_Ok() {
 	err := suite.repository.InsertSavedCard(context.TODO(), req, rsp)
 	assert.NoError(suite.T(), err)
 
+	cursor, err := suite.repository.db.Collection(constant.CollectionSavedCard).Find(context.TODO(), bson.M{"token": req.Token})
+	assert.NoError(suite.T(), err)
+
 	var cards []*entity.SavedCard
-	err = suite.repository.db.Collection(constant.CollectionSavedCard).Find(bson.M{"token": req.Token}).All(&cards)
+	err = cursor.All(context.TODO(), &cards)
+	assert.NoError(suite.T(), err)
 
 	assert.Len(suite.T(), cards, 1)
 	assert.Equal(suite.T(), req.ProjectId, cards[0].ProjectId)
@@ -96,8 +100,12 @@ func (suite *RepositoryTestSuite) TestRepository_InsertSavedCard_SavedCardExist_
 	err = suite.repository.InsertSavedCard(context.TODO(), req, rsp)
 	assert.NoError(suite.T(), err)
 
+	cursor, err := suite.repository.db.Collection(constant.CollectionSavedCard).Find(context.TODO(), bson.M{"token": req.Token})
+	assert.NoError(suite.T(), err)
+
 	var cards []*entity.SavedCard
-	err = suite.repository.db.Collection(constant.CollectionSavedCard).Find(bson.M{"token": req.Token}).All(&cards)
+	err = cursor.All(context.TODO(), &cards)
+	assert.NoError(suite.T(), err)
 	assert.Len(suite.T(), cards, 1)
 }
 
@@ -142,7 +150,7 @@ func (suite *RepositoryTestSuite) TestRepository_DeleteSavedCard_Ok() {
 	assert.NoError(suite.T(), err)
 
 	var card *entity.SavedCard
-	err = suite.repository.db.Collection(constant.CollectionSavedCard).Find(bson.M{"token": req.Token}).One(&card)
+	err = suite.repository.db.Collection(constant.CollectionSavedCard).FindOne(context.TODO(), bson.M{"token": req.Token}).Decode(&card)
 	assert.NotNil(suite.T(), card)
 	assert.True(suite.T(), card.IsActive)
 
@@ -154,7 +162,7 @@ func (suite *RepositoryTestSuite) TestRepository_DeleteSavedCard_Ok() {
 	err = suite.repository.DeleteSavedCard(context.TODO(), req1, rsp1)
 	assert.NoError(suite.T(), err)
 
-	err = suite.repository.db.Collection(constant.CollectionSavedCard).Find(bson.M{"token": req.Token}).One(&card)
+	err = suite.repository.db.Collection(constant.CollectionSavedCard).FindOne(context.TODO(), bson.M{"token": req.Token}).Decode(&card)
 	assert.NotNil(suite.T(), card)
 	assert.False(suite.T(), card.IsActive)
 }
@@ -255,8 +263,12 @@ func (suite *RepositoryTestSuite) TestRepository_FindSavedCardById_Ok() {
 	err = suite.repository.InsertSavedCard(context.TODO(), req, rsp)
 	assert.NoError(suite.T(), err)
 
+	cursor, err := suite.repository.db.Collection(constant.CollectionSavedCard).Find(context.TODO(), bson.M{"token": req.Token})
+	assert.NoError(suite.T(), err)
+
 	var cards []*entity.SavedCard
-	err = suite.repository.db.Collection(constant.CollectionSavedCard).Find(bson.M{"token": req.Token}).All(&cards)
+	err = cursor.All(context.TODO(), &cards)
+	assert.NoError(suite.T(), err)
 	assert.Len(suite.T(), cards, 5)
 
 	req1 := &repository.FindByStringValue{Value: cards[3].Id}
