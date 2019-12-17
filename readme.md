@@ -33,8 +33,9 @@ docker run -d -e "MONGO_DSN=mongodb://127.0.0.1:27017/recurring_repository" ... 
 
 |Name|Description|
 |:---|:---|
-| MONGO_DSN     | MongoBD DSN connection string                                       |
-| METRICS_PORT  | Http server port for health and metrics request. Default is 8085    |
+| MONGO_DSN     | MongoDB DSN connection string                                                |
+| MONGO_MODE    | Indicates the user's preference on reads from MongoDB. Default is "primary"  |
+| METRICS_PORT  | Http server port for health and metrics request. Default is 8085             |
 
 ## Contributing
 We feel that a welcoming community is important and we ask that you follow PaySuper's [Open Source Code of Conduct](https://github.com/paysuper/code-of-conduct/blob/master/README.md) in all interactions with the community.
