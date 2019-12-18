@@ -18,9 +18,9 @@ The main PaySuper architecture scheme with the `"paysuper-recurring-repository"`
 ## Features
 
 * Securely stores information about customer payments to simplify next payments.
-* Finds all saved customer's payment methods using the management method.
-* Finds one saved customer's payment method using the management method.
-* Removes a saved customer's payment method using the management method.
+* Finds all saved customer's payment methods.
+* Finds one saved customer's payment method.
+* Removes a saved customer's payment method.
 
 ## Table of Contents
 
@@ -38,9 +38,7 @@ We use the [GitFlow](https://nvie.com/posts/a-successful-git-branching-model) as
 
 ```bash
 docker build -f Dockerfile -t paysuper_recurring_repository
-```
 
-```bash
 docker run -d -e "MONGO_DSN=mongodb://127.0.0.1:27017/recurring_repository" -e "METRICS_PORT=8081" paysuper_recurring_repository
 ```
 
