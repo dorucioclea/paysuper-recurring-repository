@@ -1,8 +1,9 @@
 package entity
 
 import (
-	"github.com/globalsign/mgo/bson"
 	"github.com/golang/protobuf/ptypes"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
 )
 
@@ -12,25 +13,43 @@ type MgoExpire struct {
 }
 
 type MgoSavedCard struct {
-	Id          bson.ObjectId `bson:"_id"`
-	Token       string        `bson:"token"`
-	ProjectId   bson.ObjectId `bson:"project_id"`
-	MerchantId  bson.ObjectId `bson:"merchant_id"`
-	MaskedPan   string        `bson:"masked_pan"`
-	CardHolder  string        `bson:"card_holder"`
-	Expire      *MgoExpire    `bson:"expire"`
-	RecurringId string        `bson:"recurring_id"`
-	IsActive    bool          `bson:"is_active"`
-	CreatedAt   time.Time     `bson:"created_at"`
-	UpdatedAt   time.Time     `bson:"updated_at"`
+	Id          primitive.ObjectID `bson:"_id"`
+	Token       string             `bson:"token"`
+	ProjectId   primitive.ObjectID `bson:"project_id"`
+	MerchantId  primitive.ObjectID `bson:"merchant_id"`
+	MaskedPan   string             `bson:"masked_pan"`
+	CardHolder  string             `bson:"card_holder"`
+	Expire      *MgoExpire         `bson:"expire"`
+	RecurringId string             `bson:"recurring_id"`
+	IsActive    bool               `bson:"is_active"`
+	CreatedAt   time.Time          `bson:"created_at"`
+	UpdatedAt   time.Time          `bson:"updated_at"`
 }
 
-func (m *SavedCard) GetBSON() (interface{}, error) {
+func (m *SavedCard) MarshalBSON() ([]byte, error) {
+	oid, err := primitive.ObjectIDFromHex(m.Id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	projectOid, err := primitive.ObjectIDFromHex(m.ProjectId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	merchantOid, err := primitive.ObjectIDFromHex(m.MerchantId)
+
+	if err != nil {
+		return nil, err
+	}
+
 	st := &MgoSavedCard{
-		Id:         bson.ObjectIdHex(m.Id),
+		Id:         oid,
 		Token:      m.Token,
-		ProjectId:  bson.ObjectIdHex(m.ProjectId),
-		MerchantId: bson.ObjectIdHex(m.MerchantId),
+		ProjectId:  projectOid,
+		MerchantId: merchantOid,
 		MaskedPan:  m.MaskedPan,
 		CardHolder: m.CardHolder,
 		Expire: &MgoExpire{
@@ -57,12 +76,12 @@ func (m *SavedCard) GetBSON() (interface{}, error) {
 
 	st.UpdatedAt = t
 
-	return st, nil
+	return bson.Marshal(st)
 }
 
-func (s *SavedCard) SetBSON(raw bson.Raw) error {
+func (s *SavedCard) UnmarshalBSON(raw []byte) error {
 	decoded := new(MgoSavedCard)
-	err := raw.Unmarshal(decoded)
+	err := bson.Unmarshal(raw, decoded)
 
 	if err != nil {
 		return err
