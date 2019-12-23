@@ -26,7 +26,7 @@ jobs:
     script:
     - echo "tests here"
     - go test ./... -coverprofile=coverage.out -covermode=atomic -p=1
-    - sonar-scanner
+    #- sonar-scanner
     after_success:
     - bash <(curl -s https://codecov.io/bash)
   - stage: deploy

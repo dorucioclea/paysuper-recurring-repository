@@ -3,15 +3,17 @@ package repository
 import (
 	"context"
 	"fmt"
-	"github.com/globalsign/mgo"
-	"github.com/globalsign/mgo/bson"
 	"github.com/golang/protobuf/ptypes"
 	"github.com/paysuper/paysuper-billing-server/pkg"
-	mongodb "github.com/paysuper/paysuper-database-mongo"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/constant"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/entity"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/repository"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.uber.org/zap"
+	mongodb "gopkg.in/paysuper/paysuper-database-mongo.v1"
 	"time"
 )
 
@@ -34,14 +36,17 @@ func NewRepositoryService(db *mongodb.Source) *Repository {
 func (r *Repository) InsertSavedCard(
 	ctx context.Context,
 	req *repository.SavedCardRequest,
-	rsp *repository.Result,
+	_ *repository.Result,
 ) error {
 	var card *entity.SavedCard
 
-	query := bson.M{"token": req.Token, "masked_pan": req.MaskedPan}
-	err := r.db.Collection(constant.CollectionSavedCard).Find(query).One(&card)
+	query := bson.M{
+		"token":      req.Token,
+		"masked_pan": req.MaskedPan,
+	}
+	err := r.db.Collection(constant.CollectionSavedCard).FindOne(ctx, query).Decode(&card)
 
-	if err != nil && err != mgo.ErrNotFound {
+	if err != nil && err != mongo.ErrNoDocuments {
 		r.logError(savedCardQueryErrorFind, []interface{}{"error", err.Error(), "query", query})
 		return constant.ErrDatabase
 	}
@@ -57,10 +62,13 @@ func (r *Repository) InsertSavedCard(
 			card.IsActive = true
 		}
 
-		err = r.db.Collection(constant.CollectionSavedCard).UpdateId(bson.ObjectIdHex(card.Id), card)
+		oid, _ := primitive.ObjectIDFromHex(card.Id)
+		filter := bson.M{"_id": oid}
+		opts := options.Replace().SetUpsert(true)
+		_, err = r.db.Collection(constant.CollectionSavedCard).ReplaceOne(ctx, filter, card, opts)
 	} else {
 		card = &entity.SavedCard{
-			Id:          bson.NewObjectId().Hex(),
+			Id:          primitive.NewObjectID().Hex(),
 			Token:       req.Token,
 			ProjectId:   req.ProjectId,
 			MerchantId:  req.MerchantId,
@@ -73,7 +81,7 @@ func (r *Repository) InsertSavedCard(
 			UpdatedAt:   ptypes.TimestampNow(),
 		}
 
-		err = r.db.Collection(constant.CollectionSavedCard).Insert(card)
+		_, err = r.db.Collection(constant.CollectionSavedCard).InsertOne(ctx, card)
 	}
 
 	if err != nil {
@@ -89,21 +97,22 @@ func (r *Repository) DeleteSavedCard(
 	req *repository.DeleteSavedCardRequest,
 	rsp *repository.DeleteSavedCardResponse,
 ) error {
+	oid, _ := primitive.ObjectIDFromHex(req.Id)
 	query := bson.M{
-		"_id":   bson.ObjectIdHex(req.Id),
+		"_id":   oid,
 		"token": req.Token,
 	}
 	set := bson.M{
 		"is_active":  false,
 		"updated_at": time.Now(),
 	}
-	err := r.db.Collection(constant.CollectionSavedCard).Update(query, bson.M{"$set": set})
+	_, err := r.db.Collection(constant.CollectionSavedCard).UpdateOne(ctx, query, bson.M{"$set": set})
 
 	if err != nil {
 		rsp.Status = pkg.ResponseStatusSystemError
 		rsp.Message = errorUnknown
 
-		if err != mgo.ErrNotFound {
+		if err != mongo.ErrNoDocuments {
 			rsp.Status = pkg.ResponseStatusNotFound
 			rsp.Message = errorNotFound
 			return nil
@@ -130,14 +139,27 @@ func (r *Repository) FindSavedCards(
 	req *repository.SavedCardRequest,
 	rsp *repository.SavedCardList,
 ) error {
-	var cards []*entity.SavedCard
-
 	query := bson.M{"token": req.Token, "is_active": true}
-	err := r.db.Collection(constant.CollectionSavedCard).Find(query).All(&cards)
+	cursor, err := r.db.Collection(constant.CollectionSavedCard).Find(ctx, query)
 
-	if err != nil && err != mgo.ErrNotFound {
-		r.logError(savedCardQueryErrorFind, []interface{}{"error", err.Error(), "query", query})
+	if err != nil {
+		if err != mongo.ErrNoDocuments {
+			r.logError(savedCardQueryErrorFind, []interface{}{"error", err.Error(), "query", query})
+		}
 		return nil
+	}
+
+	var cards []*entity.SavedCard
+	err = cursor.All(ctx, &cards)
+
+	if err != nil {
+		zap.L().Error(
+			pkg.ErrorQueryCursorExecutionFailed,
+			zap.Error(err),
+			zap.String(pkg.ErrorDatabaseFieldCollection, constant.CollectionSavedCard),
+			zap.Any(pkg.ErrorDatabaseFieldQuery, query),
+		)
+		return err
 	}
 
 	if len(cards) > 0 {
@@ -153,10 +175,12 @@ func (r *Repository) FindSavedCardById(
 	rsp *entity.SavedCard,
 ) error {
 	var card *entity.SavedCard
-	err := r.db.Collection(constant.CollectionSavedCard).FindId(bson.ObjectIdHex(req.Value)).One(&card)
+	oid, _ := primitive.ObjectIDFromHex(req.Value)
+	filter := bson.M{"_id": oid}
+	err := r.db.Collection(constant.CollectionSavedCard).FindOne(ctx, filter).Decode(&card)
 
 	if err != nil {
-		if err == mgo.ErrNotFound {
+		if err == mongo.ErrNoDocuments {
 			return constant.ErrNotFound
 		}
 
