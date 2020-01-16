@@ -1,6 +1,6 @@
 language: go
 go:
-- 1.11.x
+- 1.13.x
 
 dist: trusty
 
@@ -18,6 +18,9 @@ jobs:
   - stage: test
     services:
       - mongodb
+    cache:
+      directories:
+        - $GOPATH/pkg/mod      
     env:
       - GO111MODULE=on
       - MONGO_HOST=127.0.0.1:27017
