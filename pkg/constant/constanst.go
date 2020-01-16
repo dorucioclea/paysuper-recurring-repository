@@ -3,9 +3,6 @@ package constant
 import "errors"
 
 const (
-	PayOneMicroserviceVersion   = "latest"
-	PayOneRepositoryServiceName = "p1payrepository"
-
 	PayOneTopicNotifyPaymentName  = "notify-payment"
 	PayOneTopicNotifyMerchantName = "notify-merchant"
 
@@ -39,20 +36,28 @@ const (
 	OrderStatusPaymentSystemCanceled       = 12
 	OrderStatusItemReplaced                = 13
 
-	OrderPublicStatusCreated    = "created"
-	OrderPublicStatusProcessed  = "processed"
-	OrderPublicStatusCanceled   = "canceled"
-	OrderPublicStatusRejected   = "rejected"
-	OrderPublicStatusRefunded   = "refunded"
-	OrderPublicStatusChargeback = "chargeback"
-	OrderPublicStatusPending    = "pending"
-
 	RegistryKubernetes = "kubernetes"
 
 	CollectionSavedCard = "saved_card"
 
 	SavedCardErrorNotFound = "saved card with specified identifier not found"
 	SavedCardErrorDatabase = "saved cards database query failed"
+
+	ErrorDatabaseQueryFailed          = "Query to database collection failed"
+	ErrorQueryCursorExecutionFailed   = "Execute result from query cursor failed"
+	ErrorDatabaseFieldCollection      = "collection"
+	ErrorDatabaseFieldDocumentId      = "document_id"
+	ErrorDatabaseFieldQuery           = "query"
+	ErrorDatabaseFieldSet             = "set"
+	ErrorDatabaseFieldSorts           = "sorts"
+	ErrorDatabaseFieldLimit           = "limit"
+	ErrorDatabaseFieldOffset          = "offset"
+	ErrorDatabaseFieldOperation       = "operation"
+	ErrorDatabaseFieldOperationCount  = "count"
+	ErrorDatabaseFieldOperationInsert = "insert"
+	ErrorDatabaseFieldOperationUpdate = "update"
+	ErrorDatabaseFieldOperationUpsert = "upsert"
+	ErrorDatabaseFieldDocument        = "document"
 )
 
 var (

@@ -4,9 +4,8 @@ import (
 	"context"
 	"github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/bson/primitive"
+	"github.com/paysuper/paysuper-proto/go/recurringpb"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/constant"
-	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/entity"
-	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/repository"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	mongodb "gopkg.in/paysuper/paysuper-database-mongo.v1"
@@ -43,26 +42,26 @@ func (suite *RepositoryTestSuite) TearDownTest() {
 func (suite *RepositoryTestSuite) TestRepository_InsertSavedCard_Ok() {
 	expireYear := time.Now().AddDate(1, 0, 0)
 
-	req := &repository.SavedCardRequest{
+	req := &recurringpb.SavedCardRequest{
 		Token:       primitive.NewObjectID().Hex(),
 		ProjectId:   primitive.NewObjectID().Hex(),
 		MerchantId:  primitive.NewObjectID().Hex(),
 		MaskedPan:   "400000******0002",
 		CardHolder:  "MR. CARD HOLDER",
 		RecurringId: primitive.NewObjectID().Hex(),
-		Expire: &entity.CardExpire{
+		Expire: &recurringpb.CardExpire{
 			Month: "12",
 			Year:  expireYear.Format("2006"),
 		},
 	}
-	rsp := &repository.Result{}
+	rsp := &recurringpb.Result{}
 	err := suite.repository.InsertSavedCard(context.TODO(), req, rsp)
 	assert.NoError(suite.T(), err)
 
 	cursor, err := suite.repository.db.Collection(constant.CollectionSavedCard).Find(context.TODO(), bson.M{"token": req.Token})
 	assert.NoError(suite.T(), err)
 
-	var cards []*entity.SavedCard
+	var cards []*recurringpb.SavedCard
 	err = cursor.All(context.TODO(), &cards)
 	assert.NoError(suite.T(), err)
 
@@ -79,19 +78,19 @@ func (suite *RepositoryTestSuite) TestRepository_InsertSavedCard_Ok() {
 func (suite *RepositoryTestSuite) TestRepository_InsertSavedCard_SavedCardExist_Ok() {
 	expireYear := time.Now().AddDate(1, 0, 0)
 
-	req := &repository.SavedCardRequest{
+	req := &recurringpb.SavedCardRequest{
 		Token:       primitive.NewObjectID().Hex(),
 		ProjectId:   primitive.NewObjectID().Hex(),
 		MerchantId:  primitive.NewObjectID().Hex(),
 		MaskedPan:   "400000******0002",
 		CardHolder:  "MR. CARD HOLDER",
 		RecurringId: primitive.NewObjectID().Hex(),
-		Expire: &entity.CardExpire{
+		Expire: &recurringpb.CardExpire{
 			Month: "12",
 			Year:  expireYear.Format("2006"),
 		},
 	}
-	rsp := &repository.Result{}
+	rsp := &recurringpb.Result{}
 	err := suite.repository.InsertSavedCard(context.TODO(), req, rsp)
 	assert.NoError(suite.T(), err)
 
@@ -104,7 +103,7 @@ func (suite *RepositoryTestSuite) TestRepository_InsertSavedCard_SavedCardExist_
 	cursor, err := suite.repository.db.Collection(constant.CollectionSavedCard).Find(context.TODO(), bson.M{"token": req.Token})
 	assert.NoError(suite.T(), err)
 
-	var cards []*entity.SavedCard
+	var cards []*recurringpb.SavedCard
 	err = cursor.All(context.TODO(), &cards)
 	assert.NoError(suite.T(), err)
 	assert.Len(suite.T(), cards, 1)
@@ -113,19 +112,19 @@ func (suite *RepositoryTestSuite) TestRepository_InsertSavedCard_SavedCardExist_
 func (suite *RepositoryTestSuite) TestRepository_InsertSavedCard_InsertError() {
 	expireYear := time.Now().AddDate(1, 0, 0)
 
-	req := &repository.SavedCardRequest{
+	req := &recurringpb.SavedCardRequest{
 		Token:       primitive.NewObjectID().Hex(),
 		ProjectId:   "some_not_mongodb_object_id_string",
 		MerchantId:  primitive.NewObjectID().Hex(),
 		MaskedPan:   "400000******0002",
 		CardHolder:  "MR. CARD HOLDER",
 		RecurringId: primitive.NewObjectID().Hex(),
-		Expire: &entity.CardExpire{
+		Expire: &recurringpb.CardExpire{
 			Month: "12",
 			Year:  expireYear.Format("2006"),
 		},
 	}
-	rsp := &repository.Result{}
+	rsp := &recurringpb.Result{}
 	err := suite.repository.InsertSavedCard(context.TODO(), req, rsp)
 	assert.Error(suite.T(), err)
 	assert.Equal(suite.T(), constant.ErrDatabase, err)
@@ -134,32 +133,32 @@ func (suite *RepositoryTestSuite) TestRepository_InsertSavedCard_InsertError() {
 func (suite *RepositoryTestSuite) TestRepository_DeleteSavedCard_Ok() {
 	expireYear := time.Now().AddDate(1, 0, 0)
 
-	req := &repository.SavedCardRequest{
+	req := &recurringpb.SavedCardRequest{
 		Token:       primitive.NewObjectID().Hex(),
 		ProjectId:   primitive.NewObjectID().Hex(),
 		MerchantId:  primitive.NewObjectID().Hex(),
 		MaskedPan:   "400000******0002",
 		CardHolder:  "MR. CARD HOLDER",
 		RecurringId: primitive.NewObjectID().Hex(),
-		Expire: &entity.CardExpire{
+		Expire: &recurringpb.CardExpire{
 			Month: "12",
 			Year:  expireYear.Format("2006"),
 		},
 	}
-	rsp := &repository.Result{}
+	rsp := &recurringpb.Result{}
 	err := suite.repository.InsertSavedCard(context.TODO(), req, rsp)
 	assert.NoError(suite.T(), err)
 
-	var card *entity.SavedCard
+	var card *recurringpb.SavedCard
 	err = suite.repository.db.Collection(constant.CollectionSavedCard).FindOne(context.TODO(), bson.M{"token": req.Token}).Decode(&card)
 	assert.NotNil(suite.T(), card)
 	assert.True(suite.T(), card.IsActive)
 
-	req1 := &repository.DeleteSavedCardRequest{
+	req1 := &recurringpb.DeleteSavedCardRequest{
 		Id:    card.Id,
 		Token: req.Token,
 	}
-	rsp1 := &repository.DeleteSavedCardResponse{}
+	rsp1 := &recurringpb.DeleteSavedCardResponse{}
 	err = suite.repository.DeleteSavedCard(context.TODO(), req1, rsp1)
 	assert.NoError(suite.T(), err)
 
@@ -169,11 +168,11 @@ func (suite *RepositoryTestSuite) TestRepository_DeleteSavedCard_Ok() {
 }
 
 func (suite *RepositoryTestSuite) TestRepository_DeleteSavedCard_CardNotExist_Ok() {
-	req1 := &repository.DeleteSavedCardRequest{
+	req1 := &recurringpb.DeleteSavedCardRequest{
 		Id:    primitive.NewObjectID().Hex(),
 		Token: primitive.NewObjectID().Hex(),
 	}
-	rsp1 := &repository.DeleteSavedCardResponse{}
+	rsp1 := &recurringpb.DeleteSavedCardResponse{}
 	err := suite.repository.DeleteSavedCard(context.TODO(), req1, rsp1)
 	assert.NoError(suite.T(), err)
 }
@@ -181,19 +180,19 @@ func (suite *RepositoryTestSuite) TestRepository_DeleteSavedCard_CardNotExist_Ok
 func (suite *RepositoryTestSuite) TestRepository_FindSavedCards_Ok() {
 	expireYear := time.Now().AddDate(1, 0, 0)
 
-	req := &repository.SavedCardRequest{
+	req := &recurringpb.SavedCardRequest{
 		Token:       primitive.NewObjectID().Hex(),
 		ProjectId:   primitive.NewObjectID().Hex(),
 		MerchantId:  primitive.NewObjectID().Hex(),
 		MaskedPan:   "400000******0002",
 		CardHolder:  "MR. CARD HOLDER",
 		RecurringId: primitive.NewObjectID().Hex(),
-		Expire: &entity.CardExpire{
+		Expire: &recurringpb.CardExpire{
 			Month: "12",
 			Year:  expireYear.Format("2006"),
 		},
 	}
-	rsp := &repository.Result{}
+	rsp := &recurringpb.Result{}
 	err := suite.repository.InsertSavedCard(context.TODO(), req, rsp)
 	assert.NoError(suite.T(), err)
 
@@ -213,8 +212,8 @@ func (suite *RepositoryTestSuite) TestRepository_FindSavedCards_Ok() {
 	err = suite.repository.InsertSavedCard(context.TODO(), req, rsp)
 	assert.NoError(suite.T(), err)
 
-	req1 := &repository.SavedCardRequest{Token: req.Token}
-	rsp1 := &repository.SavedCardList{}
+	req1 := &recurringpb.SavedCardRequest{Token: req.Token}
+	rsp1 := &recurringpb.SavedCardList{}
 	err = suite.repository.FindSavedCards(context.TODO(), req1, rsp1)
 	assert.NoError(suite.T(), err)
 	assert.Len(suite.T(), rsp1.SavedCards, 5)
@@ -222,8 +221,8 @@ func (suite *RepositoryTestSuite) TestRepository_FindSavedCards_Ok() {
 }
 
 func (suite *RepositoryTestSuite) TestRepository_FindSavedCards_UserNotHaveSavedCards_Ok() {
-	req1 := &repository.SavedCardRequest{Token: primitive.NewObjectID().Hex()}
-	rsp1 := &repository.SavedCardList{}
+	req1 := &recurringpb.SavedCardRequest{Token: primitive.NewObjectID().Hex()}
+	rsp1 := &recurringpb.SavedCardList{}
 	err := suite.repository.FindSavedCards(context.TODO(), req1, rsp1)
 	assert.NoError(suite.T(), err)
 	assert.Len(suite.T(), rsp1.SavedCards, 0)
@@ -232,19 +231,19 @@ func (suite *RepositoryTestSuite) TestRepository_FindSavedCards_UserNotHaveSaved
 func (suite *RepositoryTestSuite) TestRepository_FindSavedCardById_Ok() {
 	expireYear := time.Now().AddDate(1, 0, 0)
 
-	req := &repository.SavedCardRequest{
+	req := &recurringpb.SavedCardRequest{
 		Token:       primitive.NewObjectID().Hex(),
 		ProjectId:   primitive.NewObjectID().Hex(),
 		MerchantId:  primitive.NewObjectID().Hex(),
 		MaskedPan:   "400000******0002",
 		CardHolder:  "MR. CARD HOLDER",
 		RecurringId: primitive.NewObjectID().Hex(),
-		Expire: &entity.CardExpire{
+		Expire: &recurringpb.CardExpire{
 			Month: "12",
 			Year:  expireYear.Format("2006"),
 		},
 	}
-	rsp := &repository.Result{}
+	rsp := &recurringpb.Result{}
 	err := suite.repository.InsertSavedCard(context.TODO(), req, rsp)
 	assert.NoError(suite.T(), err)
 
@@ -267,13 +266,13 @@ func (suite *RepositoryTestSuite) TestRepository_FindSavedCardById_Ok() {
 	cursor, err := suite.repository.db.Collection(constant.CollectionSavedCard).Find(context.TODO(), bson.M{"token": req.Token})
 	assert.NoError(suite.T(), err)
 
-	var cards []*entity.SavedCard
+	var cards []*recurringpb.SavedCard
 	err = cursor.All(context.TODO(), &cards)
 	assert.NoError(suite.T(), err)
 	assert.Len(suite.T(), cards, 5)
 
-	req1 := &repository.FindByStringValue{Value: cards[3].Id}
-	rsp1 := &entity.SavedCard{}
+	req1 := &recurringpb.FindByStringValue{Value: cards[3].Id}
+	rsp1 := &recurringpb.SavedCard{}
 	err = suite.repository.FindSavedCardById(context.TODO(), req1, rsp1)
 	assert.NoError(suite.T(), err)
 	assert.Equal(suite.T(), cards[3].Token, rsp1.Token)
@@ -287,8 +286,8 @@ func (suite *RepositoryTestSuite) TestRepository_FindSavedCardById_Ok() {
 }
 
 func (suite *RepositoryTestSuite) TestRepository_FindSavedCardById_NotFound_Error() {
-	req1 := &repository.FindByStringValue{Value: primitive.NewObjectID().Hex()}
-	rsp1 := &entity.SavedCard{}
+	req1 := &recurringpb.FindByStringValue{Value: primitive.NewObjectID().Hex()}
+	rsp1 := &recurringpb.SavedCard{}
 	err := suite.repository.FindSavedCardById(context.TODO(), req1, rsp1)
 	assert.Error(suite.T(), err)
 	assert.Equal(suite.T(), constant.ErrNotFound, err)
