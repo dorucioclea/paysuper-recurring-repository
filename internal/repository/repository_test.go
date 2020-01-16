@@ -2,12 +2,13 @@ package repository
 
 import (
 	"context"
+	"github.com/mongodb/mongo-go-driver/bson"
+	"github.com/mongodb/mongo-go-driver/bson/primitive"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/constant"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/entity"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/repository"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-	"gopkg.in/mgo.v2/bson"
 	mongodb "gopkg.in/paysuper/paysuper-database-mongo.v1"
 	"testing"
 	"time"
@@ -43,12 +44,12 @@ func (suite *RepositoryTestSuite) TestRepository_InsertSavedCard_Ok() {
 	expireYear := time.Now().AddDate(1, 0, 0)
 
 	req := &repository.SavedCardRequest{
-		Token:       bson.NewObjectId().Hex(),
-		ProjectId:   bson.NewObjectId().Hex(),
-		MerchantId:  bson.NewObjectId().Hex(),
+		Token:       primitive.NewObjectID().Hex(),
+		ProjectId:   primitive.NewObjectID().Hex(),
+		MerchantId:  primitive.NewObjectID().Hex(),
 		MaskedPan:   "400000******0002",
 		CardHolder:  "MR. CARD HOLDER",
-		RecurringId: bson.NewObjectId().Hex(),
+		RecurringId: primitive.NewObjectID().Hex(),
 		Expire: &entity.CardExpire{
 			Month: "12",
 			Year:  expireYear.Format("2006"),
@@ -79,12 +80,12 @@ func (suite *RepositoryTestSuite) TestRepository_InsertSavedCard_SavedCardExist_
 	expireYear := time.Now().AddDate(1, 0, 0)
 
 	req := &repository.SavedCardRequest{
-		Token:       bson.NewObjectId().Hex(),
-		ProjectId:   bson.NewObjectId().Hex(),
-		MerchantId:  bson.NewObjectId().Hex(),
+		Token:       primitive.NewObjectID().Hex(),
+		ProjectId:   primitive.NewObjectID().Hex(),
+		MerchantId:  primitive.NewObjectID().Hex(),
 		MaskedPan:   "400000******0002",
 		CardHolder:  "MR. CARD HOLDER",
-		RecurringId: bson.NewObjectId().Hex(),
+		RecurringId: primitive.NewObjectID().Hex(),
 		Expire: &entity.CardExpire{
 			Month: "12",
 			Year:  expireYear.Format("2006"),
@@ -113,12 +114,12 @@ func (suite *RepositoryTestSuite) TestRepository_InsertSavedCard_InsertError() {
 	expireYear := time.Now().AddDate(1, 0, 0)
 
 	req := &repository.SavedCardRequest{
-		Token:       bson.NewObjectId().Hex(),
+		Token:       primitive.NewObjectID().Hex(),
 		ProjectId:   "some_not_mongodb_object_id_string",
-		MerchantId:  bson.NewObjectId().Hex(),
+		MerchantId:  primitive.NewObjectID().Hex(),
 		MaskedPan:   "400000******0002",
 		CardHolder:  "MR. CARD HOLDER",
-		RecurringId: bson.NewObjectId().Hex(),
+		RecurringId: primitive.NewObjectID().Hex(),
 		Expire: &entity.CardExpire{
 			Month: "12",
 			Year:  expireYear.Format("2006"),
@@ -134,12 +135,12 @@ func (suite *RepositoryTestSuite) TestRepository_DeleteSavedCard_Ok() {
 	expireYear := time.Now().AddDate(1, 0, 0)
 
 	req := &repository.SavedCardRequest{
-		Token:       bson.NewObjectId().Hex(),
-		ProjectId:   bson.NewObjectId().Hex(),
-		MerchantId:  bson.NewObjectId().Hex(),
+		Token:       primitive.NewObjectID().Hex(),
+		ProjectId:   primitive.NewObjectID().Hex(),
+		MerchantId:  primitive.NewObjectID().Hex(),
 		MaskedPan:   "400000******0002",
 		CardHolder:  "MR. CARD HOLDER",
-		RecurringId: bson.NewObjectId().Hex(),
+		RecurringId: primitive.NewObjectID().Hex(),
 		Expire: &entity.CardExpire{
 			Month: "12",
 			Year:  expireYear.Format("2006"),
@@ -169,8 +170,8 @@ func (suite *RepositoryTestSuite) TestRepository_DeleteSavedCard_Ok() {
 
 func (suite *RepositoryTestSuite) TestRepository_DeleteSavedCard_CardNotExist_Ok() {
 	req1 := &repository.DeleteSavedCardRequest{
-		Id:    bson.NewObjectId().Hex(),
-		Token: bson.NewObjectId().Hex(),
+		Id:    primitive.NewObjectID().Hex(),
+		Token: primitive.NewObjectID().Hex(),
 	}
 	rsp1 := &repository.DeleteSavedCardResponse{}
 	err := suite.repository.DeleteSavedCard(context.TODO(), req1, rsp1)
@@ -181,12 +182,12 @@ func (suite *RepositoryTestSuite) TestRepository_FindSavedCards_Ok() {
 	expireYear := time.Now().AddDate(1, 0, 0)
 
 	req := &repository.SavedCardRequest{
-		Token:       bson.NewObjectId().Hex(),
-		ProjectId:   bson.NewObjectId().Hex(),
-		MerchantId:  bson.NewObjectId().Hex(),
+		Token:       primitive.NewObjectID().Hex(),
+		ProjectId:   primitive.NewObjectID().Hex(),
+		MerchantId:  primitive.NewObjectID().Hex(),
 		MaskedPan:   "400000******0002",
 		CardHolder:  "MR. CARD HOLDER",
-		RecurringId: bson.NewObjectId().Hex(),
+		RecurringId: primitive.NewObjectID().Hex(),
 		Expire: &entity.CardExpire{
 			Month: "12",
 			Year:  expireYear.Format("2006"),
@@ -221,7 +222,7 @@ func (suite *RepositoryTestSuite) TestRepository_FindSavedCards_Ok() {
 }
 
 func (suite *RepositoryTestSuite) TestRepository_FindSavedCards_UserNotHaveSavedCards_Ok() {
-	req1 := &repository.SavedCardRequest{Token: bson.NewObjectId().Hex()}
+	req1 := &repository.SavedCardRequest{Token: primitive.NewObjectID().Hex()}
 	rsp1 := &repository.SavedCardList{}
 	err := suite.repository.FindSavedCards(context.TODO(), req1, rsp1)
 	assert.NoError(suite.T(), err)
@@ -232,12 +233,12 @@ func (suite *RepositoryTestSuite) TestRepository_FindSavedCardById_Ok() {
 	expireYear := time.Now().AddDate(1, 0, 0)
 
 	req := &repository.SavedCardRequest{
-		Token:       bson.NewObjectId().Hex(),
-		ProjectId:   bson.NewObjectId().Hex(),
-		MerchantId:  bson.NewObjectId().Hex(),
+		Token:       primitive.NewObjectID().Hex(),
+		ProjectId:   primitive.NewObjectID().Hex(),
+		MerchantId:  primitive.NewObjectID().Hex(),
 		MaskedPan:   "400000******0002",
 		CardHolder:  "MR. CARD HOLDER",
-		RecurringId: bson.NewObjectId().Hex(),
+		RecurringId: primitive.NewObjectID().Hex(),
 		Expire: &entity.CardExpire{
 			Month: "12",
 			Year:  expireYear.Format("2006"),
@@ -286,7 +287,7 @@ func (suite *RepositoryTestSuite) TestRepository_FindSavedCardById_Ok() {
 }
 
 func (suite *RepositoryTestSuite) TestRepository_FindSavedCardById_NotFound_Error() {
-	req1 := &repository.FindByStringValue{Value: bson.NewObjectId().Hex()}
+	req1 := &repository.FindByStringValue{Value: primitive.NewObjectID().Hex()}
 	rsp1 := &entity.SavedCard{}
 	err := suite.repository.FindSavedCardById(context.TODO(), req1, rsp1)
 	assert.Error(suite.T(), err)
