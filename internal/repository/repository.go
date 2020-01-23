@@ -4,10 +4,9 @@ import (
 	"context"
 	"fmt"
 	"github.com/golang/protobuf/ptypes"
-	"github.com/paysuper/paysuper-billing-server/pkg"
+	"github.com/paysuper/paysuper-proto/go/billingpb"
+	"github.com/paysuper/paysuper-proto/go/recurringpb"
 	"github.com/paysuper/paysuper-recurring-repository/pkg/constant"
-	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/entity"
-	"github.com/paysuper/paysuper-recurring-repository/pkg/proto/repository"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -35,10 +34,10 @@ func NewRepositoryService(db *mongodb.Source) *Repository {
 
 func (r *Repository) InsertSavedCard(
 	ctx context.Context,
-	req *repository.SavedCardRequest,
-	_ *repository.Result,
+	req *recurringpb.SavedCardRequest,
+	_ *recurringpb.Result,
 ) error {
-	var card *entity.SavedCard
+	var card *recurringpb.SavedCard
 
 	query := bson.M{
 		"token":      req.Token,
@@ -67,7 +66,7 @@ func (r *Repository) InsertSavedCard(
 		opts := options.Replace().SetUpsert(true)
 		_, err = r.db.Collection(constant.CollectionSavedCard).ReplaceOne(ctx, filter, card, opts)
 	} else {
-		card = &entity.SavedCard{
+		card = &recurringpb.SavedCard{
 			Id:          primitive.NewObjectID().Hex(),
 			Token:       req.Token,
 			ProjectId:   req.ProjectId,
@@ -94,8 +93,8 @@ func (r *Repository) InsertSavedCard(
 
 func (r *Repository) DeleteSavedCard(
 	ctx context.Context,
-	req *repository.DeleteSavedCardRequest,
-	rsp *repository.DeleteSavedCardResponse,
+	req *recurringpb.DeleteSavedCardRequest,
+	rsp *recurringpb.DeleteSavedCardResponse,
 ) error {
 	oid, _ := primitive.ObjectIDFromHex(req.Id)
 	query := bson.M{
@@ -109,35 +108,35 @@ func (r *Repository) DeleteSavedCard(
 	_, err := r.db.Collection(constant.CollectionSavedCard).UpdateOne(ctx, query, bson.M{"$set": set})
 
 	if err != nil {
-		rsp.Status = pkg.ResponseStatusSystemError
+		rsp.Status = billingpb.ResponseStatusSystemError
 		rsp.Message = errorUnknown
 
 		if err != mongo.ErrNoDocuments {
-			rsp.Status = pkg.ResponseStatusNotFound
+			rsp.Status = billingpb.ResponseStatusNotFound
 			rsp.Message = errorNotFound
 			return nil
 		}
 
 		zap.L().Error(
-			pkg.ErrorDatabaseQueryFailed,
+			constant.ErrorDatabaseQueryFailed,
 			zap.Error(err),
-			zap.String(pkg.ErrorDatabaseFieldCollection, constant.CollectionSavedCard),
-			zap.Any(pkg.ErrorDatabaseFieldQuery, query),
-			zap.Any(pkg.ErrorDatabaseFieldSet, set),
+			zap.String(constant.ErrorDatabaseFieldCollection, constant.CollectionSavedCard),
+			zap.Any(constant.ErrorDatabaseFieldQuery, query),
+			zap.Any(constant.ErrorDatabaseFieldSet, set),
 		)
 
 		return nil
 	}
 
-	rsp.Status = pkg.ResponseStatusOk
+	rsp.Status = billingpb.ResponseStatusOk
 
 	return nil
 }
 
 func (r *Repository) FindSavedCards(
 	ctx context.Context,
-	req *repository.SavedCardRequest,
-	rsp *repository.SavedCardList,
+	req *recurringpb.SavedCardRequest,
+	rsp *recurringpb.SavedCardList,
 ) error {
 	query := bson.M{"token": req.Token, "is_active": true}
 	cursor, err := r.db.Collection(constant.CollectionSavedCard).Find(ctx, query)
@@ -149,15 +148,15 @@ func (r *Repository) FindSavedCards(
 		return nil
 	}
 
-	var cards []*entity.SavedCard
+	var cards []*recurringpb.SavedCard
 	err = cursor.All(ctx, &cards)
 
 	if err != nil {
 		zap.L().Error(
-			pkg.ErrorQueryCursorExecutionFailed,
+			constant.ErrorQueryCursorExecutionFailed,
 			zap.Error(err),
-			zap.String(pkg.ErrorDatabaseFieldCollection, constant.CollectionSavedCard),
-			zap.Any(pkg.ErrorDatabaseFieldQuery, query),
+			zap.String(constant.ErrorDatabaseFieldCollection, constant.CollectionSavedCard),
+			zap.Any(constant.ErrorDatabaseFieldQuery, query),
 		)
 		return err
 	}
@@ -171,10 +170,10 @@ func (r *Repository) FindSavedCards(
 
 func (r *Repository) FindSavedCardById(
 	ctx context.Context,
-	req *repository.FindByStringValue,
-	rsp *entity.SavedCard,
+	req *recurringpb.FindByStringValue,
+	rsp *recurringpb.SavedCard,
 ) error {
-	var card *entity.SavedCard
+	var card *recurringpb.SavedCard
 	oid, _ := primitive.ObjectIDFromHex(req.Value)
 	filter := bson.M{"_id": oid}
 	err := r.db.Collection(constant.CollectionSavedCard).FindOne(ctx, filter).Decode(&card)

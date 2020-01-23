@@ -7,10 +7,9 @@ import (
 	metrics "github.com/ProtocolONE/go-micro-plugins/wrapper/monitoring/prometheus"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-plugins/client/selector/static"
+	"github.com/paysuper/paysuper-proto/go/recurringpb"
 	"github.com/paysuper/paysuper-recurring-repository/internal/config"
 	"github.com/paysuper/paysuper-recurring-repository/internal/repository"
-	"github.com/paysuper/paysuper-recurring-repository/pkg/constant"
-	proto "github.com/paysuper/paysuper-recurring-repository/pkg/proto/repository"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/zap"
 	mongodb "gopkg.in/paysuper/paysuper-database-mongo.v1"
@@ -52,8 +51,8 @@ func (app *Application) Init() {
 	app.db = db
 
 	options := []micro.Option{
-		micro.Name(constant.PayOneRepositoryServiceName),
-		micro.Version(constant.PayOneMicroserviceVersion),
+		micro.Name(recurringpb.PayOneRepositoryServiceName),
+		micro.Version(recurringpb.PayOneMicroserviceVersion),
 		micro.WrapHandler(metrics.NewHandlerWrapper()),
 		micro.AfterStop(func() error {
 			app.log.Info("[PAYSUPER_REPOSITORY] Micro service stopped")
@@ -71,7 +70,7 @@ func (app *Application) Init() {
 	app.service.Init()
 
 	rep := repository.NewRepositoryService(app.db)
-	err = proto.RegisterRepositoryHandler(app.service.Server(), rep)
+	err = recurringpb.RegisterRepositoryHandler(app.service.Server(), rep)
 
 	if err != nil {
 		app.log.Fatal("[PAYSUPER_REPOSITORY] Repository init failed", zap.Error(err))
